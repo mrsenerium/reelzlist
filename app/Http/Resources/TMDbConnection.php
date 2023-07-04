@@ -37,7 +37,22 @@ class TMDbConnection
         ],
         ]);
 
-        $results = json_decode($response->getBody());
-        return $results;
+        return json_decode($response->getBody());
+    }
+
+    public function single_movie_data($id)
+    {
+        $movieUrl = $this->url . "movie/$id?language=en-US";
+
+        //Create Connection
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', $movieUrl, [
+            'headers' => [
+                'Authorization' => $this->key,
+                'accept' => 'application/json',
+            ],
+        ]);
+
+        return json_decode($response->getBody());
     }
 }

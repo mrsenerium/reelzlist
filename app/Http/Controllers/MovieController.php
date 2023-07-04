@@ -7,6 +7,19 @@ use Illuminate\Http\Request;
 
 class MovieController extends Controller
 {
+    public function single(Request $request, $id)
+    {
+        $movie = Movie::findOrFail($id);
+        $movie->update_self();
+        /**
+         * get the model from the database
+         * if it hasn't been updated in over a month make the model update itself
+         * package the information
+         * return single movie blade
+         */
+        return view('pages.singleMovie', ['movie' => $movie]);
+    }
+
     /**
      * Display a listing of the resource.
      */

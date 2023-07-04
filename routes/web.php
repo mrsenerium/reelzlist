@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\MovieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,4 @@ Route::get('/', function () {
 
 Route::get('/search', [SearchController::class, 'movie'])->name('pages.search');
 Route::post('/search', [SearchController::class, 'results']);
+Route::get('/movie/{id}', [MovieController::class, 'single'])->name('pages.singleMovie');

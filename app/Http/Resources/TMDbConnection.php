@@ -3,10 +3,10 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Guzzelhttp\Guzzle;
+Use App\Models\Movie;
 
-class TMDbConnection extends JsonResource
+class TMDbConnection
 {
     private $url;
     private $key;
@@ -21,18 +21,23 @@ class TMDbConnection extends JsonResource
      * @params $keyword
      * @returns stdClass
      */
-    public function search($keyword) : \stdClass {
+    public function search($keyword, $adult = false) : \stdClass {
+        //build search string
+        $keyword = trim($keyword);
+        $keyword = urlencode($keyword);
+        $searchUrl = $this->url . "search/movie?query=$keyword&include_adult=$adult&language=en-US&page=1";
+
         //Create Connection
         $client = new \GuzzleHttp\Client();
 
-        $response = $client->request('GET', $this->url, [
+        $response = $client->request('GET', $searchUrl, [
         'headers' => [
             'Authorization' => $this->key,
             'accept' => 'application/json',
         ],
         ]);
-        //var_dump($response);die();
 
-        return json_decode($response->getBody());
+        $results = json_decode($response->getBody());
+        return $results;
     }
 }

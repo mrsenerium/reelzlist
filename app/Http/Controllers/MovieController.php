@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Movie;
 use Illuminate\Http\Request;
+use NumberFormatter;
 
 class MovieController extends Controller
 {
@@ -17,7 +18,13 @@ class MovieController extends Controller
          * package the information
          * return single movie blade
          */
-        return view('pages.singleMovie', ['movie' => $movie]);
+        if(isset($movie['budget'])) {
+            $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
+            $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0);
+            $movie['budget'] = $formatter->format((int) $movie['budget']);
+            $movie['box_office'] = $formatter->format((int) $movie['box_office']);
+        }
+        return view('pages.singleMovie', ['movie' => $movie->toArray()]);
     }
 
     /**

@@ -1,5 +1,15 @@
 <?php
-
+/**
+ * Movie Model
+ *
+ * PHP Version 8.1
+ *
+ * @category Model
+ * @package  App\Models\Model
+ * @author   Joe Burgess <joeburgess@tds.net>
+ * @license  https://opensource.org/licenses/MIT MIT License
+ * @link     reelzlist.com
+ */
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,6 +18,15 @@ use App\Http\Resources\TMDbConnection;
 use App\Http\Resources\OMDbConnection;
 use Carbon\Carbon;
 
+/**
+ * Movie Model
+ *
+ * @category Model
+ * @package  App\Models\Model
+ * @author   Joe Burgess <joeburgess@tds.net>
+ * @license  https://opensource.org/licenses/MIT MIT License
+ * @link     reelzlist.com
+ */
 class Movie extends Model
 {
     use HasFactory;
@@ -24,47 +43,58 @@ class Movie extends Model
         'budget',
     ];
 
-    public function update_self ()
+    /**
+     * Updates itself to the APIs
+     *
+     * @return void
+     */
+    public function updateSelf() : void
     {
         //I need to check if there is a tmdb_id
         $oneMonthAgo = Carbon::now()->subMonth();
         $updatedAt = Carbon::parse($this->updated_at);
 
-        if ($updatedAt->lte($oneMonthAgo) || 
-          $this->imdb_id === null || 
-          $this->runtime === null || 
-          $this->box_office === null || 
-          $this->budget === null) {
+        if ($updatedAt->lte($oneMonthAgo)
+            || $this->imdb_id === null
+            || $this->runtime === null
+            || $this->box_office === null
+            || $this->budget === null
+        ) {
             //die('second boom');
             $tmdb = new TMDbConnection();
-            $tmdbData = $tmdb->single_movie_data($this->tmdb_id);
-            $this->imdb_id = isset($tmdbData->imdb_id) ? $tmdbData->imdb_id : $this->imdb_id;
-            $this->runtime = isset($tmdbData->runtime) ? $tmdbData->runtime : $this->runtime;
-            $this->box_office = isset($tmdbData->revenue) ? $tmdbData->revenue : $this->boxoffice;
-            $this->budget = isset($tmdbData->budget) ? $tmdbData->budget : $this->budget;
+            $tmdbData = $tmdb->singleMovieData($this->tmdb_id);
+            $this->imdb_id = isset($tmdbData->imdb_id) ?
+                $tmdbData->imdb_id : $this->imdb_id;
+            $this->runtime = isset($tmdbData->runtime) ?
+                $tmdbData->runtime : $this->runtime;
+            $this->box_office = isset($tmdbData->revenue) ?
+                $tmdbData->revenue : $this->boxoffice;
+            $this->budget = isset($tmdbData->budget) ?
+                $tmdbData->budget : $this->budget;
             $this->save();
         }
-        if ($this->mpaa_rating === null || $this->poster_url === null)
-        {
+        if ($this->mpaa_rating === null || $this->poster_url === null) {
             //die('boom');
             $omdb = new OMDbConnection();
-            $omdbData = $omdb->search($this->imdb_id);
-            
+            $omdbData = $omdb->getSingleMovie($this->imdb_id);
+
             //echo '<pre>';
             //var_dump($omdbData);die('</pre>');
-            $this->poster_url = isset($omdbData->Poster) ? $omdbData->Poster : $this->poster_url;
-            $this->mpaa_rating = isset($omdbData->Rated) ? $omdbData->Rated : $this->mpaa_rating;
-            foreach($omdbData->Ratings as $key => $rating) {
+            $this->poster_url = isset($omdbData->Poster) ?
+                $omdbData->Poster : $this->poster_url;
+            $this->mpaa_rating = isset($omdbData->Rated) ?
+                $omdbData->Rated : $this->mpaa_rating;
+            foreach ($omdbData->Ratings as $key => $rating) {
                 switch ($rating->Source) {
-                    case "Internet Movie Database":
+                case "Internet Movie Database":
                         $this->imdb_rating = $rating->Value;
-                        break;
-                    case "Rotten Tomatoes":
+                    break;
+                case "Rotten Tomatoes":
                         $this->tomatometer = $rating->Value;
-                        break;
-                    case "Metacritic":
+                    break;
+                case "Metacritic":
                         $this->metacritic_rating = $rating->Value;
-                        break;
+                    break;
                 }
             }
             $this->save();
@@ -72,10 +102,18 @@ class Movie extends Model
     }
 
     /**
-     * Get the reviews for the movie.
+     * Get streaming providers
      *
-    public function reviews()
+     * @param $tmdb_id TMDb id
+     *
+     * @return stdClass
+     */
+    public function getWatchProviders($tmdb_id) : \stdClass
     {
-        return $this->hasMany(MovieReview::class);
-    }*/
+        $tmdb = new TMDbConnection();
+        $providers = $tmdb->getWatchProviders($tmdb_id);
+        //echo '<pre>';
+        //var_dump($providers->results->US);die('</pre>');
+        return $providers->results->US;
+    }
 }

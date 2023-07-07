@@ -1,4 +1,15 @@
 <?php
+/**
+ * Web Routes
+ *
+ * PHP Version 8.1
+ *
+ * @category Routes
+ * @package  Routes
+ * @author   Joe Burgess <joeburgess@tds.net>
+ * @license  https://opensource.org/licenses/MIT MIT License
+ * @link     reelzlist.com
+ */
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
@@ -19,9 +30,12 @@ use App\Http\Controllers\MovieController;
     return view('welcome');
 });*/
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get(
+    '/',
+    function () {
+        return view('home');
+    }
+);
 
 Route::post('/search', [SearchController::class, 'results'])->name('pages.search.results');
 Route::get('/search', [SearchController::class, 'movie'])->name('pages.search');

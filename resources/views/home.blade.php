@@ -13,7 +13,8 @@
     <ul>
         <li>Users</li>
         <li>User Profile</li>
-        <li><ul>Users List
+        <li>Users List
+            <ul>
                 <li>Favorite</li>
                 <li>Ownership</li>
                 <li>Wish List to see</li>
@@ -27,9 +28,9 @@
 <div class="row">
     <p>In the making of this App I watched:
         <ol>
-            <li>Mozart and the Whale</li>
-            <li>Megan</li>
-            <li>Chicken Run</li>
+            <li><a href="{{ '/movie/213' }}">Mozart and the Whale</a></li>
+            <li><a href="{{ '/movie/214' }}">Megan</a></li>
+            <li><a href="{{ '/movie/216' }}">Chicken Run</a></li>
         </ol>
     </p>
 </div>

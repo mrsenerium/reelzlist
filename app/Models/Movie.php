@@ -114,6 +114,7 @@ class Movie extends Model
         $providers = $tmdb->getWatchProviders($tmdb_id);
         //echo '<pre>';
         //var_dump($providers->results->US);die('</pre>');
-        return $providers->results->US;
+        $return = (isset($providers->results->US) ? $providers->results->US : null);
+        return $return;
     }
 }

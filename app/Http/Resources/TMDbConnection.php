@@ -104,9 +104,6 @@ class TMDbConnection
      */
     public function getWatchProviders($tmdb_id) : \stdClass
     {
-        if ($tmdb_id == true) {
-            echo $tmdb_id;
-        }
         $movieUrl = $this->_url . "movie/$tmdb_id/watch/providers?language=en-US";
         //Create Connection
         $client = new \GuzzleHttp\Client();

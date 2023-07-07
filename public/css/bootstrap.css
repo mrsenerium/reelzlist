@@ -11939,3 +11939,13 @@ th {
 .wider-column {
     width: 15%;
 }
+
+.provider-card {
+    font-size: 11px;
+    max-width: 70px;
+    padding-bottom: 7px;
+}
+
+.provider-logo {
+    border-radius: 4px
+}

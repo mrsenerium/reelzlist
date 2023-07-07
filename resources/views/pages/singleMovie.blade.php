@@ -59,25 +59,35 @@
         </div>
     </div>
     @if(isset($watchProviders))
-        <div class="row">
-            <p>For more information and rates please go to <a href="{{ $watchProviders->link }}">The Movie Database</a></p>
-            <p>All streaming infomation is provided by
-                <a href="https://justwatch.com">
-                    <img src="https://www.themoviedb.org/assets/2/v4/logos/justwatch-c2e58adf5809b6871db650fb74b43db2b8f3637fe3709262572553fa056d8d0a.svg" height="15"/>
-                </a>
-            </p>
-            @if(isset($watchProviders->buy))
-                <div class="col-lg-4">
-                    @foreach($watchProviders->buy as $provider)
-                        {{ 'bob' }}
-                    @endforeach
-                </div>
-            @endif
-            @if (isset($watchProviders->flatrate))
-                <div class="col-lg-4"></div>
-            @endif
-            <div class="col-lg-4"></div>
+    <hr />
+        <div class="row bg-info text-white">
+            <div class="col-md-6">
+                @if (isset($watchProviders->flatrate))
+                    @include('partials/_streaming_providers', ['title' => 'Streaming Subscription', 'providers' => $watchProviders->flatrate])
+                @endif
+                @if (isset($watchProviders->buy))
+                    @include('partials/_streaming_providers', ['title' => 'Streaming Purchase', 'providers' => $watchProviders->buy])
+                @endif
+                @if (isset($watchProviders->rent))
+                    @include('partials._streaming_providers', ['title' => 'Streaming Rent', 'providers' => $watchProviders->rent])
+                @endif
+                @if (isset($watchProviders->ads))
+                    @include('partials._streaming_providers', ['title' => 'Available with Ads', 'providers' => $watchProviders->ads])
+                @endif
+                @if (isset($watchProviders->free))
+                    @include('partials._streaming_providers', ['title' => 'Available For Free', 'providers' => $watchProviders->free])
+                @endif
+            </div>
+            <div class="col-md-6">
+                <p>For more information and rates please go to <a href="{{ $watchProviders->link }}">The Movie Database</a></p>
+                <p>All streaming infomation is provided by
+                    <a href="https://justwatch.com">
+                        <img src="https://www.themoviedb.org/assets/2/v4/logos/justwatch-c2e58adf5809b6871db650fb74b43db2b8f3637fe3709262572553fa056d8d0a.svg" height="15"/>
+                    </a>
+                </p>
+            </div>
         </div>
+        <pre><?php var_dump($watchProviders);?></pre>
     @endif
 @endif
 

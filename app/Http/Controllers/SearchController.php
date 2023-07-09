@@ -98,45 +98,4 @@ class SearchController extends Controller
         );
         $connection = new TMDbConnection();
     }
-
-    /**
-     * Does a search of TMDbID
-     *
-     * @param $tmdbid TMDB Id of particular movie
-     *
-     * @return view
-     */
-    public function searchTmdbid($tmdbid) : view
-    {
-        $connection = new TMDbConnection();
-        $results = $connection->singleMovieData($tmdbid);
-        $movie = Movie::firstOrCreate(
-            ['tmdb_id' => $tmdbid],
-            ['overview'     => $results->overview,
-            'release_date' =>
-                \Carbon\Carbon::parse($results->release_date)->format('Y-m-d'),
-            'title'         => $results->title,
-            ]
-        );
-        $movie->updateSelf();
-        if (isset($movie['budget'])) {
-            $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
-            $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0);
-            $movie['budget'] = $formatter->format((int) $movie['budget']);
-            $movie['box_office'] = $formatter->format((int) $movie['box_office']);
-        }
-
-        /**
-         * FOR NOW! We pull watch providers this will be members only in the future
-         */
-        $watchProviders = $movie->getWatchProviders($movie['tmdb_id']);
-        //$watchProviders = null;
-
-
-        return view(
-            'pages.singleMovie', [
-            'movie' => $movie->toArray(),
-            'watchProviders' => $watchProviders]
-        );
-    }
 }

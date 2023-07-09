@@ -84,17 +84,19 @@ class Movie extends Model
                 $omdbData->Poster : $this->poster_url;
             $this->mpaa_rating = isset($omdbData->Rated) ?
                 $omdbData->Rated : $this->mpaa_rating;
-            foreach ($omdbData->Ratings as $key => $rating) {
-                switch ($rating->Source) {
-                case "Internet Movie Database":
-                        $this->imdb_rating = $rating->Value;
-                    break;
-                case "Rotten Tomatoes":
-                        $this->tomatometer = $rating->Value;
-                    break;
-                case "Metacritic":
-                        $this->metacritic_rating = $rating->Value;
-                    break;
+            if (isset($omdbData->Ratings)) {
+                foreach ($omdbData->Ratings as $key => $rating) {
+                    switch ($rating->Source) {
+                    case "Internet Movie Database":
+                            $this->imdb_rating = $rating->Value;
+                        break;
+                    case "Rotten Tomatoes":
+                            $this->tomatometer = $rating->Value;
+                        break;
+                    case "Metacritic":
+                            $this->metacritic_rating = $rating->Value;
+                        break;
+                    }
                 }
             }
             $this->save();
@@ -112,9 +114,17 @@ class Movie extends Model
     {
         $tmdb = new TMDbConnection();
         $providers = $tmdb->getWatchProviders($tmdb_id);
+        $return = '';
         //echo '<pre>';
-        //var_dump($providers->results->US);die('</pre>');
-        $return = (isset($providers->results->US) ? $providers->results->US : null);
+        //var_dump($providers->results);die('</pre>');
+        if (isset($providers->results->US)) {
+            $return = $providers->results;
+        } else {
+            $return = new \stdClass();
+            $return->found = null;
+        }
+        //echo '<pre>';
+        //var_dump($providers->results);die('</pre>');
         return $return;
     }
 }

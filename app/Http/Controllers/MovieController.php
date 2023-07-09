@@ -17,6 +17,7 @@ use App\Models\Movie;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use NumberFormatter;
+use App\Http\Resources\TMDbConnection;
 
 /**
  * Movie Controller
@@ -39,14 +40,21 @@ class MovieController extends Controller
      */
     public function single(Request $request, $id) : view
     {
-        $movie = Movie::findOrFail($id);
+        if ($request->routeIs('pages.tmdb')) {
+            $connection = new TMDbConnection();
+            $results = $connection->singleMovieData($id);
+            $movie = Movie::firstOrCreate(
+                ['tmdb_id' => $id],
+                ['overview'     => $results->overview,
+                'release_date' =>
+                    \Carbon\Carbon::parse($results->release_date)->format('Y-m-d'),
+                'title'         => $results->title,
+                ]
+            );
+        } else {
+            $movie = Movie::findOrFail($id);
+        }
         $movie->updateSelf();
-        /**
-         * Get the model from the database
-         * if it hasn't been updated in over a month make the model update itself
-         * package the information
-         * return single movie blade
-         */
         if (isset($movie['budget'])) {
             $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
             $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0);
@@ -58,7 +66,7 @@ class MovieController extends Controller
          * FOR NOW! We pull watch providers this will be members only in the future
          */
         $watchProviders = $movie->getWatchProviders($movie['tmdb_id']);
-        //$watchProviders = null;
+        $watchProviders = isset($watchProviders->US) ? $watchProviders->US : null;
 
 
         return view(

@@ -104,7 +104,7 @@ class TMDbConnection
      */
     public function getWatchProviders($tmdb_id) : \stdClass
     {
-        $movieUrl = $this->_url . "movie/$tmdb_id/watch/providers?language=en-US";
+        $movieUrl = $this->_url . "movie/$tmdb_id/watch/providers";
         //Create Connection
         $client = new \GuzzleHttp\Client();
         $response = $client->request(
@@ -115,6 +115,8 @@ class TMDbConnection
             ],
             ]
         );
+        //echo '<pre>';
+        //var_dump(json_decode($response->getBody()));die('</pre>');
         return json_decode($response->getBody());
     }
 }

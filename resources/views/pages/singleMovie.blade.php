@@ -4,7 +4,12 @@
 
 @extends('layouts.no-sidebar')
 
-@section('title', 'ReelzList')
+<?php $title = isset($movie);?>
+@if($title)
+    @section('title', 'ReelzList ' . $movie['title'])
+@else
+    @section('title', 'ReelzList')
+@endif
 
 @section('content')
 
@@ -27,6 +32,9 @@
                 {{ $movie['overview'] }}
             </p>
             <div>
+                <p>
+                    {{ $movie['runtime'] }} Minutes
+                </p>
                 <p>
                     Released {{ \Carbon\Carbon::parse($movie['release_date'])->format('M d, Y') }}
                 </p>
@@ -53,14 +61,13 @@
                     Metacritic {{ $movie['metacritic_rating'] }}
                 </div>
                 <div class="col-md-3">
-                    tmdb_id = {{ $movie['tmdb_id'] }}
                 </div>
             </div>
         </div>
     </div>
     @if(isset($watchProviders))
     <hr />
-        <div class="row bg-info text-white">
+        <div class="row bg-dark text-white">
             <div class="col-md-6">
                 @if (isset($watchProviders->flatrate))
                     @include('partials/_streaming_providers', ['title' => 'Streaming Subscription', 'providers' => $watchProviders->flatrate])
@@ -79,15 +86,14 @@
                 @endif
             </div>
             <div class="col-md-6">
-                <p>For more information and rates please go to <a href="{{ $watchProviders->link }}">The Movie Database</a></p>
+                <p>For more information and rates please go to <a class="text-white" href="{{ $watchProviders->link }}">The Movie Database</a></p>
                 <p>All streaming infomation is provided by
-                    <a href="https://justwatch.com">
+                    <a href="https://justwatch.com/">
                         <img src="https://www.themoviedb.org/assets/2/v4/logos/justwatch-c2e58adf5809b6871db650fb74b43db2b8f3637fe3709262572553fa056d8d0a.svg" height="15"/>
                     </a>
                 </p>
             </div>
         </div>
-        <pre><?php var_dump($watchProviders);?></pre>
     @endif
 @endif
 

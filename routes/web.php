@@ -43,4 +43,5 @@ Route::get(
  */
 Route::post('/search', [SearchController::class, 'results'])->name('pages.search.results');
 Route::get('/search', [SearchController::class, 'movie'])->name('pages.search');
+Route::get('/search/{tmdbid}', [SearchController::class, 'searchTmdbid']);
 Route::get('/movie/{id}', [MovieController::class, 'single'])->name('pages.singleMovie');

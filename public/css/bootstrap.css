@@ -11943,6 +11943,7 @@ th {
 .provider-card {
     font-size: 11px;
     max-width: 70px;
+    min-width: 60px;
     padding-bottom: 7px;
 }
 

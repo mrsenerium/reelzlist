@@ -1,5 +1,5 @@
 @if (isset($providers))
-    <div class="bg-info text-white">
+    <div>
         <div>{{ $title }}</div>
         <div class="d-flex">
             @foreach($providers as $provider)
@@ -9,8 +9,10 @@
                         class="provider-logo"
                         width="50"
                         height="50"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="{{ $provider->provider_name }}"
                         />
-                    {{ $provider->provider_name }}
                 </div>
             @endforeach
         </div>

@@ -42,24 +42,6 @@ class SearchController extends Controller
     {
         $randos = Movie::inRandomOrder()->take(10)->get();
         return view('pages.search', ['movies' => $randos]);
-        /*$search = 'dances with wolves';
-        $movies = Movie::where('title', 'like', '%'.$search.'%')->get()->toArray();
-        //if(is_countable($movies) && count($movies) < 10) {
-            $connection = new TMDbConnection();
-            $results = $connection->search($search);
-            //echo('<pre>');var_dump($results);die('</pre>');
-            foreach($results->results as $result) {
-                $movie = Movie::firstOrCreate(
-                    ['title'         => $result->title],
-                    ['overview'      => $result->overview,
-                    'release_date'  =>
-                        \Carbon\Carbon::parse($result->release_date)->format('Y-m-d'),
-                    'tmdb_id'       => $result->id,
-                ]);
-                $movies[] = $movie;
-            }
-        //}
-        return view('pages.search', ['movies' => $movies]);*/
     }
 
     /**
@@ -77,7 +59,6 @@ class SearchController extends Controller
         //if(is_countable($movies) && count($movies) < 10) {
         $connection = new TMDbConnection();
         $results = $connection->search($search);
-        //echo('<pre>');var_dump($results);die('</pre>');
         foreach ($results->results as $result) {
             $movie = Movie::firstOrCreate(
                 ['title'         => $result->title],
@@ -96,6 +77,5 @@ class SearchController extends Controller
             'search' => $request->search
             ]
         );
-        $connection = new TMDbConnection();
     }
 }

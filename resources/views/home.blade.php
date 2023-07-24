@@ -22,16 +22,18 @@
             </ul>
         </li>
         <li>Users Reviews</li>
-        <li>Where to watch</li>
+        <li>Where to watch <em>this exists but needs to be changed for Members Only</em></li>
     </ul>
 </div>
 <div class="row">
     <p>In the making of this App I watched:
         <ol>
-            <li><a href="{{ '/movie/213' }}">Mozart and the Whale</a></li>
-            <li><a href="{{ '/movie/214' }}">Megan</a></li>
-            <li><a href="{{ '/movie/216' }}">Chicken Run</a></li>
-            <li><a href="{{ '/movie/305' }}">Air</a></li>
+            <li><a href="{{ '/movie/23478/tmdb' }}">Mozart and the Whale</a></li>
+            <li><a href="{{ '/movie/536554/tmdb' }}">Megan</a></li>
+            <li><a href="{{ '/movie/7443/tmdb' }}">Chicken Run</a></li>
+            <li><a href="{{ '/movie/284674/tmdb' }}">Air</a></li>
+            <li><a href="{{ '/movie/653601/tmdb' }}">Horse Girl</a></li>
+            <li><a href="{{ '/movie/10692 /tmdb' }}">Henry: Portrait of a Serial Killer</a></li>
         </ol>
     </p>
 </div>

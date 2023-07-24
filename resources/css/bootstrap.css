@@ -11935,3 +11935,7 @@ th {
 .card .h6 {
   color: inherit;
 }
+
+.hundred-padding {
+    padding-top: 200px;
+}

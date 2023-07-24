@@ -61,6 +61,7 @@
                     Metacritic {{ $movie['metacritic_rating'] }}
                 </div>
                 <div class="col-md-3">
+                    TMDb id={{ $movie['tmdb_id'] }}
                 </div>
             </div>
         </div>

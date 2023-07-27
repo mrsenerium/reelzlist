@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use NumberFormatter;
 use App\Http\Resources\TMDbConnection;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Movie Controller
@@ -65,8 +66,12 @@ class MovieController extends Controller
         /**
          * FOR NOW! We pull watch providers this will be members only in the future
          */
-        $watchProviders = $movie->getWatchProviders($movie['tmdb_id']);
-        $watchProviders = isset($watchProviders->US) ? $watchProviders->US : null;
+        if (Auth::check()) {
+            $watchProviders = $movie->getWatchProviders($movie['tmdb_id']);
+            $watchProviders = isset($watchProviders->US) ? $watchProviders->US : null;
+        } else {
+            $watchProviders = null;
+        }
 
 
         return view(

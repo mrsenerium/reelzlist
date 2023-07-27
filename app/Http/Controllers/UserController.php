@@ -15,6 +15,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\User;
 use App\Http\Requests\LoginFormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
@@ -50,7 +51,7 @@ class UserController extends Controller
             if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
 
-                return redirect()->view('pages.profile');
+                return view('home');
             } else {
                 return view('pages.login')->withErrors(
                     [
@@ -103,7 +104,7 @@ class UserController extends Controller
      *
      * @return view
      */
-    public function storeRegistration(Request $request) : view | RedirectResponse
+    public function storeRegistration(Request $request) : RedirectResponse
     {
         //Validate and Store the Registration
         $request->validate(
@@ -117,7 +118,5 @@ class UserController extends Controller
         $user = User::create(request(['name', 'email', 'password']));
 
         return redirect()->back()->with('success', 'Registration completed');
-
-        //auth()->login($user);
     }
 }

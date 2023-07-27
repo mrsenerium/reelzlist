@@ -33,7 +33,8 @@
             <li><a href="{{ '/movie/7443/tmdb' }}">Chicken Run</a></li>
             <li><a href="{{ '/movie/284674/tmdb' }}">Air</a></li>
             <li><a href="{{ '/movie/653601/tmdb' }}">Horse Girl</a></li>
-            <li><a href="{{ '/movie/10692 /tmdb' }}">Henry: Portrait of a Serial Killer</a></li>
+            <li><a href="{{ '/movie/10692/tmdb' }}">Henry: Portrait of a Serial Killer</a></li>
+            <li><a href="{{ '/movie/551804/tmdb' }}">Freaky</a></li>
         </ol>
     </p>
 </div>

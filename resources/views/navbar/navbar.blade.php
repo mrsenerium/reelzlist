@@ -16,11 +16,15 @@
                 </ul>
                 <form class="navbar-nav ms-md-auto" method="post" action="/search">
                     @csrf
-                    <a href="/login" class="nav-link">Login</a>
                     {{ method_field('POST') }}
                     <input name="search" class="form-control me-sm-2" type="search" {{ isset($search) ? 'value='.$search : 'placeholder=Search' }}>
                     <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
                 </form>
+                @if(Auth::check())
+                    Hello {{ auth()->user()->name }}
+                @else
+                    <a href="/login" class="nav-link">Login</a>
+                @endif
             </div>
         </div>
     </div>

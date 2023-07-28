@@ -64,11 +64,12 @@ class MovieController extends Controller
         }
 
         /**
-         * FOR NOW! We pull watch providers this will be members only in the future
+         * FOR NOW! We pull watch providers for members only
          */
         if (Auth::check()) {
             $watchProviders = $movie->getWatchProviders($movie['tmdb_id']);
-            $watchProviders = isset($watchProviders->US) ? $watchProviders->US : null;
+            $watchProviders = isset($watchProviders->US) ?
+                $watchProviders->US : null;
         } else {
             $watchProviders = null;
         }

@@ -16,7 +16,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\User;
-use App\Http\Requests\LoginFormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 
@@ -72,7 +71,7 @@ class UserController extends Controller
      *
      * @return view
      */
-    public function logout(Request $request) : view
+    public function logout(Request $request) : RedirectResponse
     {
         //Handle logout
         Auth::logout();
@@ -110,7 +109,13 @@ class UserController extends Controller
         $request->validate(
             [
                 'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'email' => [
+                    'required',
+                    'string',
+                    'email',
+                    'max:255',
+                    'unique:users'
+                ],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]
         );

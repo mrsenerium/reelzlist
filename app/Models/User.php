@@ -61,4 +61,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Has One Profile Associated
+     *
+     * @return User Model
+     */
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
 }

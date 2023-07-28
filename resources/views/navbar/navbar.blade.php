@@ -21,7 +21,7 @@
                     <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
                 </form>
                 @if(Auth::check())
-                    Hello {{ auth()->user()->name }}
+                    <a href="/profile" class="btn btn-primary">{{ auth()->user()->profile->given_name }}</a>
                 @else
                     <a href="/login" class="nav-link">Login</a>
                 @endif

@@ -11,7 +11,7 @@
 <div class="row">
     <p>This is where I'm going to keep a list of features to be built out</p>
     <ul>
-        <li>Users</li>
+        <li>Users <em>This needs to be built up more with auth levels</em></li>
         <li>User Profile</li>
         <li>Users List
             <ul>
@@ -22,7 +22,19 @@
             </ul>
         </li>
         <li>Users Reviews</li>
-        <li>Where to watch <em>this exists but needs to be changed for Members Only</em></li>
+        <li>Friends
+            <ul>
+                <li>Recommendations</li>
+                <li>Private Reviews</li>
+            </ul>
+        </li>
+        <li class="alert alert-success">Where to watch <em>this exists for Members Only</em></li>
+        <li>Movies
+            <ul>
+                <li>Search</li>
+                <li>Movie Page</li>
+            </ul>
+        </li>
     </ul>
 </div>
 <div class="row">

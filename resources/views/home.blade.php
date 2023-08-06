@@ -32,7 +32,9 @@
         <li>Movies
             <ul>
                 <li>Search</li>
+                    <ul><li>Genre Filter</li></ul>
                 <li>Movie Page</li>
+                <li>Trailers</li>
             </ul>
         </li>
     </ul>
@@ -46,7 +48,7 @@
             <li><a href="{{ '/movie/284674/tmdb' }}">Air</a></li>
             <li><a href="{{ '/movie/653601/tmdb' }}">Horse Girl</a></li>
             <li><a href="{{ '/movie/10692/tmdb' }}">Henry: Portrait of a Serial Killer</a></li>
-            <li><a href="{{ '/movie/551804/tmdb' }}">Freaky</a></li>
+            <li><a href="{{ '/movie/18462/tmdb' }}">Night of the Comet</a></li>
         </ol>
     </p>
 </div>

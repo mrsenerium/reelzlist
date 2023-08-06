@@ -16,6 +16,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 
@@ -121,6 +122,7 @@ class UserController extends Controller
         );
 
         $user = User::create(request(['name', 'email', 'password']));
+        $userProfile = UserProfile::create(['user_id' => $user->id]);
 
         return redirect()->back()->with('success', 'Registration completed');
     }

@@ -51,15 +51,21 @@
                 </p>
             </div>
             <div class="row">
+                @if(isset($movie['tomatometer']))
                 <div class="col-md-3">
                     Rotten Tomatoes {{ $movie['tomatometer'] }}
                 </div>
+                @endif
+                @if(isset($movie['imdb_rating']))
                 <div class="col-md-3">
                     IMDB Rating {{ $movie['imdb_rating'] }}
                 </div>
+                @endif
+                @if(isset($movie['metacritic_rating']))
                 <div class="col-md-3">
                     Metacritic {{ $movie['metacritic_rating'] }}
                 </div>
+                @endif
                 <div class="col-md-3">
                     TMDb id={{ $movie['tmdb_id'] }}
                 </div>

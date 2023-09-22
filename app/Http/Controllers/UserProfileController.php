@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\User;
 use App\Models\UserProfile;
+use App\Models\MovieList;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 
@@ -46,11 +47,9 @@ class UserProfileController extends Controller
 
         // Get the currently authenticated user's profile
         $profile = UserProfile::firstOrCreate(['user_id' => auth()->user()->id]);
-        //echo '<pre>';
-        //var_dump($profile);
-        //die('</pre>');
+        $lists = MovieList::get('user_id', auth()->user()->id);
 
-        return view('pages.user_profile', compact('profile'));
+        return view('pages.user_profile', ['profile' => $profile, 'movie_lists' => $lists]);
     }
 
     /**

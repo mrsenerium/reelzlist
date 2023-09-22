@@ -23,7 +23,7 @@
         </div>
         <a href="{{ route('update.profile') }}">Update Profile</a>
         <pre>
-            <?php var_dump($profile);?>
+            <?php var_dump($movie_lists);?>
         </pre>
     @endif
 

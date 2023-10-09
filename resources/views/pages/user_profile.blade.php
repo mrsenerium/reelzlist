@@ -22,8 +22,17 @@
             </div>
         </div>
         <a href="{{ route('update.profile') }}">Update Profile</a>
+        @if (isset($movie_lists))
+            <div class="row">
+                @foreach ($movie_lists as $list)
+                    <div class="col-4">
+                        {{ $list->name }} is @if ($list->private) Personal @else Public @endif
+                    </div>
+                @endforeach
+            </div>
+        @endif
         <pre>
-            <?php var_dump($movie_lists);?>
+            <?php $movie_lists;?>
         </pre>
     @endif
 

@@ -47,7 +47,7 @@ class UserProfileController extends Controller
 
         // Get the currently authenticated user's profile
         $profile = UserProfile::firstOrCreate(['user_id' => auth()->user()->id]);
-        $lists = MovieList::get('user_id', auth()->user()->id);
+        $lists = MovieList::where('user_id', auth()->user()->id)->get();
 
         return view('pages.user_profile', ['profile' => $profile, 'movie_lists' => $lists]);
     }

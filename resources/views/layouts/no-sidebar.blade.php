@@ -13,7 +13,7 @@
         <script src="{{ asset('js/app.js') }}" ></script>
         <title>@yield('title')</title>
     </head>
-    <body>
+    <body style="padding-bottom: 150px">
 
     @include('navbar.navbar')
 
@@ -21,5 +21,8 @@
     <div class="container">
         @yield('content')
     </div>
+
+    @include('footer.footer')
+
     </body>
 </html>

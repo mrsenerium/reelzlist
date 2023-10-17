@@ -30,4 +30,14 @@ class ListMovie extends Pivot
     use HasFactory;
 
     protected $table = 'list_movie';
+
+    public function movieList()
+    {
+        return $this->belongsTo(MovieList::class, 'list_id');
+    }
+
+    public function movie()
+    {
+        return $this->belongsToMany(Movie::class, 'movie_id');
+    }
 }

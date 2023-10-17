@@ -99,6 +99,28 @@
                         <img src="https://www.themoviedb.org/assets/2/v4/logos/justwatch-c2e58adf5809b6871db650fb74b43db2b8f3637fe3709262572553fa056d8d0a.svg" height="15"/>
                     </a>
                 </p>
+                <div class="card border-secondary mb-3" style="max-width: 35rem;">
+                    <div class="card-header">Your Lists</div>
+                    <div class="card-body">
+
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>List Name</th>
+                                    <th>Add/remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($movieLists as $list)
+                                    <tr>
+                                        <td class="card-text">{{ $list->name }}</td>
+                                        <td>{{in_array($movie['id'], $list->movie->pluck('id')->toArray()) ? 'true' : 'false'}}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     @endif

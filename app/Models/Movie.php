@@ -44,6 +44,16 @@ class Movie extends Model
     ];
 
     /**
+     * Define the relationship with the User model
+     *
+     * @return void
+     */
+    public function MovieList()
+    {
+        return $this->belongsToMany(MovieList::class);
+    }
+
+    /**
      * Updates itself to the APIs
      *
      * @return void

@@ -25,25 +25,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(
-            'list_movie', function (Blueprint $table) {
+            'movie_movie_list', function (Blueprint $table) {
                 $table->id();
-                $table->unsignedBigInteger('list_id');
-                $table->unsignedBigInteger('movie_id');
-                // Add any other columns you may need for this pivot table
+                $table->foreignId('movie_list_id');
+                $table->foreignId('movie_id');
+                // Add any other list-related columns you may need
                 $table->timestamps();
-
-                // Define the foreign key relationships
-                // with the lists and movies tables
-                $table
-                    ->foreign('list_id')
-                    ->references('id')
-                    ->on('movie_lists')
-                    ->onDelete('cascade');
-                $table
-                    ->foreign('movie_id')
-                    ->references('id')
-                    ->on('movies')
-                    ->onDelete('cascade');
             }
         );
     }
@@ -55,6 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('list_movie');
+        Schema::dropIfExists('movie_movie_list');
     }
 };

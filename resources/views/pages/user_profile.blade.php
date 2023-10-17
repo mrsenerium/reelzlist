@@ -21,12 +21,13 @@
                 </p>
             </div>
         </div>
-        <a href="{{ route('update.profile') }}">Update Profile</a>
+        <a href="{{ route('update.profile') }}">Update Profile</a><br />
+        <a href="{{ route('movie-lists.create') }}">Create Movie List</a>
         @if (isset($movie_lists))
             <div class="row">
                 @foreach ($movie_lists as $list)
                     <div class="col-4">
-                        {{ $list->name }} is @if ($list->private) Personal @else Public @endif
+                        <a href={{route('movie-lists.show', $list->id)}}>{{ $list->name }}</a> is @if ($list->private) Personal @else Public @endif
                     </div>
                 @endforeach
             </div>

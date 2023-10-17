@@ -14,6 +14,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use App\Models\MovieList;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use NumberFormatter;
@@ -70,15 +71,26 @@ class MovieController extends Controller
             $watchProviders = $movie->getWatchProviders($movie['tmdb_id']);
             $watchProviders = isset($watchProviders->US) ?
                 $watchProviders->US : null;
+            $movieLists = MovieList::where('user_id', '=', Auth::user()->id)->with('movie')->get();
         } else {
             $watchProviders = null;
+            $movieLists = null;
         }
-
+        //dd($movieLists);
+        // foreach ($movieLists as $movieList) {
+        //     foreach ($movieList->ListMovies as $theList);{
+        //         foreach ($theList as $movie) {
+        //             dd($movie);
+        //         }
+        //     }
+        // }
 
         return view(
             'pages.singleMovie', [
             'movie' => $movie->toArray(),
-            'watchProviders' => $watchProviders]
+            'watchProviders' => $watchProviders,
+            'movieLists' => $movieLists
+            ]
         );
     }
 

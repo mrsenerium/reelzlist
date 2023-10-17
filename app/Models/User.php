@@ -72,8 +72,8 @@ class User extends Authenticatable
         return $this->hasOne(UserProfile::class);
     }
 
-    public function movieLists()
+    public function movie_list()
     {
-        return $this->hasMany(MovieList::class);
+        return $this->hasMany(Movie::class, 'user_id');
     }
 }

@@ -27,7 +27,7 @@ return new class extends Migration
         Schema::create(
             'movie_lists', function (Blueprint $table) {
                 $table->id();
-                $table->unsignedBigInteger('user_id');
+                $table->foreignId('user_id');
                 $table->string('name');
                 $table->boolean('private')->default(false);
                 // Add any other list-related columns you may need

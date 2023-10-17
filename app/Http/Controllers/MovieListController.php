@@ -40,11 +40,11 @@ class MovieListController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) : view
+    public function store(Request $request) : redirectResponse
     {
         //
         MovieList::create(['user_id' => auth()->user()->id, 'name' => $request->name]);
-        return view('pages.user_profile');
+        return redirect(route('showProfile'));
     }
 
     /**
@@ -52,7 +52,8 @@ class MovieListController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $movieList = MovieList::where('id', '=', $id)->with('movie')->first();
+        return view('pages.movieList.show', ['movieList' => $movieList, 'movies' => $movieList->movie]);
     }
 
     /**

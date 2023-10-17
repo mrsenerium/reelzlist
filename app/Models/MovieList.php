@@ -31,24 +31,15 @@ class MovieList extends Model
 
     protected $fillable = ['user_id', 'name'];
 
-    /**
-     * Define the relationship with the User model
-     *
-     * @return void
-     */
-    public function owner()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    /**
-     * Define the many-to-many relationship with the Movie model
-     * through the list_movie pivot table
-     *
-     * @return void
-     */
-    public function movies()
+    public function movie()
     {
-        return $this->belongsToMany(Movie::class, 'list_movie')->withTimestamps();
+        return $this->belongsToMany(Movie::class);
     }
+
+
 }

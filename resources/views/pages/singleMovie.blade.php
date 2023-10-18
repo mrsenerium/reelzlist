@@ -72,9 +72,9 @@
             </div>
         </div>
     </div>
-    @if(isset($watchProviders))
     <hr />
-        <div class="row bg-dark text-white">
+    <div class="row bg-dark text-white">
+        @if(isset($watchProviders))
             <div class="col-md-6">
                 @if (isset($watchProviders->flatrate))
                     @include('partials/_streaming_providers', ['title' => 'Streaming Subscription', 'providers' => $watchProviders->flatrate])
@@ -92,44 +92,48 @@
                     @include('partials._streaming_providers', ['title' => 'Available For Free', 'providers' => $watchProviders->free])
                 @endif
             </div>
+        @else
             <div class="col-md-6">
-                <p>For more information and rates please go to <a class="text-white" href="{{ isset($watchProviders->link) ? $watchProviders->link : 'https://www.tmdb.com/' }}">The Movie Database</a></p>
-                <p>All streaming infomation is provided by
-                    <a href="https://justwatch.com/">
-                        <img src="https://www.themoviedb.org/assets/2/v4/logos/justwatch-c2e58adf5809b6871db650fb74b43db2b8f3637fe3709262572553fa056d8d0a.svg" height="15"/>
-                    </a>
-                </p>
-                <div class="card border-secondary mb-3" style="max-width: 35rem;">
-                    <div class="card-header">Your Lists</div>
-                    <div class="card-body">
+                <p>No Streaming information available.</p>
+            </div>
+        @endif
+        <div class="col-md-6">
+            <p>For more information and rates please go to <a class="text-white" href="{{ isset($watchProviders->link) ? $watchProviders->link : 'https://www.tmdb.com/' }}">The Movie Database</a></p>
+            <p>All streaming infomation is provided by
+                <a href="https://justwatch.com/">
+                    <img src="https://www.themoviedb.org/assets/2/v4/logos/justwatch-c2e58adf5809b6871db650fb74b43db2b8f3637fe3709262572553fa056d8d0a.svg" height="15"/>
+                </a>
+            </p>
+            <div class="card border-secondary mb-3" style="max-width: 35rem;">
+                <div class="card-header">Your Lists</div>
+                <div class="card-body">
 
-                        <table class="table table-hover">
-                            <thead>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>List Name</th>
+                                <th>Add/remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($movieLists as $list)
                                 <tr>
-                                    <th>List Name</th>
-                                    <th>Add/remove</th>
+                                    <td class="card-text">{{ $list->name }}</td>
+                                    <td>
+                                        @if (in_array($movie['id'], $list->movie->pluck('id')->toArray()))
+                                        'true'
+                                        @else
+                                            <a href="{{route('movie-lists.add', ['movieList' => $list, 'movie' => $movie['id']])}}">Add</a>
+                                        @endif
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($movieLists as $list)
-                                    <tr>
-                                        <td class="card-text">{{ $list->name }}</td>
-                                        <td>
-                                            @if (in_array($movie['id'], $list->movie->pluck('id')->toArray()))
-                                            'true'
-                                            @else
-                                                <a href="{{route('movie-lists.add', ['movieList' => $list, 'movie' => $movie['id']])}}">Add</a>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    @endif
+    </div>
 @endif
 
 @endsection

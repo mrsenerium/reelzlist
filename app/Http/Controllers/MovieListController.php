@@ -87,7 +87,7 @@ class MovieListController extends Controller
         $list = MovieList::where('id', '=', $movieList)->with('Movie')->first();
         $list->Movie()->attach(
             [
-            'movie_id' => $movie,
+                'movie_id' => $movie,
             ]
         );
         return back();
@@ -98,7 +98,7 @@ class MovieListController extends Controller
         $list = MovieList::where('id', '=', $movieList)->with('Movie')->first();
         $list->Movie()->detach(
             [
-            'movie_id' => $movie,
+                'movie_id' => $movie,
             ]
         );
         return back();

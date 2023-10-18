@@ -114,7 +114,13 @@
                                 @foreach ($movieLists as $list)
                                     <tr>
                                         <td class="card-text">{{ $list->name }}</td>
-                                        <td>{{in_array($movie['id'], $list->movie->pluck('id')->toArray()) ? 'true' : 'false'}}</td>
+                                        <td>
+                                            @if (in_array($movie['id'], $list->movie->pluck('id')->toArray()))
+                                            'true'
+                                            @else
+                                                <a href="{{route('movie-lists.add', ['movieList' => $list, 'movie' => $movie['id']])}}">Add</a>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

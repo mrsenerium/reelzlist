@@ -54,6 +54,8 @@ Route::get('/register', [UserController::class, 'register'])->name('register');
 Route::post('/register', [UserController::class, 'storeRegistration'])->name('storeRegistration');
 Route::get('/profile', [UserProfileController::class, 'show'])->name('showProfile');
 Route::any('/profile/update', [UserProfileController::class, 'update'])->name('update.profile');
+Route::any('movie-lists/add/{movieList}/{movie}', [MovieListController::class, 'addMovieToList'])->name('movie-lists.add');
+Route::any('movie-lists/{movieList}/{movie}', [MovieListController::class, 'removeMovieFromList'])->name('movie-lists.remove');
 Route::resource('movie-lists', MovieListController::class)->names([
     'index' => 'movie-lists.index',
     'create' => 'movie-lists.create',

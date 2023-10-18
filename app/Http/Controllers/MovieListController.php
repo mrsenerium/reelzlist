@@ -7,7 +7,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Models\MovieList;
+use App\Models\Movie;
 use Illuminate\View\View;
+use Carbon\Carbon;
 
 class MovieListController extends Controller
 {
@@ -78,5 +80,27 @@ class MovieListController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function addMovieToList($movieList, $movie, Request $request) : redirectResponse
+    {
+        $list = MovieList::where('id', '=', $movieList)->with('Movie')->first();
+        $list->Movie()->attach(
+            [
+            'movie_id' => $movie,
+            ]
+        );
+        return back();
+    }
+
+    public function removeMovieFromList($movieList, $movie, Request $request) : redirectResponse
+    {
+        $list = MovieList::where('id', '=', $movieList)->with('Movie')->first();
+        $list->Movie()->detach(
+            [
+            'movie_id' => $movie,
+            ]
+        );
+        return back();
     }
 }

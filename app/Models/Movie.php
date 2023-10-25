@@ -5,26 +5,29 @@
  * PHP Version 8.1
  *
  * @category Model
- * @package  App\Models\Model
+ *
  * @author   Joe Burgess <joeburgess@tds.net>
  * @license  https://opensource.org/licenses/MIT MIT License
+ *
  * @link     reelzlist.com
  */
+
 namespace App\Models;
 
+use App\Http\Resources\OMDbConnection;
+use App\Http\Resources\TMDbConnection;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Resources\TMDbConnection;
-use App\Http\Resources\OMDbConnection;
-use Carbon\Carbon;
 
 /**
  * Movie Model
  *
  * @category Model
- * @package  App\Models\Model
+ *
  * @author   Joe Burgess <joeburgess@tds.net>
  * @license  https://opensource.org/licenses/MIT MIT License
+ *
  * @link     reelzlist.com
  */
 class Movie extends Model
@@ -55,10 +58,8 @@ class Movie extends Model
 
     /**
      * Updates itself to the APIs
-     *
-     * @return void
      */
-    public function updateSelf() : void
+    public function updateSelf(): void
     {
         //I need to check if there is a tmdb_id
         $oneMonthAgo = Carbon::now()->subMonth();
@@ -71,7 +72,7 @@ class Movie extends Model
             || $this->budget === null
         ) {
             //die('second boom');
-            $tmdb = new TMDbConnection();
+            $tmdb = new TMDbConnection;
             $tmdbData = $tmdb->singleMovieData($this->tmdb_id);
             $this->imdb_id = isset($tmdbData->imdb_id) ?
                 $tmdbData->imdb_id : $this->imdb_id;
@@ -85,7 +86,7 @@ class Movie extends Model
         }
         if ($this->mpaa_rating === null || $this->poster_url === null) {
             //die('boom');
-            $omdb = new OMDbConnection();
+            $omdb = new OMDbConnection;
             $omdbData = $omdb->getSingleMovie($this->imdb_id);
 
             //echo '<pre>';
@@ -97,15 +98,15 @@ class Movie extends Model
             if (isset($omdbData->Ratings)) {
                 foreach ($omdbData->Ratings as $key => $rating) {
                     switch ($rating->Source) {
-                    case "Internet Movie Database":
+                        case 'Internet Movie Database':
                             $this->imdb_rating = $rating->Value;
-                        break;
-                    case "Rotten Tomatoes":
+                            break;
+                        case 'Rotten Tomatoes':
                             $this->tomatometer = $rating->Value;
-                        break;
-                    case "Metacritic":
+                            break;
+                        case 'Metacritic':
                             $this->metacritic_rating = $rating->Value;
-                        break;
+                            break;
                     }
                 }
             }
@@ -117,12 +118,11 @@ class Movie extends Model
      * Get streaming providers
      *
      * @param $tmdb_id TMDb id
-     *
      * @return stdClass
      */
-    public function getWatchProviders($tmdb_id) : \stdClass
+    public function getWatchProviders($tmdb_id): \stdClass
     {
-        $tmdb = new TMDbConnection();
+        $tmdb = new TMDbConnection;
         $providers = $tmdb->getWatchProviders($tmdb_id);
         $return = '';
         //echo '<pre>';
@@ -130,9 +130,10 @@ class Movie extends Model
         if (isset($providers->results->US)) {
             $return = $providers->results;
         } else {
-            $return = new \stdClass();
+            $return = new \stdClass;
             $return->found = null;
         }
+
         //echo '<pre>';
         //var_dump($providers->results);die('</pre>');
         return $return;

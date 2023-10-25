@@ -5,7 +5,7 @@
 @extends('layouts.no-sidebar')
 
 <?php $title = isset($movie);?>
-@if($title)
+@if ($title)
     @section('title', 'ReelzList ' . $movie['title'])
 @else
     @section('title', 'ReelzList')
@@ -15,7 +15,7 @@
 
 
 
-@if(isset($movie))
+@if (isset($movie))
     <div class="row justify-content-center">
         <div class="col text-center">
             <p>
@@ -51,17 +51,17 @@
                 </p>
             </div>
             <div class="row">
-                @if(isset($movie['tomatometer']))
+                @if (isset($movie['tomatometer']))
                 <div class="col-md-3">
                     Rotten Tomatoes {{ $movie['tomatometer'] }}
                 </div>
                 @endif
-                @if(isset($movie['imdb_rating']))
+                @if (isset($movie['imdb_rating']))
                 <div class="col-md-3">
                     IMDB Rating {{ $movie['imdb_rating'] }}
                 </div>
                 @endif
-                @if(isset($movie['metacritic_rating']))
+                @if (isset($movie['metacritic_rating']))
                 <div class="col-md-3">
                     Metacritic {{ $movie['metacritic_rating'] }}
                 </div>
@@ -74,7 +74,7 @@
     </div>
     <hr />
     <div class="row bg-dark text-white">
-        @if(isset($watchProviders))
+        @if (isset($watchProviders))
             <div class="col-md-6">
                 @if (isset($watchProviders->flatrate))
                     @include('partials/_streaming_providers', ['title' => 'Streaming Subscription', 'providers' => $watchProviders->flatrate])
@@ -123,7 +123,7 @@
                                         @if (in_array($movie['id'], $list->movie->pluck('id')->toArray()))
                                         'true'
                                         @else
-                                            <a href="{{route('movie-lists.add', ['movieList' => $list, 'movie' => $movie['id']])}}">Add</a>
+                                            <a href="{{ route('movie-lists.add', ['movieList' => $list, 'movie' => $movie['id']]) }}">Add</a>
                                         @endif
                                     </td>
                                 </tr>

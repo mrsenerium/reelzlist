@@ -19,7 +19,7 @@
       </form>
 </div>
 
-@if(isset($movies))
+@if (isset($movies))
     <table class="table table-hover">
     <thead>
         <tr>
@@ -29,15 +29,15 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($movies as $key => $movie)
-            @if(is_numeric($key) && $key % 2)
-                <tr class="table-primary" onclick="window.location='/movie/{{$movie['id']}}';" style="cursor: pointer;">
+        @foreach ($movies as $key => $movie)
+            @if (is_numeric($key) && $key % 2)
+                <tr class="table-primary" onclick="window.location='/movie/{{ $movie['id'] }}';" style="cursor: pointer;">
                     <th scope="row">{{ $movie['title'] }}</th>
                     <td>{{ $movie['overview'] }}</td>
                     <td class="wider-column">{{ \Carbon\Carbon::parse($movie['release_date'])->format('M d, Y') }}</td>
                 </tr>
             @else
-                <tr class="table-secondary" onclick="window.location='/movie/{{$movie['id']}}';" style="cursor: pointer;">
+                <tr class="table-secondary" onclick="window.location='/movie/{{ $movie['id'] }}';" style="cursor: pointer;">
                     <th scope="row">{{ $movie['title'] }}</th>
                     <td>{{ $movie['overview'] }}</td>
                     <td class="wider-column">{{ \Carbon\Carbon::parse($movie['release_date'])->format('M d, Y') }}</td>

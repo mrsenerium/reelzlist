@@ -5,7 +5,7 @@
 @extends('layouts.no-sidebar')
 
 <?php $title = isset($movie);?>
-@if($title)
+@if ($title)
     @section('title', 'ReelzList ' . $movie['title'])
 @else
     @section('title', 'ReelzList')
@@ -13,7 +13,7 @@
 
 @section('content')
 
-    @if(isset($profile))
+    @if (isset($profile))
         <div class="row justify-content-center">
             <div class="col text-center">
                 <p>
@@ -27,7 +27,7 @@
             <div class="row">
                 @foreach ($movie_lists as $list)
                     <div class="col-4">
-                        <a href={{route('movie-lists.show', $list->id)}}>{{ $list->name }}</a> is @if ($list->private) Personal @else Public @endif
+                        <a href={{ route('movie-lists.show', $list->id) }}>{{ $list->name }}</a> is @if ($list->private) Personal @else Public @endif
                     </div>
                 @endforeach
             </div>

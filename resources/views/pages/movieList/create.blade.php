@@ -4,7 +4,7 @@
 
 @section('content')
 
-<form method="POST" action="{{route('movie-lists.store')}}">
+<form method="POST" action="{{ route('movie-lists.store') }}">
     {{-- <label for="listName">List Name</label>
     <input type="text" name="listName">
     <{!! Form::submit($text, [$options]) !!} --}}

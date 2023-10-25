@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
 use App\Models\MovieList;
-use App\Models\Movie;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Carbon\Carbon;
 
 class MovieListController extends Controller
 {
@@ -21,10 +18,10 @@ class MovieListController extends Controller
         //Display all lists for said User
         //Provide Access to CRUDdy things
 
-        if (!Auth::check()) {
+        if (! auth()->check()) {
             return redirect('/');
         }
-        $user = Auth::user();
+        $user = auth()->user();
         $movieLists = $user->movieLists->all();
 
         dd($movieLists);
@@ -33,7 +30,7 @@ class MovieListController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create() : view
+    public function create(): view
     {
         //
         return view('pages.movieList.create');
@@ -42,10 +39,11 @@ class MovieListController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) : redirectResponse
+    public function store(Request $request): redirectResponse
     {
         //
         MovieList::create(['user_id' => auth()->user()->id, 'name' => $request->name]);
+
         return redirect(route('showProfile'));
     }
 
@@ -55,6 +53,7 @@ class MovieListController extends Controller
     public function show(string $id)
     {
         $movieList = MovieList::where('id', '=', $id)->with('movie')->first();
+
         return view('pages.movieList.show', ['movieList' => $movieList, 'movies' => $movieList->movie]);
     }
 
@@ -82,7 +81,7 @@ class MovieListController extends Controller
         //
     }
 
-    public function addMovieToList($movieList, $movie, Request $request) : redirectResponse
+    public function addMovieToList($movieList, $movie, Request $request): redirectResponse
     {
         $list = MovieList::where('id', '=', $movieList)->with('Movie')->first();
         $list->Movie()->attach(
@@ -90,10 +89,11 @@ class MovieListController extends Controller
                 'movie_id' => $movie,
             ]
         );
+
         return back();
     }
 
-    public function removeMovieFromList($movieList, $movie, Request $request) : redirectResponse
+    public function removeMovieFromList($movieList, $movie, Request $request): redirectResponse
     {
         $list = MovieList::where('id', '=', $movieList)->with('Movie')->first();
         $list->Movie()->detach(
@@ -101,6 +101,7 @@ class MovieListController extends Controller
                 'movie_id' => $movie,
             ]
         );
+
         return back();
     }
 }

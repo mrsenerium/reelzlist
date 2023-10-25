@@ -5,23 +5,25 @@
  * PHP Version 8.1
  *
  * @category Model
- * @package  App\Models\Model
+ *
  * @author   Joe Burgess <joeburgess@tds.net>
  * @license  https://opensource.org/licenses/MIT MIT License
+ *
  * @link     reelzlist.com
  */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * MovieList Model
  *
  * @category Model
- * @package  App\Models\Model
+ *
  * @author   Joe Burgess <joeburgess@tds.net>
  * @license  https://opensource.org/licenses/MIT MIT License
+ *
  * @link     reelzlist.com
  */
 class MovieList extends Model
@@ -40,6 +42,4 @@ class MovieList extends Model
     {
         return $this->belongsToMany(Movie::class);
     }
-
-
 }

@@ -5,9 +5,10 @@
  * PHP Version 8.1
  *
  * @category Model
- * @package  App\Models\Model
+ *
  * @author   Joe Burgess <joeburgess@tds.net>
  * @license  https://opensource.org/licenses/MIT MIT License
+ *
  * @link     reelzlist.com
  */
 
@@ -20,9 +21,10 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * ListMovie Model
  *
  * @category Model
- * @package  App\Models\Model
+ *
  * @author   Joe Burgess <joeburgess@tds.net>
  * @license  https://opensource.org/licenses/MIT MIT License
+ *
  * @link     reelzlist.com
  */
 class ListMovie extends Pivot

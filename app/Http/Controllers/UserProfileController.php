@@ -5,29 +5,30 @@
  * PHP Version 8.1
  *
  * @category Controller
- * @package  App\Http\Controllers
+ *
  * @author   Joe Burgess <joeburgess@tds.net>
  * @license  https://opensource.org/licenses/MIT MIT License
+ *
  * @link     reelzlist.com
  */
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\View\View;
+use App\Models\MovieList;
 use App\Models\User;
 use App\Models\UserProfile;
-use App\Models\MovieList;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 /**
  * UserProfile Controller
  *
  * @category Controller
- * @package  App\Http\Controllers
+ *
  * @author   Joe Burgess <joeburgess@tds.net>
  * @license  https://opensource.org/licenses/MIT MIT License
+ *
  * @link     reelzlist.com
  */
 class UserProfileController extends Controller
@@ -36,12 +37,10 @@ class UserProfileController extends Controller
      * Show the user profile
      *
      * @param $userProfile prfile to show
-     *
-     * @return view | redirectResponse
      */
-    public function show(UserProfile $userProfile) : view | redirectResponse
+    public function show(UserProfile $userProfile): view|redirectResponse
     {
-        if (!Auth::check()) {
+        if (! auth()->check()) {
             return redirect('/');
         }
 
@@ -57,13 +56,11 @@ class UserProfileController extends Controller
      *
      * @param $request     core request
      * @param $userProfile profile being updated
-     *
      * @return redirect
      */
-    public function update(Request $request, UserProfile $userProfile)
-        : view | redirectResponse
+    public function update(Request $request, UserProfile $userProfile): view|redirectResponse
     {
-        if (!Auth::check()) {
+        if (! auth()->check()) {
             return redirect('/');
         }
         // Get the currently authenticated user's profile
@@ -99,9 +96,6 @@ class UserProfileController extends Controller
 
         $profile->save();
 
-        return view('pages.user_profile', compact('profile'))->with(
-            'success',
-            'Profile updated successfully!'
-        );
+        return view('pages.user_profile', ['success' => 'Profile updated successfully!']);
     }
 }

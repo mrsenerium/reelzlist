@@ -5,11 +5,13 @@
  * PHP Version 8.1
  *
  * @category Model
- * @package  App\Models\Model
+ *
  * @author   Joe Burgess <joeburgess@tds.net>
  * @license  https://opensource.org/licenses/MIT MIT License
+ *
  * @link     reelzlist.com
  */
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -22,9 +24,10 @@ use Laravel\Sanctum\HasApiTokens;
  * User Model
  *
  * @category Model
- * @package  App\Models\Model
+ *
  * @author   Joe Burgess <joeburgess@tds.net>
  * @license  https://opensource.org/licenses/MIT MIT License
+ *
  * @link     reelzlist.com
  */
 class User extends Authenticatable

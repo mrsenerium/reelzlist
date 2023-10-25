@@ -1,16 +1,4 @@
 <?php
-/**
- * User Controller
- *
- * PHP Version 8.1
- *
- * @category Controller
- *
- * @author   Joe Burgess <joeburgess@tds.net>
- * @license  https://opensource.org/licenses/MIT MIT License
- *
- * @link     reelzlist.com
- */
 
 namespace App\Http\Controllers;
 
@@ -20,23 +8,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-/**
- * User Controller
- *
- * @category Controller
- *
- * @author   Joe Burgess <joeburgess@tds.net>
- * @license  https://opensource.org/licenses/MIT MIT License
- *
- * @link     reelzlist.com
- */
 class UserController extends Controller
 {
-    /**
-     * User Login
-     *
-     * @param  Request  $request core request
-     */
     public function login(Request $request): view
     {
         if ($request->isMethod('post')) {
@@ -52,7 +25,7 @@ class UserController extends Controller
 
                 return view('home');
             } else {
-                return view('pages.login')->withErrors(
+                return view('pages.auth.login')->withErrors(
                     [
                         'email' => 'The provided credentials do not match our records.',
                     ]
@@ -60,18 +33,11 @@ class UserController extends Controller
             }
         }
 
-        return view('pages.login');
+        return view('pages.auth.login');
     }
 
-    /**
-     * Logs User out
-     *
-     * @param  Request  $request core request
-     * @return view
-     */
     public function logout(Request $request): RedirectResponse
     {
-        //Handle logout
         auth()->logout();
 
         $request->session()->invalidate();
@@ -81,26 +47,14 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    /**
-     * Register a new User
-     *
-     * @param  Request  $request core request
-     */
     public function register(Request $request): view
     {
         //register
-        return view('pages.register');
+        return view('pages.auth.register');
     }
 
-    /**
-     * Validate and Store Registration
-     *
-     * @param  Request  $request core request
-     * @return view
-     */
     public function storeRegistration(Request $request): RedirectResponse
     {
-        //Validate and Store the Registration
         $request->validate(
             [
                 'name' => ['required', 'string', 'max:255'],
@@ -116,7 +70,6 @@ class UserController extends Controller
         );
 
         $user = User::create(request(['name', 'email', 'password']));
-        $userProfile = UserProfile::create(['user_id' => $user->id]);
 
         return redirect()->back()->with('success', 'Registration completed');
     }

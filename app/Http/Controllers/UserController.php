@@ -5,28 +5,29 @@
  * PHP Version 8.1
  *
  * @category Controller
- * @package  App\Http\Controllers
+ *
  * @author   Joe Burgess <joeburgess@tds.net>
  * @license  https://opensource.org/licenses/MIT MIT License
+ *
  * @link     reelzlist.com
  */
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\View\View;
 use App\Models\User;
 use App\Models\UserProfile;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 /**
  * User Controller
  *
  * @category Controller
- * @package  App\Http\Controllers
+ *
  * @author   Joe Burgess <joeburgess@tds.net>
  * @license  https://opensource.org/licenses/MIT MIT License
+ *
  * @link     reelzlist.com
  */
 class UserController extends Controller
@@ -34,11 +35,9 @@ class UserController extends Controller
     /**
      * User Login
      *
-     * @param Request $request core request
-     *
-     * @return view
+     * @param  Request  $request core request
      */
-    public function login(Request $request) : view
+    public function login(Request $request): view
     {
         if ($request->isMethod('post')) {
             $credentials = $request->validate(
@@ -48,15 +47,14 @@ class UserController extends Controller
                 ]
             );
 
-            if (Auth::attempt($credentials)) {
+            if (auth()->attempt($credentials)) {
                 $request->session()->regenerate();
 
                 return view('home');
             } else {
                 return view('pages.login')->withErrors(
                     [
-                        'email' =>
-                            'The provided credentials do not match our records.',
+                        'email' => 'The provided credentials do not match our records.',
                     ]
                 );
             }
@@ -68,14 +66,13 @@ class UserController extends Controller
     /**
      * Logs User out
      *
-     * @param Request $request core request
-     *
+     * @param  Request  $request core request
      * @return view
      */
-    public function logout(Request $request) : RedirectResponse
+    public function logout(Request $request): RedirectResponse
     {
         //Handle logout
-        Auth::logout();
+        auth()->logout();
 
         $request->session()->invalidate();
 
@@ -87,11 +84,9 @@ class UserController extends Controller
     /**
      * Register a new User
      *
-     * @param Request $request core request
-     *
-     * @return view
+     * @param  Request  $request core request
      */
-    public function register(Request $request) : view
+    public function register(Request $request): view
     {
         //register
         return view('pages.register');
@@ -100,11 +95,10 @@ class UserController extends Controller
     /**
      * Validate and Store Registration
      *
-     * @param Request $request core request
-     *
+     * @param  Request  $request core request
      * @return view
      */
-    public function storeRegistration(Request $request) : RedirectResponse
+    public function storeRegistration(Request $request): RedirectResponse
     {
         //Validate and Store the Registration
         $request->validate(
@@ -115,7 +109,7 @@ class UserController extends Controller
                     'string',
                     'email',
                     'max:255',
-                    'unique:users'
+                    'unique:users',
                 ],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]

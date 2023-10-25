@@ -5,9 +5,10 @@
  * PHP Version 8.1
  *
  * @category Core_Migrations
- * @package  Migrations
+ *
  * @author   Joe Burgess <joeburgess@tds.net>
  * @license  https://opensource.org/licenses/MIT MIT License
+ *
  * @link     reelzlist.com
  */
 
@@ -17,11 +18,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table(
@@ -34,11 +30,6 @@ return new class extends Migration
         );
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table(

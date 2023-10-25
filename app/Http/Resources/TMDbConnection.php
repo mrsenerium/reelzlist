@@ -5,24 +5,25 @@
  * PHP version 8.1
  *
  * @category API_Connector
- * @package  API_Connector
+ *
  * @author   Joe Burgess <joeburgess@tds.net>
  * @license  https://opensource.org/licenses/MIT MIT License
+ *
  * @link     reelzlist.com
  */
+
 namespace App\Http\Resources;
 
-use Illuminate\Http\Request;
-use Guzzelhttp\Guzzle;
-Use App\Models\Movie;
+use App\Models\Movie;
 
 /**
  * TMDbConnection
  *
  * @category API_Connector
- * @package  API_Connector
+ *
  * @author   Joe Burgess <joeburgess@tds.net>
  * @license  https://opensource.org/licenses/MIT MIT License
+ *
  * @link     reelzlist.com
  */
 class TMDbConnection
@@ -44,26 +45,25 @@ class TMDbConnection
      *
      * @param $keyword Will be search TMDb.com
      * @param $adult   Allows searching for adult films
-     *
      * @return stdClass
      */
-    public function search($keyword, $adult = false) : \stdClass
+    public function search($keyword, $adult = false): \stdClass
     {
         //build search string
         $keyword = trim($keyword);
         $keyword = urlencode($keyword);
         $searchUrl = $this->_url .
-            "search/movie?query=$keyword&include_adult=$adult&language=en-US&page=1";
+            "search/movie?query={$keyword}&include_adult={$adult}&language=en-US&page=1";
 
         //Create Connection
-        $client = new \GuzzleHttp\Client();
+        $client = new \GuzzleHttp\Client;
 
         $response = $client->request(
             'GET', $searchUrl, [
-            'headers' => [
-                'Authorization' => $this->_key,
-                'accept' => 'application/json',
-            ],
+                'headers' => [
+                    'Authorization' => $this->_key,
+                    'accept' => 'application/json',
+                ],
             ]
         );
 
@@ -74,21 +74,20 @@ class TMDbConnection
      * Pulls individual data from TMDB.com
      *
      * @param $id The TMDB id of the movie
-     *
      * @return stdClass
      */
-    public function singleMovieData($id) : \stdClass
+    public function singleMovieData($id): \stdClass
     {
-        $movieUrl = $this->_url . "movie/$id?language=en-US";
+        $movieUrl = $this->_url . "movie/{$id}?language=en-US";
 
         //Create Connection
-        $client = new \GuzzleHttp\Client();
+        $client = new \GuzzleHttp\Client;
         $response = $client->request(
             'GET', $movieUrl, [
-            'headers' => [
-                'Authorization' => $this->_key,
-                'accept' => 'application/json',
-            ],
+                'headers' => [
+                    'Authorization' => $this->_key,
+                    'accept' => 'application/json',
+                ],
             ]
         );
 
@@ -99,22 +98,22 @@ class TMDbConnection
      * Finds where it can be streamed
      *
      * @param $tmdb_id TMDb id
-     *
      * @return stdClass
      */
-    public function getWatchProviders($tmdb_id) : \stdClass
+    public function getWatchProviders($tmdb_id): \stdClass
     {
-        $movieUrl = $this->_url . "movie/$tmdb_id/watch/providers";
+        $movieUrl = $this->_url . "movie/{$tmdb_id}/watch/providers";
         //Create Connection
-        $client = new \GuzzleHttp\Client();
+        $client = new \GuzzleHttp\Client;
         $response = $client->request(
             'GET', $movieUrl, [
-            'headers' => [
-                'Authorization' => $this->_key,
-                'accept' => 'application/json',
-            ],
+                'headers' => [
+                    'Authorization' => $this->_key,
+                    'accept' => 'application/json',
+                ],
             ]
         );
+
         //echo '<pre>';
         //var_dump(json_decode($response->getBody()));die('</pre>');
         return json_decode($response->getBody());

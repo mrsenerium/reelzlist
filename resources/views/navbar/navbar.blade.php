@@ -20,7 +20,7 @@
                     <input name="search" class="form-control me-sm-2" type="search" {{ isset($search) ? 'value='.$search : 'placeholder=Search' }}>
                     <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
                 </form>
-                @if(Auth::check())
+                @if (Auth::check())
                     <a href="/profile" class="btn btn-primary">{{ auth()->user()->profile->given_name }}</a>
                 @else
                     <a href="/login" class="nav-link">Login</a>

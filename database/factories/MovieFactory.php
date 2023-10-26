@@ -12,6 +12,8 @@ class MovieFactory extends Factory
             'title' => $this->faker->name,
             'overview' => $this->faker->text,
             'release_date' => $this->faker->date,
+            'tmdb_id' => $this->faker->randomNumber(4),
+            'updated_at' => $this->faker->dateTimeThisDecade('+2 years'),
         ];
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\UserProfile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -17,6 +16,16 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
 
     protected static function boot(): void
@@ -36,16 +45,6 @@ class User extends Authenticatable
         });
     }
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
-
     public function profile()
     {
         return $this->hasOne(UserProfile::class);
@@ -53,6 +52,6 @@ class User extends Authenticatable
 
     public function movie_list()
     {
-        return $this->hasMany(Movie::class, 'user_id');
+        return $this->hasMany(MovieList::class, 'user_id');
     }
 }

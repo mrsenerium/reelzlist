@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TMDbConnection;
 use App\Models\Movie;
 use App\Models\MovieList;
 use Illuminate\Http\Request;
@@ -24,19 +25,37 @@ class MovieController extends Controller
 
     public function create()
     {
-        //
+        return view('pages.movies.create');
     }
 
     public function store(Request $request)
     {
-        //
+        $tmdbData = (new TMDbConnection)->singleMovieData($request->id);
+
+        $movie = Movie::create([
+            'title' => $tmdbData->title ?? null,
+            'overview' => $tmdbData->overview ?? null,
+            'imdb_id' => $tmdbData->imdb_id ?? null,
+            'runtime' => $tmdbData->runtime ?? null,
+            'box_office' => $tmdbData->revenue ?? null,
+            'budget' => $tmdbData->budget ?? null,
+            'release_date' => $tmdbData->release_date,
+            'mpaa_rating' => '',
+            'poster_url' => 'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' . $tmdbData->poster_path ?? null,
+        ]);
+
+        return redirect()->route('movies.show', $movie->slug);
     }
 
     public function show(Movie $movie)
     {
-        $movie->updateData();
+        $movie->updateTMDBData();
+        $movie->updateOMDBData();
 
-        $watchProviders = $movie['tmdb_id'] ? $movie->getWatchProviders($movie['tmdb_id']) : null;
+        $watchProviders = $movie['tmdb_id']
+            ? $movie->getWatchProviders($movie['tmdb_id'])
+            : null;
+
         $watchProviders = $watchProviders->US ?? null;
 
         $movieLists = MovieList::query()

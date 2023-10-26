@@ -53,6 +53,6 @@ class User extends Authenticatable
 
     public function movie_list()
     {
-        return $this->hasMany(Movie::class, 'user_id');
+        return $this->hasMany(MovieList::class, 'user_id');
     }
 }

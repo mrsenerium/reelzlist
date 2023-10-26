@@ -4,16 +4,15 @@
 
 @extends('layouts.no-sidebar')
 
-@section('title', 'ReelzList')
+@section('title')
+    Movies Search
+@endsection
 
 @section('content')
 
 <div class="row">
-    <p>I need to put a search box and start searching proper!</p>
-
     <form class="d-flex" method="get" action="/movie">
         @csrf
-        {{-- {{ method_field('POST') }} --}}
         <input
             name="q"
             class="form-control me-sm-2"
@@ -25,6 +24,14 @@
             Search
         </button>
       </form>
+</div>
+
+<div class="row mt-3 mx-1">
+    <a href=" {{ route('movies.create') }}">
+        <button class="btn btn-primary my-2 my-sm-0" type="submit">
+            Add a New Movie
+        </button>
+    </a>
 </div>
 
 @if (isset($movies))
@@ -39,16 +46,17 @@
     <tbody>
         @foreach ($movies as $key => $movie)
             @if (is_numeric($key) && $key % 2)
+                <a href={{ route('movies.show', $movie['slug']) }}></a>
                 <tr
                     class="table-primary"
-                    onclick="window.location='/movie/{{ $movie['slug'] }}';" style="cursor: pointer;"
+                    onclick="window.location='{{ route('movies.show', $movie['slug']) }}';" style="cursor: pointer;"
                 >
                     <th scope="row">{{ $movie['title'] }}</th>
                     <td>{{ $movie['overview'] }}</td>
                     <td class="wider-column">{{ \Carbon\Carbon::parse($movie['release_date'])->format('M d, Y') }}</td>
                 </tr>
             @else
-                <tr class="table-secondary" onclick="window.location='/movie/{{ $movie['slug'] }}';" style="cursor: pointer;">
+                <tr class="table-secondary" onclick="window.location='{{ route('movies.show', $movie['slug']) }}';" style="cursor: pointer;">
                     <th scope="row">{{ $movie['title'] }}</th>
                     <td>{{ $movie['overview'] }}</td>
                     <td class="wider-column">{{ \Carbon\Carbon::parse($movie['release_date'])->format('M d, Y') }}</td>

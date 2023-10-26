@@ -14,17 +14,16 @@ class Movie extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'imdb_id',
-        'title',
-        'overview',
-        'release_date',
-        'runtime',
-        'poster_url',
-        'tmdb_id',
-        'box_office',
-        'budget',
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     protected static function boot(): void
     {
@@ -34,10 +33,14 @@ class Movie extends Model
             $movie->slug = Str::slug($movie->title);
         });
 
-        // static::retrieved(function ($movie) {
-        //     $this->updateImdb();
+        static::retrieved(function ($movie) {
+            if ($movie->slug === null) {
 
-        // });
+                $movie->slug = Str::slug($movie->title);
+
+                $movie->save();
+            }
+        });
     }
 
     public function MovieList()
@@ -47,21 +50,21 @@ class Movie extends Model
 
     public function updateTMDBData(): void
     {
-        // if ($this->updated_at <= Carbon::now()->subMonth()) {
-        $tmdbData = (new TMDbConnection)->singleMovieData($this->tmdb_id);
+        if ($this->updated_at <= Carbon::now()->subMonth()) {
+            $tmdbData = (new TMDbConnection)->singleMovieData($this->tmdb_id);
 
-        dd($tmdbData);
-
-        $this->update([
-            'overview' => $tmdbData->overview ?? null,
-            'imdb_id' => $tmdbData->imdb_id ?? null,
-            'runtime' => $tmdbData->runtime ?? null,
-            'box_office' => $tmdbData->revenue ?? null,
-            'budget' => $tmdbData->budget ?? null,
-            'release_date' => $tmdbData->release_date,
-            'mpaa_rating' => '',
-            'poster_url' => 'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' . $tmdbData->poster_path ?? null,
-        ]);
+            $this->update([
+                'title' => $tmdbData->title ?? null,
+                'overview' => $tmdbData->overview ?? null,
+                'imdb_id' => $tmdbData->imdb_id ?? null,
+                'runtime' => $tmdbData->runtime ?? null,
+                'box_office' => $tmdbData->revenue ?? null,
+                'budget' => $tmdbData->budget ?? null,
+                'release_date' => $tmdbData->release_date,
+                'mpaa_rating' => '',
+                'poster_url' => 'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' . $tmdbData->poster_path ?? null,
+            ]);
+        }
     }
 
     public function updateOMDBData()
@@ -138,8 +141,7 @@ class Movie extends Model
         $tmdb = new TMDbConnection;
         $providers = $tmdb->getWatchProviders($tmdb_id);
         $return = '';
-        //echo '<pre>';
-        //var_dump($providers->results);die('</pre>');
+
         if (isset($providers->results->US)) {
             $return = $providers->results;
         } else {
@@ -147,8 +149,6 @@ class Movie extends Model
             $return->found = null;
         }
 
-        //echo '<pre>';
-        //var_dump($providers->results);die('</pre>');
         return $return;
     }
 }

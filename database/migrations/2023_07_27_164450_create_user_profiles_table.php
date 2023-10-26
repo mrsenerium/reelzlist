@@ -1,16 +1,4 @@
 <?php
-/**
- * User Profile Migrations
- *
- * PHP Version 8.1
- *
- * @category Core_Migrations
- *
- * @author   Joe Burgess <joeburgess@tds.net>
- * @license  https://opensource.org/licenses/MIT MIT License
- *
- * @link     reelzlist.com
- */
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,7 +9,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(
-            'user_profiles', function (Blueprint $table) {
+            'user_profiles',
+            function (Blueprint $table) {
                 $table->id();
                 $table->unsignedBigInteger('user_id')->unique();
                 // Add additional columns for user profile information

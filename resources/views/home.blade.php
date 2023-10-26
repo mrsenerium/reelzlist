@@ -1,6 +1,8 @@
 @extends('layouts.no-sidebar')
 
-@section('title', 'ReelzList')
+@section('title')
+    Home
+@endSection
 
 @section('content')
 

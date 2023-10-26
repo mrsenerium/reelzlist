@@ -12,7 +12,7 @@ class UserProfileController extends Controller
 {
     public function show(UserProfile $userProfile): view|redirectResponse
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return redirect('/');
         }
 
@@ -25,7 +25,7 @@ class UserProfileController extends Controller
 
     public function update(Request $request, UserProfile $userProfile): view|redirectResponse
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return redirect('/');
         }
         // Get the currently authenticated user's profile

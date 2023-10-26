@@ -20,11 +20,6 @@ class Movie extends Model
         'updated_at',
     ];
 
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
-
     protected static function boot(): void
     {
         parent::boot();
@@ -41,6 +36,11 @@ class Movie extends Model
                 $movie->save();
             }
         });
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 
     public function MovieList()
@@ -134,7 +134,6 @@ class Movie extends Model
     //     }
     //     $this->save();
     // }
-
 
     public function getWatchProviders($tmdb_id): stdClass
     {

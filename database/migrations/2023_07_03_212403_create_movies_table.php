@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('imdb_id')->unique()->nullable();
             $table->string('title');
+            $table->string('slug')->unique()->nullable();
             $table->text('overview');
             $table->date('release_date');
             $table->integer('runtime')->nullable();

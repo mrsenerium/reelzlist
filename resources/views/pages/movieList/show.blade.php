@@ -9,6 +9,7 @@
 @section('content')
 
 <h3>{{ $movieList->name }}</h3>
+
 {{ $movieList->private ? 'Private' : 'Public' }} List
     <table class="table table-hover">
         <thead>
@@ -22,19 +23,31 @@
         </thead>
         <tbody>
             @foreach ($movies as $movie)
-                <tr>
-                    <th scope="row">
-                        <a href="{{ route('pages.singleMovie', $movie->id) }}">
-                            @if (isset($movie->poster_url))
-                                <img src="{{ $movie->poster_url }}" style="max-height:75px" />
-                            @endif
+
+                    <tr>
+                        <a href="{{ route('movies.show', $movie->slug) }}">
+                            <th scope="row">
+                                @if (isset($movie->poster_url))
+                                    <img src="{{ $movie->poster_url }}" style="max-height:75px" />
+                                @endif
+                            </th>
+                            <th>
+                                {{ $movie->title }}
+                            </th>
+                            <td>
+                                {{ \Carbon\Carbon::parse($movie->release_date)->format('Y') }}
+                            </td>
+                            <td>
+                                {{ substr($movie->overview, 0, 200) }}
+                            </td>
                         </a>
-                    </th>
-                    <th><a href="{{ route('pages.singleMovie', $movie->id) }}">{{ $movie->title }}</a></th>
-                    <td>{{ \Carbon\Carbon::parse($movie->release_date)->format('Y') }}</td>
-                    <td>{{ substr($movie->overview, 0, 200) }}</td>
-                    <td><a href="{{ route('movie-lists.remove', ['movieList' => $movieList->id, 'movie' => $movie->id]) }}">Remove</a></td>
-                </tr>
+                        <td>
+                            <a href="{{ route('movie-lists.remove', ['movieList' => $movieList->id, 'movie' => $movie->id]) }}">
+                                Remove
+                            </a>
+                        </td>
+                    </tr>
+
             @endforeach
         </tbody>
     </table>

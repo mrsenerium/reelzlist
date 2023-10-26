@@ -1,170 +1,72 @@
 <?php
-/**
- * Movie Controller
- *
- * PHP Version 8.1
- *
- * @category Controller
- *
- * @author   Joe Burgess <joeburgess@tds.net>
- * @license  https://opensource.org/licenses/MIT MIT License
- *
- * @link     reelzlist.com
- */
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\TMDbConnection;
 use App\Models\Movie;
 use App\Models\MovieList;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
-use NumberFormatter;
 
-/**
- * Movie Controller
- *
- * @category Controller
- *
- * @author   Joe Burgess <joeburgess@tds.net>
- * @license  https://opensource.org/licenses/MIT MIT License
- *
- * @link     reelzlist.com
- */
 class MovieController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return void
-     */
     public function index()
     {
-        //
+        $q = request()->input('q');
+
+        return view('pages.movies.index', [
+            'movies' => Movie::query()
+                ->when($q, function ($movies, $q) {
+                    $movies->where('title', 'like', "%{$q}%");
+                })
+                ->get(),
+            'q' => $q,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return void
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request  $request User Request
-     * @return void
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Movie  $movie Indivual Movie
-     * @return void
-     */
     public function show(Movie $movie)
     {
-        //
-    }
+        $movie->updateData();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Movie  $movie Indivual Movie
-     * @return void
-     */
-    public function edit(Movie $movie)
-    {
-        //
-    }
+        $watchProviders = $movie['tmdb_id'] ? $movie->getWatchProviders($movie['tmdb_id']) : null;
+        $watchProviders = $watchProviders->US ?? null;
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request User Request
-     * @param  Movie  $movie   Indivual Movie
-     * @return void
-     */
-    public function update(Request $request, Movie $movie)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Movie  $movie Indivual Movie
-     * @return void
-     */
-    public function destroy(Movie $movie)
-    {
-        //
-    }
-
-    /**
-     * Single Movie viewing
-     *
-     * @param  Request  $request User Request
-     * @param $id      Internal DB Id
-     */
-    public function single(Request $request, $id): view
-    {
-        if ($request->routeIs('pages.tmdb')) {
-            $connection = new TMDbConnection;
-            $results = $connection->singleMovieData($id);
-            $movie = Movie::firstOrCreate(
-                ['tmdb_id' => $id],
-                ['overview' => $results->overview,
-                    'release_date' => \Carbon\Carbon::parse($results->release_date)->format('Y-m-d'),
-                    'title' => $results->title,
-                ]
-            );
-        } else {
-            $movie = Movie::findOrFail($id);
-        }
-        $movie->updateSelf();
-        if (isset($movie['budget'])) {
-            $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
-            $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0);
-            $movie['budget'] = $formatter->format((int) $movie['budget']);
-            $movie['box_office'] = $formatter->format((int) $movie['box_office']);
-        }
-
-        /**
-         * FOR NOW! We pull watch providers for members only
-         */
-        if (auth()->check()) {
-            $watchProviders = $movie->getWatchProviders($movie['tmdb_id']);
-            $watchProviders = isset($watchProviders->US) ?
-                $watchProviders->US : null;
-            $movieLists = MovieList::where('user_id', '=', auth()->user()->id)->with('movie')->get();
-        } else {
-            $watchProviders = null;
-            $movieLists = null;
-        }
-        //dd($movieLists);
-        // foreach ($movieLists as $movieList) {
-        //     foreach ($movieList->ListMovies as $theList);{
-        //         foreach ($theList as $movie) {
-        //             dd($movie);
-        //         }
-        //     }
-        // }
+        $movieLists = MovieList::query()
+            ->when(auth()->user(), function ($movieLists) {
+                $movieLists->where('user_id', auth()->user()->id);
+            })
+            ->get();
 
         return view(
-            'pages.singleMovie', [
+            'pages.movies.show',
+            [
                 'movie' => $movie->toArray(),
                 'watchProviders' => $watchProviders,
                 'movieLists' => $movieLists,
             ]
         );
+    }
+
+    public function edit(Movie $movie)
+    {
+        //
+    }
+
+    public function update(Request $request, Movie $movie)
+    {
+        //
+    }
+
+    public function destroy(Movie $movie)
+    {
+        //
     }
 }

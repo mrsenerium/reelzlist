@@ -98,7 +98,7 @@
             </div>
         @endif
         <div class="col-md-6">
-            <p>For more information and rates please go to <a class="text-white" href="{{ isset($watchProviders->link) ? $watchProviders->link : 'https://www.tmdb.com/' }}">The Movie Database</a></p>
+            <p>For more information and rates please go to <a class="text-white" href="{{ isset($watchProviders->link) ? $watchProviders->link : 'https://www.themoviedb.org/' }}">The Movie Database</a></p>
             <p>All streaming infomation is provided by
                 <a href="https://justwatch.com/">
                     <img src="https://www.themoviedb.org/assets/2/v4/logos/justwatch-c2e58adf5809b6871db650fb74b43db2b8f3637fe3709262572553fa056d8d0a.svg" height="15"/>

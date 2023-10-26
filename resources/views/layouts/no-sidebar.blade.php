@@ -15,14 +15,14 @@
     </head>
     <body style="padding-bottom: 150px">
 
-    @include('navbar.navbar')
+    @include('components.navbar')
 
     <!-- Content Section -->
     <div class="container">
         @yield('content')
     </div>
 
-    @include('footer.footer')
+    @include('components.footer')
 
     </body>
 </html>

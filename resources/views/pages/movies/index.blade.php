@@ -11,7 +11,7 @@
 @section('content')
 
 <div class="row">
-    <form class="d-flex" method="get" action="/movie">
+    <form class="d-flex" method="get" action="{{ route('movies.index') }}">
         @csrf
         <input
             name="q"

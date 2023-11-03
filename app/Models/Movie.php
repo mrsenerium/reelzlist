@@ -25,13 +25,13 @@ class Movie extends Model
         parent::boot();
 
         static::creating(function ($movie) {
-            $movie->slug = Str::slug($movie->title);
+            $movie->slug = Str::slug($movie->id . '-' . $movie->title);
         });
 
         static::retrieved(function ($movie) {
             if ($movie->slug === null) {
 
-                $movie->slug = Str::slug($movie->title);
+                $movie->slug = Str::slug($movie->id . '-' . $movie->title);
 
                 $movie->save();
             }
@@ -48,9 +48,9 @@ class Movie extends Model
         return $this->belongsToMany(MovieList::class);
     }
 
-    public function updateTMDBData(): void
+    public function updateTMDBData($force = false): void
     {
-        if ($this->updated_at <= Carbon::now()->subMonth()) {
+        if ($this->updated_at <= Carbon::now()->subMonth() || $force) {
             $tmdbData = (new TMDbConnection)->singleMovieData($this->tmdb_id);
 
             $this->update([
@@ -61,8 +61,7 @@ class Movie extends Model
                 'box_office' => $tmdbData->revenue ?? null,
                 'budget' => $tmdbData->budget ?? null,
                 'release_date' => $tmdbData->release_date,
-                'mpaa_rating' => '',
-                'poster_url' => 'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' . $tmdbData->poster_path ?? null,
+                'tmdb_id' => $tmdbData->id,
             ]);
         }
     }

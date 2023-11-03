@@ -25,14 +25,18 @@
             @foreach ($movies as $movie)
 
                     <tr>
-                        <a href="{{ route('movies.show', $movie->slug) }}">
+
                             <th scope="row">
                                 @if (isset($movie->poster_url))
-                                    <img src="{{ $movie->poster_url }}" style="max-height:75px" />
+                                    <a href="{{ route('movies.show', $movie->slug) }}">
+                                        <img src="{{ $movie->poster_url }}" style="max-height:75px" />
+                                    </a>
                                 @endif
                             </th>
                             <th>
-                                {{ $movie->title }}
+                                <a href="{{ route('movies.show', $movie->slug) }}">
+                                    {{ $movie->title }}
+                                </a>
                             </th>
                             <td>
                                 {{ \Carbon\Carbon::parse($movie->release_date)->format('Y') }}
@@ -40,7 +44,6 @@
                             <td>
                                 {{ substr($movie->overview, 0, 200) }}
                             </td>
-                        </a>
                         <td>
                             <a href="{{ route('movie-lists.remove', ['movieList' => $movieList->id, 'movie' => $movie->id]) }}">
                                 Remove

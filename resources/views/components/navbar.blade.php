@@ -20,17 +20,18 @@
                         </a>
                     </li>
                 </ul>
-                <form class="navbar-nav ms-md-auto" method="post" action="/search">
+                <form class="navbar-nav ms-md-auto" method="get" action="{{ route('movies.index') }}">
                     @csrf
-                    {{ method_field('POST') }}
-                    <input
-                        name="search"
-                        class="form-control me-sm-2"
-                        type="search" {{ isset($search) ? 'value='.$search : 'placeholder=Search' }}
-                    >
-                    <button class="btn btn-primary my-2 my-sm-0" type="submit">
-                        Search
-                    </button>
+                        <input
+                            name="q"
+                            class="form-control me-sm-2"
+                            type="search"
+                            placeholder="Search"
+                            value={{ $q ?? request()->input('q') }}
+                        >
+                        <button class="btn btn-primary my-2 my-sm-0" type="submit">
+                            Search
+                        </button>
                 </form>
                 @if (Auth::check())
                     <a href="/profile" class="btn btn-primary">

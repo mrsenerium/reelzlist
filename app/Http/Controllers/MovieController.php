@@ -40,9 +40,9 @@ class MovieController extends Controller
             'box_office' => $tmdbData->revenue ?? null,
             'budget' => $tmdbData->budget ?? null,
             'release_date' => $tmdbData->release_date,
-            'mpaa_rating' => '',
-            'poster_url' => 'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' . $tmdbData->poster_path ?? null,
+            'tmdb_id' => $tmdbData->id,
         ]);
+        $movie->updateOMDBData();
 
         return redirect()->route('movies.show', $movie->slug);
     }

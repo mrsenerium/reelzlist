@@ -19,7 +19,7 @@ class AddSlugsToMovies extends Command
         foreach ($movies as $movie) {
             $this->info('Adding slug to ' . $movie->title);
 
-            $movie->slug = Str::slug($movie->title);
+            $movie->slug = Str::slug($movie->id . '-'. $movie->title);
             $movie->save();
         }
 

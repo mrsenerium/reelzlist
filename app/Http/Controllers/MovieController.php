@@ -52,24 +52,28 @@ class MovieController extends Controller
         $movie->updateTMDBData();
         $movie->updateOMDBData();
 
-        $watchProviders = $movie['tmdb_id']
-            ? $movie->getWatchProviders($movie['tmdb_id'])
-            : null;
+        if(auth()->user()){
+            $movieLists = MovieList::query()
+                ->when(auth()->user(), function ($movieLists) {
+                    $movieLists->where('user_id', auth()->user()->id);
+                })
+                //->toSql();
+                ->get();
 
-        $watchProviders = $watchProviders->US ?? null;
+            $watchProviders = $movie['tmdb_id']
+                ? $movie->getWatchProviders($movie['tmdb_id'])
+                : null;
 
-        $movieLists = MovieList::query()
-            ->when(auth()->user(), function ($movieLists) {
-                $movieLists->where('user_id', auth()->user()->id);
-            })
-            ->get();
+            $watchProviders = $watchProviders->US ?? null;
+        }
+        //dd($movieLists);
 
         return view(
             'pages.movies.show',
             [
                 'movie' => $movie->toArray(),
-                'watchProviders' => $watchProviders,
-                'movieLists' => $movieLists,
+                'watchProviders' => $watchProviders ?? null,
+                'movieLists' => $movieLists ?? null,
             ]
         );
     }

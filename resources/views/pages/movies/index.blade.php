@@ -18,7 +18,7 @@
             class="form-control me-sm-2"
             type="search"
             placeholder="Search"
-            value={{ $q ?? request()->input('q') }}
+            value="{{ $q ?? request()->input('q') }}"
         >
         <button class="btn btn-primary my-2 my-sm-0" type="submit">
             Search
@@ -27,10 +27,19 @@
 </div>
 
 <div class="row mt-3 mx-1">
-    <a href=" {{ route('movies.create') }}">
+    <form class="d-flex" method="get" action="{{ route('tmdb.index') }}">
+        @csrf
+        <input
+            name="q"
+            class="hidden"
+            type="hidden"
+            placeholder="Search"
+            value="{{ $q ?? request()->input('q') }}"
+        >
         <button class="btn btn-primary my-2 my-sm-0" type="submit">
-            Add a New Movie
+            Can't Find it here, Try our external Database
         </button>
+      </form>
     </a>
 </div>
 
@@ -46,7 +55,6 @@
     <tbody>
         @foreach ($movies as $key => $movie)
             @if (is_numeric($key) && $key % 2)
-                <a href={{ route('movies.show', $movie['slug']) }}></a>
                 <tr
                     class="table-primary"
                     onclick="window.location='{{ route('movies.show', $movie['slug']) }}';" style="cursor: pointer;"

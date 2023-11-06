@@ -37,8 +37,8 @@
                 </div>
                 <div class="col-md-6">
                     <p>
-                        Budget {{ $movie['budget'] }}<br />
-                        Box Office {{ $movie['box_office'] }}
+                        Budget ${{ number_format($movie['budget'], 0, '.', ',') }}<br />
+                        Box Office ${{ number_format($movie['box_office'], 0, '.', ',') }}
                     </p>
                     <p>
                         IMDB Link <a href="https://www.imdb.com/title/{{ $movie['imdb_id'] }}/">{{ $movie['title'] }}</a>

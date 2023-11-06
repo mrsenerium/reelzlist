@@ -27,7 +27,7 @@
                             class="form-control me-sm-2"
                             type="search"
                             placeholder="Search"
-                            value={{ $q ?? request()->input('q') }}
+                            value="{{ $q ?? request()->input('q') }}"
                         >
                         <button class="btn btn-primary my-2 my-sm-0" type="submit">
                             Search

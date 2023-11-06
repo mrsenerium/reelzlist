@@ -24,11 +24,24 @@ class Movie extends Model
     {
         parent::boot();
 
-        static::creating(function ($movie) {
-            $movie->slug = Str::slug($movie->id . '-' . $movie->title);
+        static::created(function ($movie) {
+            if ($movie->slug === null) {
+
+                $movie->slug = Str::slug($movie->id . '-' . $movie->title);
+
+                $movie->save();
+            }
         });
 
         static::retrieved(function ($movie) {
+            if ($movie->slug === null) {
+
+                $movie->slug = Str::slug($movie->id . '-' . $movie->title);
+
+                $movie->save();
+            }
+        });
+        static::saved(function ($movie) {
             if ($movie->slug === null) {
 
                 $movie->slug = Str::slug($movie->id . '-' . $movie->title);

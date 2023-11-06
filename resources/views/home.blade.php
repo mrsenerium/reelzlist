@@ -44,13 +44,14 @@
 <div class="row">
     <p>In the making of this App I watched:
         <ol>
-            <li><a href="{{ '/movie/23478/tmdb' }}">Mozart and the Whale</a></li>
-            <li><a href="{{ '/movie/536554/tmdb' }}">Megan</a></li>
-            <li><a href="{{ '/movie/7443/tmdb' }}">Chicken Run</a></li>
-            <li><a href="{{ '/movie/284674/tmdb' }}">Air</a></li>
-            <li><a href="{{ '/movie/653601/tmdb' }}">Horse Girl</a></li>
-            <li><a href="{{ '/movie/10692/tmdb' }}">Henry: Portrait of a Serial Killer</a></li>
-            <li><a href="{{ '/movie/18462/tmdb' }}">Night of the Comet</a></li>
+            <li><a href="{{ '/tmdb/23478' }}">Mozart and the Whale</a></li>
+            <li><a href="{{ '/tmdb/536554' }}">Megan</a></li>
+            <li><a href="{{ '/tmdb/7443' }}">Chicken Run</a></li>
+            <li><a href="{{ '/tmdb/284674' }}">Air</a></li>
+            <li><a href="{{ '/tmdb/653601' }}">Horse Girl</a></li>
+            <li><a href="{{ '/tmdb/10692' }}">Henry: Portrait of a Serial Killer</a></li>
+            <li><a href="{{ '/tmdb/18462' }}">Night of the Comet</a></li>
+            <li><a href="{{ '/tmdb/12149' }}">Frailty</a></li>
         </ol>
     </p>
 </div>

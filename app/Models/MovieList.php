@@ -12,7 +12,7 @@ class MovieList extends Model
     protected $table = 'movie_lists';
     // Specify the correct table name if it differs from the model's plural form
 
-    protected $fillable = ['user_id', 'name'];
+    protected $fillable = ['user_id', 'name', 'private'];
 
     public function user()
     {

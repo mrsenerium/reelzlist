@@ -8,7 +8,14 @@
 
 @section('content')
 
-<h3>{{ $movieList->name }}</h3>
+<div class="row">
+    <div class="col-9">
+        <h3>{{ $movieList->name }}</h3>
+    </div>
+    <div class="col-3">
+        <a href="{{ route('movie-lists.edit', ['movie_list' => $movieList->id]) }}" class="btn btn-info">Edit List Settings</a>
+    </div>
+</div>
 
 {{ $movieList->private ? 'Private' : 'Public' }} List
     <table class="table table-hover">

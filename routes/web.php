@@ -14,10 +14,12 @@ Route::get('/', function () {
 Route::resource('movies', MovieController::class);
 Route::resource('tmdb', TmdbDataController::class);
 
-Route::any('movie-lists/add/{movieList}/{movie}', [MovieListController::class, 'addMovieToList'])->name('movie-lists.add');
-Route::any('movie-lists/{movieList}/{movie}', [MovieListController::class, 'removeMovieFromList'])->name('movie-lists.remove');
+Route::put('movie-lists/{movie_list}', [MovieListController::class, 'update'])->name('movie-lists.update');
 
 Route::resource('movie-lists', MovieListController::class);
+
+Route::any('movie-lists/add/{movieList}/{movie}', [MovieListController::class, 'addMovieToList'])->name('movie-lists.add');
+Route::get('movie-lists/remove/{movieList}/{movie}', [MovieListController::class, 'removeMovieFromList'])->name('movie-lists.remove');
 
 Route::any('login', [UserController::class, 'login'])->name('login');
 Route::any('logout', [UserController::class, 'logout'])->name('logout');

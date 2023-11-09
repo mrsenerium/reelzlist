@@ -3,22 +3,25 @@
 @section('title', 'ReelzList - Login')
 
 @section('content')
-
-<form method="POST" action="{{ route('movie-lists.store') }}">
-    {{-- <label for="listName">List Name</label>
-    <input type="text" name="listName">
-    <{!! Form::submit($text, [$options]) !!} --}}
     <div class="container">
         <h2>Create a Movie List</h2>
-
         {!! Form::open(['route' => 'movie-lists.store', 'method' => 'post']) !!}
-
-        <div class="form-group">
-            {!! Form::label('name', 'Name:') !!}
-            {!! Form::text('name', null, ['class' => 'form-control', 'required' => 'required']) !!}
+        {{ csrf_field() }}
+        <div class="form-group row">
+            <div class="col-6">
+                {!! Form::label('name', 'Name:') !!}
+                {!! Form::text('name', null, ['class' => 'form-control', 'required' => 'required']) !!}
+            </div>
+            <div class="col-6">
+                {!! Form::label('private', 'Private') !!}
+                {!! Form::checkbox('private', 1, 0, ['class' => 'form-check-input']) !!}
+            </div>
         </div>
-
-        {!! Form::submit('Create List', ['class' => 'btn btn-primary']) !!}
+        <div class="row">
+            <div class="col-3 mt-2">
+                {!! Form::submit('Create List', ['class' => 'btn btn-primary']) !!}
+            </div>
+        </div>
 
         {!! Form::close() !!}
     </div>

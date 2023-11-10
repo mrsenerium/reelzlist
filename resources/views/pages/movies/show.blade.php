@@ -114,13 +114,15 @@
                                     <tbody>
                                         @foreach ($movieLists as $list)
                                             <tr>
-                                                <td class="card-text">{{ $list->name }}</td>
+                                                <td class="card-text"><a href="{{ route('movie-lists.show', ['movie_list' => $list->id]) }}">{{ $list->name }}</a></td>
                                                 <td>
                                                     @if (in_array($movie['id'], $list->movie->pluck('id')->toArray()))
-                                                    'true'
+                                                        <div class="text-white text-center bg-success p-3">
+                                                            On List
+                                                        </div>
                                                     @else
-                                                        <a href="{{ route('movie-lists.add', ['movieList' => $list, 'movie' => $movie['id']]) }}">
-                                                            Add
+                                                        <a class="btn btn-info" href="{{ route('movie-lists.add', ['movieList' => $list, 'movie' => $movie['id']]) }}">
+                                                            Add to list
                                                         </a>
                                                     @endif
                                                 </td>

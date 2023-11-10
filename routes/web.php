@@ -14,8 +14,6 @@ Route::get('/', function () {
 Route::resource('movies', MovieController::class);
 Route::resource('tmdb', TmdbDataController::class);
 
-Route::put('movie-lists/{movie_list}', [MovieListController::class, 'update'])->name('movie-lists.update');
-
 Route::resource('movie-lists', MovieListController::class);
 
 Route::any('movie-lists/add/{movieList}/{movie}', [MovieListController::class, 'addMovieToList'])->name('movie-lists.add');

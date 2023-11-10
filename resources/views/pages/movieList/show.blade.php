@@ -52,7 +52,7 @@
                                 {{ substr($movie->overview, 0, 200) }}
                             </td>
                         <td>
-                            <a href="{{ route('movie-lists.remove', ['movieList' => $movieList->id, 'movie' => $movie->id]) }}">
+                            <a href="{{ route('movie-lists.remove', ['movieList' => $movieList->id, 'movie' => $movie->id]) }}" onclick="return confirm('Are you sure you want to remove this movie?')">
                                 Remove
                             </a>
                         </td>
@@ -61,6 +61,7 @@
             @endforeach
         </tbody>
     </table>
+    <a href="{{ route('showProfile', ['userProfile' => Auth::user()]) }}">Back to Profile</a>
 </div>
 
 @endsection

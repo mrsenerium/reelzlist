@@ -57,7 +57,6 @@ class MovieController extends Controller
                 ->when(auth()->user(), function ($movieLists) {
                     $movieLists->where('user_id', auth()->user()->id);
                 })
-                //->toSql();
                 ->get();
 
             $watchProviders = $movie['tmdb_id']
@@ -66,7 +65,6 @@ class MovieController extends Controller
 
             $watchProviders = $watchProviders->US ?? null;
         }
-        //dd($movieLists);
 
         return view(
             'pages.movies.show',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Review;
+use App\Models\Movie;
 
 class ReviewController extends Controller
 {
@@ -16,20 +17,16 @@ class ReviewController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(string $user_id, string $movie_id)
     {
-        //
+        return view('pages.reviews.create',
+            ['movie' => Movie::where('id', $movie_id)->first()]
+        );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**
@@ -37,7 +34,7 @@ class ReviewController extends Controller
      */
     public function show(string $id)
     {
-        //
+        //Might not need this
     }
 
     /**

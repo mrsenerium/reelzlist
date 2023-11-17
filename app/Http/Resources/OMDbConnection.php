@@ -1,31 +1,7 @@
 <?php
-/**
- * OMDbConnection
- *
- * PHP version 8.1
- *
- * @category API_Connector
- *
- * @author   Joe Burgess <joeburgess@tds.net>
- * @license  https://opensource.org/licenses/MIT MIT License
- *
- * @link     reelzlist.com
- */
 
 namespace App\Http\Resources;
 
-/**
- * OMDbConnection
- *
- * PHP version 8.1
- *
- * @category API_Connector
- *
- * @author   Joe Burgess <joeburgess@tds.net>
- * @license  https://opensource.org/licenses/MIT MIT License
- *
- * @link     reelzlist.com
- */
 class OMDbConnection
 {
     private $_url;
@@ -51,7 +27,7 @@ class OMDbConnection
 
         $key = $this->_url . '?i=' . $imdb_key . '&r=json&apikey=' . $this->_key;
         //Create Connection
-        $client = new \GuzzleHttp\Client;
+        $client = new \GuzzleHttp\Client();
 
         $response = $client->get($key);
         //$response = json_decode($response->getBody());

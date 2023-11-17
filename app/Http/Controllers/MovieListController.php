@@ -66,8 +66,7 @@ class MovieListController extends Controller
     public function destroy(string $id)
     {
         $movieList = MovieList::where('id', $id)->with('movie')->first();
-        foreach($movieList->movie as $movie)
-        {
+        foreach ($movieList->movie as $movie) {
             $movieList->Movie()->detach(['movie_id' => $movie]);
         }
         $movieList->delete();

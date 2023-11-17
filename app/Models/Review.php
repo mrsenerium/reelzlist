@@ -9,12 +9,12 @@ class Review extends Model
 {
     use HasFactory;
 
-    public function User()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function Movie()
+    public function movie()
     {
         return $this->belongsTo(Movie::class, 'movie_id');
     }

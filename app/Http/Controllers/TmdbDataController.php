@@ -14,22 +14,17 @@ class TmdbDataController extends Controller
     public function index()
     {
         $q = request()->input('q');
-        if($q)
-        {
-            $tmdbSearch = (new TMDbConnection)->search($q)->results;
+        if ($q) {
+            $tmdbSearch = (new TMDbConnection())->search($q)->results;
             return view('pages.tmdb.index', [
                 'movies' => $tmdbSearch,
                 'q' => $q,
             ]);
-        }
-        else
-        {
+        } else {
             return view('pages.tmdb.index', [
                 'q' => $q,
             ]);
         }
-
-
     }
 
     /**
@@ -54,9 +49,8 @@ class TmdbDataController extends Controller
     public function show(string $id)
     {
         $movie = Movie::where('tmdb_id', $id)->first();
-        if(!$movie)
-        {
-            $tmdbData = (new TMDbConnection)->singleMovieData($id);
+        if (!$movie) {
+            $tmdbData = (new TMDbConnection())->singleMovieData($id);
             $movie = Movie::firstOrCreate([
                 'title' => $tmdbData->title ?? null,
                 'overview' => $tmdbData->overview ?? null,

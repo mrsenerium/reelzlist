@@ -10,7 +10,9 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     protected $fillable = [
         'name',
@@ -50,12 +52,12 @@ class User extends Authenticatable
         return $this->hasOne(UserProfile::class);
     }
 
-    public function movie_list()
+    public function movie_list() // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     {
         return $this->hasMany(MovieList::class, 'user_id');
     }
 
-    public function Review()
+    public function review()
     {
         return $this->hasMany(Review::class, 'user_id');
     }

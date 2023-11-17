@@ -19,7 +19,8 @@ class ReviewController extends Controller
 
     public function create(string $user_id, string $movie_id)
     {
-        return view('pages.reviews.create',
+        return view(
+            'pages.reviews.create',
             ['movie' => Movie::where('id', $movie_id)->first()]
         );
     }

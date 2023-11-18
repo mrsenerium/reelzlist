@@ -9,24 +9,24 @@
             This is where you will write your review
         </p>
 
-        {!! Form::open(['route' => 'review.store', 'method' => 'post']) !!}
+        {!! Form::model($review, ['route' => ['review.update', 'review' => $review->id], 'method' => 'put']) !!}
         {{ csrf_field() }}
         {!! Form::hidden('movie_id', $movie->id) !!}
 
         <div class="form-group row">
             <div class="col-6">
                 {!! Form::label('name', 'Name of Review:') !!}
-                {!! Form::text('name', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                {!! Form::text('name', $review->name, ['class' => 'form-control', 'required' => 'required']) !!}
             </div>
             <div class="col-6">
                 {!! Form::label('private', 'Private') !!}
-                {!! Form::checkbox('private', 1, 0, ['class' => 'form-check']) !!}
+                {!! Form::checkbox('private', 1, $review->private, ['class' => 'form-check']) !!}
             </div>
         </div>
         <div class="row">
             <div class="col-9">
                 {!! Form::label('body', 'Review') !!}
-                {!! Form::textArea('body', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                {!! Form::textArea('body', $review->body, ['class' => 'form-control', 'required' => 'required']) !!}
             </div>
         </div>
         <div class="row">

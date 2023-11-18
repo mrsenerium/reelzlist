@@ -138,16 +138,18 @@
                 </div>
             </div>
         @endif
-        <div class="row">
-            @if (isset($review))
-            @else
-                <div class="col-9">
-                    <a href="{{ route('review.create', ['user_id' => auth()->user()->id, 'movie_id' => $movie['id']]) }}">
-                        Write your own review
-                    </a>
-                </div>
-            @endif
-        </div>
+        @auth
+            <div class="row">
+                @if (isset($review))
+                @else
+                    <div class="col-9">
+                        <a href="{{ route('review.create', ['user_id' => auth()->user()->id, 'movie_id' => $movie['id']]) }}">
+                            Write your own review
+                        </a>
+                    </div>
+                @endif
+            </div>
+        @endauth
     @endif
 
 @endsection

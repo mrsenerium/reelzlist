@@ -24,6 +24,11 @@
             </ul>
         </li>
         <li>Users Reviews</li>
+            <ul>
+                <li>Draft</li>
+                <li>Index</li>
+                <li>Private</li>
+            </ul>
         <li>Friends
             <ul>
                 <li>Recommendations</li>

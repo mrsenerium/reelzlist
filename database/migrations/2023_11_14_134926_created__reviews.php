@@ -17,6 +17,7 @@ return new class extends Migration
                 $table->id();
                 $table->foreignId('user_id');
                 $table->foreignId('movie_id');
+                $table->text('name');
                 $table->text('body');
                 $table->unsignedSmallInteger('rating')->default(0);
                 $table->boolean('private')->default(false);

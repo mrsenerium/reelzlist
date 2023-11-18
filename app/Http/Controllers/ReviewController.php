@@ -27,31 +27,56 @@ class ReviewController extends Controller
 
     public function store(Request $request)
     {
-        dd($request);
+        $review = Review::create([
+            'user_id' => auth()->user()->id,
+            'movie_id' => $request->movie_id,
+            'name' => $request->name,
+            'private' => $request->private ?? 0,
+            'body' => $request->body,
+        ]);
+
+        $review->load('Movie');
+        return view('pages.reviews.show', [
+            'review' => $review,
+            'movie' => $review->movie
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //Might not need this
+        $review = Review::where('id', $id)->with('Movie')->first();
+        return view('pages.reviews.show', [
+            'review' => $review,
+            'movie' => $review->movie
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $review = Review::where('id', $id)
+            ->with('Movie')
+            ->first();
+        return view('pages.reviews.edit', [
+            'review' => $review,
+            'movie' => $review->movie
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $review = Review::where('id', $id)->with('Movie')->first();
+        $review->update([
+            'user_id' => auth()->user()->id,
+            'movie_id' => $request->movie_id,
+            'name' => $request->name,
+            'private' => $request->private ?? 0,
+            'body' => $request->body,
+        ]);
+
+        return view('pages.reviews.show', [
+            'review' => $review,
+            'movie' => $review->movie
+        ]);
     }
 
     /**

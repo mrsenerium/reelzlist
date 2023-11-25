@@ -14,6 +14,13 @@
         {!! Form::hidden('movie_id', $movie->id) !!}
 
         <div class="form-group row">
+
+            <div class="rating">
+                @for ($i = 1; $i <= 5; $i++)
+                    <span class="star {{ $i <= $userRating->rating ? 'filled' : '' }}"></span>
+                @endfor
+            </div>
+
             <div class="col-6">
                 {!! Form::label('name', 'Name of Review:') !!}
                 {!! Form::text('name', $review->name, ['class' => 'form-control', 'required' => 'required']) !!}

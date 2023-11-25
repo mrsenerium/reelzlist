@@ -141,6 +141,11 @@
         @auth
             <div class="row">
                 @if (isset($review))
+                    <div class="col-9">
+                        <em>{{ $review->name }}</em>
+                        <p>{{ Illuminate\Support\Str::limit($review->body, 200, '...') }}</p>
+                        <a href="{{ route('review.show', ['review' => $review]) }}">Read Full Review</a>
+                    </div>
                 @else
                     <div class="col-9">
                         <a href="{{ route('review.create', ['user_id' => auth()->user()->id, 'movie_id' => $movie['id']]) }}">

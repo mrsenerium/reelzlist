@@ -2,6 +2,12 @@
 
 @section('title', 'ReelzList - New Review')
 
+@section('scripts')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="{{ asset('js/showStars.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/stars.js') }}" type="text/javascript"></script>
+@endsection
+
 @section('content')
     <div class="container">
         <h3>New Review for {{$movie->title}}</h3>
@@ -13,13 +19,19 @@
         {{ csrf_field() }}
         {!! Form::hidden('movie_id', $movie->id) !!}
 
-        <div class="form-group row">
-
-            <div class="rating">
-                @for ($i = 1; $i <= 5; $i++)
-                    <span class="star {{ $i <= $userRating->rating ? 'filled' : '' }}"></span>
-                @endfor
+        <div class="row">
+            <label class="form-label">Rating:</label>
+            <div class="col-6 mb-2">
+                <span class="fa fa-star star" data-rating=1></span>
+                <span class="fa fa-star star" data-rating=2></span>
+                <span class="fa fa-star star" data-rating=3></span>
+                <span class="fa fa-star star" data-rating=4></span>
+                <span class="fa fa-star star" data-rating=5></span>
+                {!! Form::hidden('rating', $review->rating, ['id' => 'selected-rating']) !!}
             </div>
+        </div>
+
+        <div class="form-group row">
 
             <div class="col-6">
                 {!! Form::label('name', 'Name of Review:') !!}

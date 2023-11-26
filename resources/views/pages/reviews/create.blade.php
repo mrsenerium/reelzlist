@@ -3,32 +3,8 @@
 @section('title', 'ReelzList - New Review')
 
 @section('scripts')
-    <link type="text/css" href="{{ asset('css/rating.min.css') }}" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .checked {
-            color: gold;
-        }
-    </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const stars = document.querySelectorAll('.star');
-            const hiddenField = document.getElementById('selected-rating');
-
-            stars.forEach(star => {
-                star.addEventListener('click', () => {
-                    const rating = star.getAttribute('data-rating');
-                    stars.forEach(star => star.classList.remove('checked'));
-                    hiddenField.value = rating;
-                    document.querySelectorAll('.star').forEach(star => {
-                        if (parseInt(star.getAttribute('data-rating')) <= parseInt(rating)) {
-                            star.classList.add('checked');
-                        }
-                    });
-                });
-            });
-        });
-    </script>
+    <script src="{{ asset('js/stars.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('content')
@@ -50,7 +26,7 @@
                 <span class="fa fa-star star" data-rating=3></span>
                 <span class="fa fa-star star" data-rating=4></span>
                 <span class="fa fa-star star" data-rating=5></span>
-                {!! Form::hidden('selected-rating', 0, ['id' => 'selected-rating']) !!}
+                {!! Form::hidden('rating', 0, ['id' => 'selected-rating']) !!}
             </div>
         </div>
 

@@ -31,6 +31,7 @@ class ReviewController extends Controller
             'user_id' => auth()->user()->id,
             'movie_id' => $request->movie_id,
             'name' => $request->name,
+            'rating' => $request->rating,
             'private' => $request->private ?? 0,
             'body' => $request->body,
         ]);
@@ -69,6 +70,7 @@ class ReviewController extends Controller
             'user_id' => auth()->user()->id,
             'movie_id' => $request->movie_id,
             'name' => $request->name,
+            'rating' => $request->rating,
             'private' => $request->private ?? 0,
             'body' => $request->body,
         ]);

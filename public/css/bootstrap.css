@@ -11950,3 +11950,7 @@ th {
 .provider-logo {
     border-radius: 4px
 }
+
+.checked {
+    color: gold;
+}

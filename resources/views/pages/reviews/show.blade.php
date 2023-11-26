@@ -2,6 +2,11 @@
 
 @section('title', 'ReelzList - Login')
 
+@section('scripts')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="{{ asset('js/showStars.js') }}" type="text/javascript"></script>
+@endsection
+
 @section('content')
     <div class="container">
 
@@ -28,7 +33,12 @@
                 Rating:
             </div>
             <div class="col-9">
-                Figure this out!!!!
+                <span class="fa fa-star star" data-rating=1></span>
+                <span class="fa fa-star star" data-rating=2></span>
+                <span class="fa fa-star star" data-rating=3></span>
+                <span class="fa fa-star star" data-rating=4></span>
+                <span class="fa fa-star star" data-rating=5></span>
+                <input type="hidden" id="selected-rating" value="{{ $review->rating }}">
             </div>
         </div>
         <div class="row mb-2">

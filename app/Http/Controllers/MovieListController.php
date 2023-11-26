@@ -30,14 +30,18 @@ class MovieListController extends Controller
 
     public function store(Request $request): redirectResponse
     {
-        MovieList::create(['user_id' => auth()->user()->id, 'name' => $request->name]);
+        MovieList::create([
+            'user_id' => auth()->user()->id,
+            'name' => $request->name,
+            'private' => $request->private ?? 0,
+        ]);
 
         return redirect(route('showProfile'));
     }
 
     public function show(string $id)
     {
-        $movieList = MovieList::where('id', '=', $id)->with('movie')->first();
+        $movieList = MovieList::where('id', $id)->with('movie')->first();
 
         return view('pages.movieList.show', ['movieList' => $movieList, 'movies' => $movieList->movie]);
     }
@@ -51,7 +55,7 @@ class MovieListController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $movieList = MovieList::where('id', '=', $id)->with('movie')->first();
+        $movieList = MovieList::where('id', $id)->with('movie')->first();
         $movieList->update([
             'name' => $request->name,
             'private' => $request->private ?? 0,
@@ -61,9 +65,8 @@ class MovieListController extends Controller
 
     public function destroy(string $id)
     {
-        $movieList = MovieList::where('id', '=', $id)->with('movie')->first();
-        foreach($movieList->movie as $movie)
-        {
+        $movieList = MovieList::where('id', $id)->with('movie')->first();
+        foreach ($movieList->movie as $movie) {
             $movieList->Movie()->detach(['movie_id' => $movie]);
         }
         $movieList->delete();
@@ -72,7 +75,7 @@ class MovieListController extends Controller
 
     public function addMovieToList($movieList, $movie, Request $request): redirectResponse
     {
-        $list = MovieList::where('id', '=', $movieList)->with('Movie')->first();
+        $list = MovieList::where('id', $movieList)->with('Movie')->first();
         $list->Movie()->attach(
             [
                 'movie_id' => $movie,
@@ -84,7 +87,7 @@ class MovieListController extends Controller
 
     public function removeMovieFromList($movieList, $movie, Request $request): redirectResponse
     {
-        $list = MovieList::where('id', '=', $movieList)->with('Movie')->first();
+        $list = MovieList::where('id', $movieList)->with('Movie')->first();
         $list->Movie()->detach(
             [
                 'movie_id' => $movie,

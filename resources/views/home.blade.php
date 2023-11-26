@@ -15,7 +15,7 @@
     <ul>
         <li>Users <em>This needs to be built up more with auth levels</em></li>
         <li>User Profile</li>
-        <li>Users List
+        <li class="alert alert-success">Users List - Done
             <ul>
                 <li>Favorite</li>
                 <li>Ownership</li>
@@ -24,6 +24,11 @@
             </ul>
         </li>
         <li>Users Reviews</li>
+            <ul>
+                <li>Draft</li>
+                <li>Index</li>
+                <li>Private</li>
+            </ul>
         <li>Friends
             <ul>
                 <li>Recommendations</li>
@@ -42,7 +47,7 @@
     </ul>
 </div>
 <div class="row">
-    <p>In the making of this App I watched:
+    <p><h4>In the making of this App I watched:</h4>
         <ol>
             <li><a href="{{ '/tmdb/23478' }}">Mozart and the Whale</a></li>
             <li><a href="{{ '/tmdb/536554' }}">Megan</a></li>
@@ -52,6 +57,8 @@
             <li><a href="{{ '/tmdb/10692' }}">Henry: Portrait of a Serial Killer</a></li>
             <li><a href="{{ '/tmdb/18462' }}">Night of the Comet</a></li>
             <li><a href="{{ '/tmdb/12149' }}">Frailty</a></li>
+            <li><a href="{{ '/tmdb/773' }}">Litte Miss Sunshine</a></li>
+            <li><a href="{{ '/tmdb/19794' }}">Labor Pains</a></li>
         </ol>
     </p>
 </div>

@@ -11939,3 +11939,7 @@ th {
 .hundred-padding {
     padding-top: 200px;
 }
+
+.checked {
+    color: gold;
+}

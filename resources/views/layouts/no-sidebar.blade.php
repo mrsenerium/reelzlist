@@ -9,9 +9,14 @@
 
         <!-- Styles -->
         <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" crossorigin="anonymous">
+        <script
+			  src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+			  integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+			  crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
         <script src="{{ asset('js/app.js') }}" ></script>
         <title>@yield('title') | {{ env('APP_NAME') }}</title>
+        @yield('scripts')
     </head>
     <body style="padding-bottom: 150px">
 

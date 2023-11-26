@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\TMDbConnection;
 use App\Models\Movie;
 use App\Models\MovieList;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller
@@ -30,7 +31,7 @@ class MovieController extends Controller
 
     public function store(Request $request)
     {
-        $tmdbData = (new TMDbConnection)->singleMovieData($request->id);
+        $tmdbData = (new TMDbConnection())->singleMovieData($request->id);
 
         $movie = Movie::create([
             'title' => $tmdbData->title ?? null,
@@ -52,13 +53,17 @@ class MovieController extends Controller
         $movie->updateTMDBData();
         $movie->updateOMDBData();
 
-        if(auth()->user()){
+        if (auth()->user()) {
             $movieLists = MovieList::query()
                 ->when(auth()->user(), function ($movieLists) {
                     $movieLists->where('user_id', auth()->user()->id);
                 })
-                //->toSql();
                 ->get();
+
+            $review = Review::query()
+                ->where('user_id', auth()->user()->id)
+                ->where('movie_id', $movie->id)
+                ->first();
 
             $watchProviders = $movie['tmdb_id']
                 ? $movie->getWatchProviders($movie['tmdb_id'])
@@ -66,7 +71,6 @@ class MovieController extends Controller
 
             $watchProviders = $watchProviders->US ?? null;
         }
-        //dd($movieLists);
 
         return view(
             'pages.movies.show',
@@ -74,6 +78,7 @@ class MovieController extends Controller
                 'movie' => $movie->toArray(),
                 'watchProviders' => $watchProviders ?? null,
                 'movieLists' => $movieLists ?? null,
+                'review' => $review ?? null
             ]
         );
     }

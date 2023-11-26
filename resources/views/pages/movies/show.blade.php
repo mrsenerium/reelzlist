@@ -8,6 +8,11 @@
     {{ $movie['title'] }}
 @endsection
 
+@section('scripts')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="{{ asset('js/showStars.js') }}" type="text/javascript"></script>
+@endsection
+
 @section('content')
     @if (isset($movie))
         <div class="row justify-content-center">
@@ -142,7 +147,15 @@
             <div class="row">
                 @if (isset($review))
                     <div class="col-9">
-                        <em>{{ $review->name }}</em>
+                        <div class="col-6 mb-2">
+                        <span class="fa fa-star star" data-rating=1></span>
+                        <span class="fa fa-star star" data-rating=2></span>
+                        <span class="fa fa-star star" data-rating=3></span>
+                        <span class="fa fa-star star" data-rating=4></span>
+                        <span class="fa fa-star star" data-rating=5></span>
+                        {!! Form::hidden('rating', $review->rating, ['id' => 'selected-rating']) !!}
+                    </div>
+                        <h6>{{ $review->name }}</h6>
                         <p>{{ Illuminate\Support\Str::limit($review->body, 200, '...') }}</p>
                         <a href="{{ route('review.show', ['review' => $review]) }}">Read Full Review</a>
                     </div>

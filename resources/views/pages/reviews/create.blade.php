@@ -50,6 +50,7 @@
         <div class="row">
             <div class="col-3 mt-2">
                 {!! Form::submit('Submit Review', ['class' => 'btn btn-primary']) !!}
+                <a href="{{ route('movies.show', $movie->slug) }}" class="btn btn-secondary">Cancel</a>
             </div>
         </div>
 

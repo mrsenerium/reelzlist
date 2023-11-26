@@ -10,10 +10,7 @@
 
 @section('content')
     <div class="container">
-        <h3>New Review for {{$movie->title}}</h3>
-        <p>
-            This is where you will write your review
-        </p>
+        <h3>Edit Review for {{$movie->title}}</h3>
 
         {!! Form::model($review, ['route' => ['review.update', 'review' => $review->id], 'method' => 'put']) !!}
         {{ csrf_field() }}
@@ -49,12 +46,18 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-3 mt-2">
+            <div class="col-6 mt-2">
                 {!! Form::submit('Submit Review', ['class' => 'btn btn-primary']) !!}
+                <a href="{{ route('review.show', ['review' => $review]) }}" class="btn btn-secondary">Cancel</a>
             </div>
         </div>
 
         {!! Form::close() !!}
+        <form method="POST" action="{{ route('review.destroy', ['review' => $review->id]) }}" onsubmit="return confirm('Are you sure you want to delete this review?')" class="mt-2 form-inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Delete Movie List</button>
+        </form>
     </div>
 
 @endsection

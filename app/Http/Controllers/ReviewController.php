@@ -81,11 +81,11 @@ class ReviewController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $review = Review::where('id', $id)->with('Movie')->first();
+        $movie = $review->movie;
+        $review->delete();
+        return redirect()->route('movies.show', $movie->slug);
     }
 }

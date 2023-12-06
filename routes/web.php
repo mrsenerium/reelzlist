@@ -15,7 +15,7 @@ Route::get('/', function () {
 Route::resource('movies', MovieController::class);
 Route::resource('tmdb', TmdbDataController::class);
 Route::resource('movie-lists', MovieListController::class);
-Route::resource('review', ReviewController::class, ['except', 'create']);
+Route::resource('review', ReviewController::class)->except(['create']);
 Route::get('review/create/{user_id}/{movie_id}', [ReviewController::class, 'create'])->name('review.create');
 
 Route::any('movie-lists/add/{movieList}/{movie}', [MovieListController::class, 'addMovieToList'])->name('movie-lists.add');

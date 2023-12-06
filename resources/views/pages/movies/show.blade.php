@@ -11,6 +11,54 @@
 @section('scripts')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="{{ asset('js/showStars.js') }}" type="text/javascript"></script>
+    <style>
+        /* Define a fixed height for the scrollable box */
+        .scrollable-box {
+            max-height: 300px; /* Adjust the height as needed */
+            overflow-y: auto; /* Enable vertical scrolling */
+            border: 1px solid #ccc; /* Optional: Add a border for styling */
+        }
+
+        /* Optional: Style for each movie list item */
+        .movie-list-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+    <style>
+        .movie-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* padding: 10px; */
+            /* border: 1px solid #ccc;
+            margin-bottom: 10px; */
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px; /* Adjust the gap between buttons */
+        }
+
+        .success-button {
+            flex-grow: 1; /* Make the success div take the available space */
+            text-align: center;
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .add-button {
+            text-align: center;
+            background-color: #17a2b8;
+            color: #fff;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -75,29 +123,53 @@
             <hr />
             <div class="row bg-dark text-white">
                 <div class="row">
-                    @if (isset($watchProviders))
-                        <div class="col-md-6">
-                            @if (isset($watchProviders->flatrate))
-                                @include('partials/_streaming_providers', ['title' => 'Streaming Subscription', 'providers' => $watchProviders->flatrate])
-                            @endif
-                            @if (isset($watchProviders->buy))
-                                @include('partials/_streaming_providers', ['title' => 'Streaming Purchase', 'providers' => $watchProviders->buy])
-                            @endif
-                            @if (isset($watchProviders->rent))
-                                @include('partials._streaming_providers', ['title' => 'Streaming Rent', 'providers' => $watchProviders->rent])
-                            @endif
-                            @if (isset($watchProviders->ads))
-                                @include('partials._streaming_providers', ['title' => 'Available with Ads', 'providers' => $watchProviders->ads])
-                            @endif
-                            @if (isset($watchProviders->free))
-                                @include('partials._streaming_providers', ['title' => 'Available For Free', 'providers' => $watchProviders->free])
-                            @endif
-                        </div>
-                    @else
-                        <div class="col-md-6">
-                            <p>No Streaming information available.</p>
-                        </div>
-                    @endif
+                    <div class="col-md-6">
+                        @if (isset($watchProviders))
+                            <div class="">
+                                @if (isset($watchProviders->flatrate))
+                                    @include('partials/_streaming_providers', ['title' => 'Streaming Subscription', 'providers' => $watchProviders->flatrate])
+                                @endif
+                                @if (isset($watchProviders->buy))
+                                    @include('partials/_streaming_providers', ['title' => 'Streaming Purchase', 'providers' => $watchProviders->buy])
+                                @endif
+                                @if (isset($watchProviders->rent))
+                                    @include('partials._streaming_providers', ['title' => 'Streaming Rent', 'providers' => $watchProviders->rent])
+                                @endif
+                                @if (isset($watchProviders->ads))
+                                    @include('partials._streaming_providers', ['title' => 'Available with Ads', 'providers' => $watchProviders->ads])
+                                @endif
+                                @if (isset($watchProviders->free))
+                                    @include('partials._streaming_providers', ['title' => 'Available For Free', 'providers' => $watchProviders->free])
+                                @endif
+                            </div>
+                        @else
+                            <div >
+                                <p>No Streaming information available.</p>
+                            </div>
+                        @endif
+                        <br />
+                        @if (isset($review))
+                            <div >
+                                <div class="col-6 mb-2">
+                                <span class="fa fa-star star" data-rating=1></span>
+                                <span class="fa fa-star star" data-rating=2></span>
+                                <span class="fa fa-star star" data-rating=3></span>
+                                <span class="fa fa-star star" data-rating=4></span>
+                                <span class="fa fa-star star" data-rating=5></span>
+                                {!! Form::hidden('rating', $review->rating, ['id' => 'selected-rating']) !!}
+                            </div>
+                                <h6 class="text-whitess">{{ $review->name }}</h6>
+                                <p>{{ Illuminate\Support\Str::limit($review->body, 200, '...') }}</p>
+                                <a class="text-white" href="{{ route('review.show', ['review' => $review]) }}">Read Full Review</a>
+                            </div>
+                        @else
+                            <div >
+                                <a class="text-white" href="{{ route('review.create', ['user_id' => auth()->user()->id, 'movie_id' => $movie['id']]) }}">
+                                    Write a review
+                                </a>
+                            </div>
+                        @endif
+                    </div>
                     <div class="col-md-6">
                         <p>For more information and rates please go to <a class="text-white" href="{{ isset($watchProviders->link) ? $watchProviders->link : 'https://www.themoviedb.org/' }}">The Movie Database</a></p>
                         <p>All streaming infomation is provided by
@@ -106,7 +178,7 @@
                             </a>
                         </p>
                         @if(isset($movieLists))
-                            <div class="card border-secondary mb-3" style="max-width: 35rem;">
+                            {{-- <div class="card border-secondary mb-3" style="max-width: 35rem;">
                                 <div class="card-header">Your Lists</div>
                                 <div class="card-body">
 
@@ -137,6 +209,24 @@
                                         </tbody>
                                     </table>
                                 </div>
+                            </div> --}}
+                            <div class="card border-secondary mb-3 scrollable-box">
+                                @foreach($movieLists as $list)
+                                    <div class="movie-list-item">
+                                        <span><a href="{{ route('movie-lists.show', ['movie_list' => $list->id]) }}">{{ $list->name }}</a></span>
+                                        <div class="button-container">
+                                            @if (in_array($movie['id'], $list->movie->pluck('id')->toArray()))
+                                                <div class="success-button">
+                                                    On List
+                                                </div>
+                                            @else
+                                                <a class="add-button" href="{{ route('movie-lists.add', ['movieList' => $list, 'movie' => $movie['id']]) }}">
+                                                    Add to list
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         @endif
                     </div>

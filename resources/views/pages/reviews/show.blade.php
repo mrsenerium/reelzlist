@@ -50,7 +50,9 @@
             </div>
         </div>
         <a href="{{ route('movies.show', ['movie' => $movie->slug]) }}" class="btn btn-success">Go to Movie</a>
-        <a href="{{ route('review.edit', ['review' => $review->id]) }}" class="btn btn-info">Edit Movie Review</a>
+        @can('edit', $review)
+            <a href="{{ route('review.edit', ['review' => $review->id]) }}" class="btn btn-info">Edit Movie Review</a>
+        @endcan
     </div>
 
 @endsection

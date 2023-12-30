@@ -53,6 +53,13 @@ class MovieController extends Controller
         $movie->updateTMDBData();
         $movie->updateOMDBData();
 
+
+
+        $otherReviewsQuery = Review::query()
+            ->where('movie_id', $movie->id)
+            ->where('private', '0')
+            ->orderBy('rating', 'DESC');
+
         if (auth()->user()) {
             $movieLists = MovieList::query()
                 ->when(auth()->user(), function ($movieLists) {
@@ -70,7 +77,12 @@ class MovieController extends Controller
                 : null;
 
             $watchProviders = $watchProviders->US ?? null;
+
+
+            $otherReviewsQuery->where('user_id', '!=', auth()->user()->id);
         }
+
+        $otherReviews = $otherReviewsQuery->get();
 
         return view(
             'pages.movies.show',
@@ -78,7 +90,8 @@ class MovieController extends Controller
                 'movie' => $movie->toArray(),
                 'watchProviders' => $watchProviders ?? null,
                 'movieLists' => $movieLists ?? null,
-                'review' => $review ?? null
+                'review' => $review ?? null,
+                'otherReviews' => $otherReviews ?? null,
             ]
         );
     }

@@ -18,6 +18,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     protected $hidden = [
@@ -45,6 +46,16 @@ class User extends Authenticatable
                     : $user->name,
             ]);
         });
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->role === 'super-admin';
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin' || $this->role === 'super-admin';
     }
 
     public function profile()

@@ -46,6 +46,7 @@ class ReviewController extends Controller
     public function show(string $id)
     {
         $review = Review::where('id', $id)->with('Movie')->first();
+        $this->authorize('view', $review);
         return view('pages.reviews.show', [
             'review' => $review,
             'movie' => $review->movie
@@ -57,6 +58,9 @@ class ReviewController extends Controller
         $review = Review::where('id', $id)
             ->with('Movie')
             ->first();
+
+        $this->authorize('edit', $review);
+
         return view('pages.reviews.edit', [
             'review' => $review,
             'movie' => $review->movie
@@ -66,6 +70,9 @@ class ReviewController extends Controller
     public function update(Request $request, string $id)
     {
         $review = Review::where('id', $id)->with('Movie')->first();
+
+        $this->authorize('edit', $review);
+
         $review->update([
             'user_id' => auth()->user()->id,
             'movie_id' => $request->movie_id,
@@ -84,6 +91,7 @@ class ReviewController extends Controller
     public function destroy(string $id)
     {
         $review = Review::where('id', $id)->with('Movie')->first();
+        $this->authorize('edit', $review);
         $movie = $review->movie;
         $review->delete();
         return redirect()->route('movies.show', $movie->slug);

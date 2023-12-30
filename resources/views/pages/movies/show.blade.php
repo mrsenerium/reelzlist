@@ -158,7 +158,7 @@
                                 <span class="fa fa-star star" data-rating=5></span>
                                 {!! Form::hidden('rating', $review->rating, ['id' => 'selected-rating']) !!}
                             </div>
-                                <h6 class="text-whitess">{{ $review->name }}</h6>
+                                <h5 class="text-white">{{ $review->name }}</h5>
                                 <p>{{ Illuminate\Support\Str::limit($review->body, 200, '...') }}</p>
                                 <a class="text-white" href="{{ route('review.show', ['review' => $review]) }}">Read Full Review</a>
                             </div>
@@ -178,38 +178,6 @@
                             </a>
                         </p>
                         @if(isset($movieLists))
-                            {{-- <div class="card border-secondary mb-3" style="max-width: 35rem;">
-                                <div class="card-header">Your Lists</div>
-                                <div class="card-body">
-
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>List Name</th>
-                                                <th>Add/remove</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($movieLists as $list)
-                                                <tr>
-                                                    <td class="card-text"><a href="{{ route('movie-lists.show', ['movie_list' => $list->id]) }}">{{ $list->name }}</a></td>
-                                                    <td>
-                                                        @if (in_array($movie['id'], $list->movie->pluck('id')->toArray()))
-                                                            <div class="text-white text-center bg-success p-3">
-                                                                On List
-                                                            </div>
-                                                        @else
-                                                            <a class="btn btn-info" href="{{ route('movie-lists.add', ['movieList' => $list, 'movie' => $movie['id']]) }}">
-                                                                Add to list
-                                                            </a>
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div> --}}
                             <div class="card border-secondary mb-3 scrollable-box">
                                 @foreach($movieLists as $list)
                                     <div class="movie-list-item">
@@ -233,31 +201,26 @@
                 </div>
             </div>
         @endif
-        @auth
-            <div class="row">
-                @if (isset($review))
-                    <div class="col-9">
-                        <div class="col-6 mb-2">
-                        <span class="fa fa-star star" data-rating=1></span>
-                        <span class="fa fa-star star" data-rating=2></span>
-                        <span class="fa fa-star star" data-rating=3></span>
-                        <span class="fa fa-star star" data-rating=4></span>
-                        <span class="fa fa-star star" data-rating=5></span>
-                        {!! Form::hidden('rating', $review->rating, ['id' => 'selected-rating']) !!}
-                    </div>
-                        <h6>{{ $review->name }}</h6>
-                        <p>{{ Illuminate\Support\Str::limit($review->body, 200, '...') }}</p>
-                        <a href="{{ route('review.show', ['review' => $review]) }}">Read Full Review</a>
-                    </div>
-                @else
-                    <div class="col-9">
-                        <a href="{{ route('review.create', ['user_id' => auth()->user()->id, 'movie_id' => $movie['id']]) }}">
-                            Write your own review
-                        </a>
-                    </div>
-                @endif
-            </div>
-        @endauth
     @endif
+    @foreach ($otherReviews as $review)
+        <hr />
+        <div class="container">
+            <div class="row mt-3">
+                <div>
+                    <div class="col-6 mb-2">
+                    <span class="fa fa-star star" data-rating=1></span>
+                    <span class="fa fa-star star" data-rating=2></span>
+                    <span class="fa fa-star star" data-rating=3></span>
+                    <span class="fa fa-star star" data-rating=4></span>
+                    <span class="fa fa-star star" data-rating=5></span>
+                    {!! Form::hidden('rating', $review->rating, ['id' => 'selected-rating']) !!}
+                </div>
+                    <h5>{{ $review->name }}</h5>
+                    <p>{{ Illuminate\Support\Str::limit($review->body, 200, '...') }}</p>
+                    <a href="{{ route('review.show', ['review' => $review]) }}">Read Full Review</a>
+                </div>
+            </div>
+        </div>
+    @endforeach
 
 @endsection

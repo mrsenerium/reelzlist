@@ -42,6 +42,7 @@ class MovieListController extends Controller
     public function show(string $id)
     {
         $movieList = MovieList::where('id', $id)->with('movie')->first();
+        $this->authorize('view', $movieList);
 
         return view('pages.movieList.show', ['movieList' => $movieList, 'movies' => $movieList->movie]);
     }
@@ -49,6 +50,7 @@ class MovieListController extends Controller
     public function edit(string $id)
     {
         $movieList = MovieList::where('id', $id)->first();
+        $this->authorize('edit', $movieList);
 
         return view('pages.movieList.edit', ['movieList' => $movieList]);
     }
@@ -56,6 +58,8 @@ class MovieListController extends Controller
     public function update(Request $request, string $id)
     {
         $movieList = MovieList::where('id', $id)->with('movie')->first();
+        $this->authorize('edit', $movieList);
+
         $movieList->update([
             'name' => $request->name,
             'private' => $request->private ?? 0,
@@ -66,6 +70,8 @@ class MovieListController extends Controller
     public function destroy(string $id)
     {
         $movieList = MovieList::where('id', $id)->with('movie')->first();
+        $this->authorize('edit', $movieList);
+
         foreach ($movieList->movie as $movie) {
             $movieList->Movie()->detach(['movie_id' => $movie]);
         }
@@ -76,6 +82,8 @@ class MovieListController extends Controller
     public function addMovieToList($movieList, $movie, Request $request): redirectResponse
     {
         $list = MovieList::where('id', $movieList)->with('Movie')->first();
+        $this->authorize('edit', $movieList);
+
         $list->Movie()->attach(
             [
                 'movie_id' => $movie,
@@ -88,6 +96,8 @@ class MovieListController extends Controller
     public function removeMovieFromList($movieList, $movie, Request $request): redirectResponse
     {
         $list = MovieList::where('id', $movieList)->with('Movie')->first();
+        $this->authorize('edit', $movieList);
+
         $list->Movie()->detach(
             [
                 'movie_id' => $movie,

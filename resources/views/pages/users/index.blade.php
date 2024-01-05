@@ -14,7 +14,7 @@
                 </tr>
                 @foreach($users as $user)
                     <tr class="table-row">
-                        <td>{{ $user->name }}</td>
+                        <td><a href="{{ route('users.show', [$user->id]) }}">{{ $user->name }}</a></td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->role }}</td>
                         <td><a href="{{ route('users.edit', [$user->id]) }}" class="btn btn-info">Edit User</a></td>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\MovieList;
+use App\Models\Review;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -27,7 +29,27 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        dd('now I am here');
+        $this->authorize('edit', User::query()->where('id', auth()->user()->id)->first());
+        $user = User::query()->where('id', $request->user_id)->first();
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role, 
+        ]);
+
+        return view('pages.users.index', [
+            'users' => User::query()->get()
+        ]);
+    }
+
+    public function show($id)
+    {
+        $this->authorize('view', User::query()->where('id', auth()->user()->id)->first());
+        return view('pages.users.show', [
+            'user' => User::query()->where('id', $id)->first(),
+            'movieLists' => MovieList::query()->where('user_id', $id)->get(),
+            'reviews' => Review::query()->where('user_id', $id)->get(),
+        ]);
     }
 
     public function login(Request $request): view

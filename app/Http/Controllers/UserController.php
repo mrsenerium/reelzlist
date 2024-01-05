@@ -9,6 +9,27 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
+    public function index()
+    {
+        $this->authorize('view', User::query()->where('id', auth()->user()->id)->first());
+        return view('pages.users.index', [
+            'users' => User::query()->get()
+        ]);
+    }
+
+    public function edit($id)
+    {
+        $this->authorize('edit', User::query()->where('id', auth()->user()->id)->first());
+        return view('pages.users.edit', [
+            'user' => User::query()->where('id', $id)->first()
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        dd('now I am here');
+    }
+
     public function login(Request $request): view
     {
         if ($request->isMethod('post')) {
@@ -48,7 +69,6 @@ class UserController extends Controller
 
     public function register(Request $request): view
     {
-        //register
         return view('pages.auth.register');
     }
 

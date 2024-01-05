@@ -50,12 +50,12 @@ class User extends Authenticatable
 
     public function isSuperAdmin()
     {
-        return $this->role === 'super-admin';
+        return $this->role === 'super-admin' || $this->id === 1;
     }
 
     public function isAdmin()
     {
-        return $this->role === 'admin' || $this->role === 'super-admin';
+        return $this->role === 'admin' || $this->role === 'super-admin' || $this->id === 1;
     }
 
     public function profile()

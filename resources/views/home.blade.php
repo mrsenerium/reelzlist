@@ -13,7 +13,11 @@
 <div class="row">
     <p>This is where I'm going to keep a list of features to be built out</p>
     <ul>
-        <li>Users <em>This needs to be built up more with auth levels</em></li>
+        <li>Users</li>
+            <ul>
+                <li>Create Admin pages</li>
+                <li>Create User Edit pages</li>
+            </ul>
         <li>User Profile</li>
         <li class="alert alert-success">Users List - Done
             <ul>
@@ -23,12 +27,13 @@
                 <li>Wish List to own</li>
             </ul>
         </li>
-        <li>Users Reviews</li>
+        <li class="alert alert-success">Users Reviews
             <ul>
                 <li>Draft</li>
                 <li>Index</li>
                 <li>Private</li>
             </ul>
+        </li>
         <li>Friends
             <ul>
                 <li>Recommendations</li>

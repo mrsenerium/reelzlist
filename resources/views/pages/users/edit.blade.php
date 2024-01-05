@@ -8,6 +8,7 @@
     <form action="{{ route('users.update', ['user' => $user->id]) }}" method="POST">
         @csrf
         @method('PUT')
+        <input type="hidden" name="user_id" value="{{$user->id}}" />
 
         <div class="form-group">
             <label for="name">Name:</label>

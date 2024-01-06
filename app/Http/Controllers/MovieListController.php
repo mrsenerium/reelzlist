@@ -82,7 +82,7 @@ class MovieListController extends Controller
     public function addMovieToList($movieList, $movie, Request $request): redirectResponse
     {
         $list = MovieList::where('id', $movieList)->with('Movie')->first();
-        $this->authorize('edit', $movieList);
+        $this->authorize('edit', $list);
 
         $list->Movie()->attach(
             [
@@ -96,7 +96,7 @@ class MovieListController extends Controller
     public function removeMovieFromList($movieList, $movie, Request $request): redirectResponse
     {
         $list = MovieList::where('id', $movieList)->with('Movie')->first();
-        $this->authorize('edit', $movieList);
+        $this->authorize('edit', $list);
 
         $list->Movie()->detach(
             [

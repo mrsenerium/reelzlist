@@ -21,7 +21,7 @@
                 </p>
             </div>
         </div>
-        <a href="{{ route('update.profile') }}">Update Profile</a><br />
+        <a href="{{ route('profile.edit', [auth()->user()->id]) }}">Update Profile</a><br />
         <a href="{{ route('movie-lists.create') }}">Create Movie List</a>
         @if (isset($movie_lists))
             <div class="row">

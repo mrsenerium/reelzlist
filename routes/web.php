@@ -3,7 +3,7 @@
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\MovieListController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TmdbDataController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +16,7 @@ Route::resource('movies', MovieController::class);
 Route::resource('tmdb', TmdbDataController::class);
 Route::resource('movie-lists', MovieListController::class);
 Route::resource('users', UserController::class);
+Route::resource('profile', ProfileController::class);
 Route::resource('review', ReviewController::class)->except(['create']);
 Route::get('review/create/{user_id}/{movie_id}', [ReviewController::class, 'create'])->name('review.create');
 
@@ -26,5 +27,3 @@ Route::any('login', [UserController::class, 'login'])->name('login');
 Route::any('logout', [UserController::class, 'logout'])->name('logout');
 Route::get('register', [UserController::class, 'register'])->name('register');
 Route::post('register', [UserController::class, 'storeRegistration'])->name('storeRegistration');
-Route::get('profile', [UserProfileController::class, 'show'])->name('showProfile');
-Route::any('profile/update', [UserProfileController::class, 'update'])->name('update.profile');

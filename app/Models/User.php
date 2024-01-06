@@ -60,7 +60,7 @@ class User extends Authenticatable
 
     public function profile()
     {
-        return $this->hasOne(UserProfile::class);
+        return $this->hasOne(Profile::class);
     }
 
     public function movie_list() // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps

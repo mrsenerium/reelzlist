@@ -30,38 +30,35 @@
         </thead>
         <tbody>
             @foreach ($movies as $movie)
-
-                    <tr>
-
-                            <th scope="row">
-                                @if (isset($movie->poster_url))
-                                    <a href="{{ route('movies.show', $movie->slug) }}">
-                                        <img src="{{ $movie->poster_url }}" style="max-height:75px" />
-                                    </a>
-                                @endif
-                            </th>
-                            <th>
-                                <a href="{{ route('movies.show', $movie->slug) }}">
-                                    {{ $movie->title }}
-                                </a>
-                            </th>
-                            <td>
-                                {{ \Carbon\Carbon::parse($movie->release_date)->format('Y') }}
-                            </td>
-                            <td>
-                                {{ substr($movie->overview, 0, 200) }}
-                            </td>
-                        <td>
-                            <a href="{{ route('movie-lists.remove', ['movieList' => $movieList->id, 'movie' => $movie->id]) }}" onclick="return confirm('Are you sure you want to remove this movie?')">
-                                Remove
+                <tr>
+                    <th scope="row">
+                        @if (isset($movie->poster_url))
+                            <a href="{{ route('movies.show', $movie->slug) }}">
+                                <img src="{{ $movie->poster_url }}" style="max-height:75px" />
                             </a>
-                        </td>
-                    </tr>
-
+                        @endif
+                    </th>
+                    <th>
+                        <a href="{{ route('movies.show', $movie->slug) }}">
+                            {{ $movie->title }}
+                        </a>
+                    </th>
+                    <td>
+                        {{ \Carbon\Carbon::parse($movie->release_date)->format('Y') }}
+                    </td>
+                    <td>
+                        {{ substr($movie->overview, 0, 200) }}
+                    </td>
+                    <td>
+                        <a href="{{ route('movie-lists.remove', ['movieList' => $movieList->id, 'movie' => $movie->id]) }}" onclick="return confirm('Are you sure you want to remove this movie?')">
+                            Remove
+                        </a>
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>
-    <a href="{{ route('showProfile', ['userProfile' => Auth::user()]) }}">Back to Profile</a>
+    <a href="{{ route('profile.show', [auth()->user()->id]) }}">Back to Profile</a>
 </div>
 
 @endsection

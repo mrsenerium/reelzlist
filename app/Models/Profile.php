@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserProfile extends Model
+class Profile extends Model
 {
+    public $table = 'user_profiles';
+
     protected $guarded = [
         'id',
     ];

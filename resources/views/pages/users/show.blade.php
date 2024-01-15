@@ -86,7 +86,10 @@
             @foreach ($reviews as $review)
                 <div class="container">
                     <div class="row mt-3">
-                        <div>
+                        <div class="col-3">
+                            <h4>{{ $review->movie->title }}</h4>
+                        </div>
+                        <div class="col-7">
                             <div class="col-6 mb-2">
                             <span class="fa fa-star star" data-rating=1></span>
                             <span class="fa fa-star star" data-rating=2></span>

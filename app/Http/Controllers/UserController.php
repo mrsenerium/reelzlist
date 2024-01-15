@@ -52,7 +52,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function login(Request $request): view
+    public function login(Request $request): view | RedirectResponse
     {
         if ($request->isMethod('post')) {
             $credentials = $request->validate(
@@ -65,7 +65,7 @@ class UserController extends Controller
             if (auth()->attempt($credentials)) {
                 $request->session()->regenerate();
 
-                return view('home');
+                return redirect('/');
             } else {
                 return view('pages.auth.login')->withErrors(
                     [
@@ -112,6 +112,6 @@ class UserController extends Controller
 
         $user = User::create(request(['name', 'email', 'password']));
 
-        return redirect()->back()->with('success', 'Registration completed');
+        return redirect('/login')>with('success', 'Registration completed');
     }
 }

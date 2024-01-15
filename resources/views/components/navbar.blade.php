@@ -34,7 +34,7 @@
                         </button>
                 </form>
                 @if (Auth::check())
-                    <a href="/profile" class="btn btn-primary">
+                    <a href="/profile/{{auth()->user()->id}}" class="btn btn-primary">
                         {{ auth()->user()->profile->given_name }}
                     </a>
                 @else

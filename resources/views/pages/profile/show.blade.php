@@ -21,20 +21,22 @@
                 </p>
             </div>
         </div>
-        <a href="{{ route('profile.edit', [auth()->user()->id]) }}">Update Profile</a><br />
-        <a href="{{ route('movie-lists.create') }}">Create Movie List</a>
-        @if (isset($movie_lists))
-            <div class="row">
-                @foreach ($movie_lists as $list)
-                    <div class="col-4">
+        <div class="row">
+            <div class=col-3>
+                @if (isset($movie_lists))
+                    @foreach ($movie_lists as $list)
                         <a href={{ route('movie-lists.show', $list->id) }}>{{ $list->name }}</a> is @if ($list->private) Personal @else Public @endif
-                    </div>
-                @endforeach
+                    @endforeach
+                @endif
             </div>
-        @endif
-        <pre>
-            <?php $movie_lists;?>
-        </pre>
+            <div class="col-3">
+                <a class="btn w-100 btn-info mb-2" href="{{ route('profile.edit', [$user->id]) }}">Update Profile</a>
+                <a class="btn w-100 btn-info mb-2" href="{{ route('movie-lists.create') }}">Create Movie List</a>
+                @can('view', $user)
+                    <a class="btn w-100 btn-success mb-2" href="{{ route('users.index') }}">User Administration</a>
+                @endcan
+            </div>
+        </div>
     @endif
 
 @endsection

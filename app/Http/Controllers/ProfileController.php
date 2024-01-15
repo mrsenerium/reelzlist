@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MovieList;
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -16,10 +17,13 @@ class ProfileController extends Controller
             return redirect('/');
         }
 
-        $profile = Profile::firstOrCreate(['user_id' => auth()->user()->id]);
-        $lists = MovieList::where('user_id', auth()->user()->id)->get();
+        $user = User::query()->where('id', auth()->user()->id)->first();
 
-        return view('pages.profile.show', ['profile' => $profile, 'movie_lists' => $lists]);
+        return view('pages.profile.show', [
+            'user' => $user,
+            'profile' => Profile::firstOrCreate(['user_id' => $user->id]), 
+            'movie_lists' => MovieList::where('user_id', $user->id)->get()
+        ]);
     }
 
     public function edit(Request $request, $id): view|redirectResponse

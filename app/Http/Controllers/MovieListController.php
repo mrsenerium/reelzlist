@@ -36,7 +36,7 @@ class MovieListController extends Controller
             'private' => $request->private ?? 0,
         ]);
 
-        return redirect(route('showProfile'));
+        return redirect(route('profile.show', [auth()->user()->id]));
     }
 
     public function show(string $id)
@@ -76,7 +76,7 @@ class MovieListController extends Controller
             $movieList->Movie()->detach(['movie_id' => $movie]);
         }
         $movieList->delete();
-        return redirect(route('showProfile'));
+        return redirect(route('profile.show', [auth()->user()->id]));
     }
 
     public function addMovieToList($movieList, $movie, Request $request): redirectResponse

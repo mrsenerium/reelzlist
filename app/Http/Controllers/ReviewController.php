@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\Movie;
+use App\Http\Requests\ReviewRequest;
 
 class ReviewController extends Controller
 {
@@ -19,23 +20,18 @@ class ReviewController extends Controller
 
     public function create(string $user_id, string $movie_id)
     {
+        $this->authorize('create', Review::class);
         return view(
             'pages.reviews.create',
             ['movie' => Movie::where('id', $movie_id)->first()]
         );
     }
 
-    public function store(Request $request)
+    public function store(ReviewRequest $request)
     {
-        $review = Review::create([
-            'user_id' => auth()->user()->id,
-            'movie_id' => $request->movie_id,
-            'name' => $request->name,
-            'rating' => $request->rating,
-            'private' => $request->private ?? 0,
-            'body' => $request->body,
-        ]);
-
+        $this->authorize('create', Review::class);
+        dd($request->validationData());
+        $review = Review::create($request->validationData());
         $review->load('Movie');
         return view('pages.reviews.show', [
             'review' => $review,

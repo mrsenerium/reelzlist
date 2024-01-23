@@ -56,7 +56,7 @@
         <form method="POST" action="{{ route('review.destroy', ['review' => $review->id]) }}" onsubmit="return confirm('Are you sure you want to delete this review?')" class="mt-2 form-inline">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-danger">Delete Movie List</button>
+            <button type="submit" class="btn btn-danger">Delete Review</button>
         </form>
     </div>
 

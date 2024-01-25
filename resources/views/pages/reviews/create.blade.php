@@ -17,6 +17,7 @@
         {!! Form::open(['route' => 'review.store', 'method' => 'post']) !!}
         {{ csrf_field() }}
         {!! Form::hidden('movie_id', $movie->id) !!}
+        {!! Form::hidden('user_id', auth()->user()->id) !!}
 
         <div class="row">
             <label class="form-label">Rating:</label>
@@ -27,14 +28,19 @@
                 <span class="fa fa-star star" data-rating=4></span>
                 <span class="fa fa-star star" data-rating=5></span>
                 {!! Form::hidden('rating', 0, ['id' => 'selected-rating']) !!}
+                @error('rating')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
         </div>
 
         <div class="form-group row">
-
             <div class="col-6">
                 {!! Form::label('name', 'Name of Review:') !!}
-                {!! Form::text('name', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                {!! Form::text('name', null, ['class' => 'form-control']) !!}
+                @error('name')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
             <div class="col-6">
                 {!! Form::label('private', 'Private') !!}
@@ -44,7 +50,10 @@
         <div class="row">
             <div class="col-9">
                 {!! Form::label('body', 'Review') !!}
-                {!! Form::textArea('body', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                {!! Form::textarea('body', null, ['class' => 'form-control']) !!}
+                @error('body')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
         </div>
         <div class="row">
@@ -56,5 +65,4 @@
 
         {!! Form::close() !!}
     </div>
-
 @endsection

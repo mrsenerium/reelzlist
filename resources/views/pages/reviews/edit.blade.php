@@ -15,6 +15,7 @@
         {!! Form::model($review, ['route' => ['review.update', 'review' => $review->id], 'method' => 'put']) !!}
         {{ csrf_field() }}
         {!! Form::hidden('movie_id', $movie->id) !!}
+        {!! Form::hidden('user_id', auth()->user()->id) !!}
 
         <div class="row">
             <label class="form-label">Rating:</label>
@@ -25,14 +26,19 @@
                 <span class="fa fa-star star" data-rating=4></span>
                 <span class="fa fa-star star" data-rating=5></span>
                 {!! Form::hidden('rating', $review->rating, ['id' => 'selected-rating']) !!}
+                @error('rating')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
         </div>
 
         <div class="form-group row">
-
             <div class="col-6">
                 {!! Form::label('name', 'Name of Review:') !!}
-                {!! Form::text('name', $review->name, ['class' => 'form-control', 'required' => 'required']) !!}
+                {!! Form::text('name', $review->name, ['class' => 'form-control']) !!}
+                @error('name')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
             <div class="col-6">
                 {!! Form::label('private', 'Private') !!}
@@ -42,7 +48,10 @@
         <div class="row">
             <div class="col-9">
                 {!! Form::label('body', 'Review') !!}
-                {!! Form::textArea('body', $review->body, ['class' => 'form-control', 'required' => 'required']) !!}
+                {!! Form::textArea('body', $review->body, ['class' => 'form-control']) !!}
+                @error('body')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
         </div>
         <div class="row">
@@ -56,7 +65,7 @@
         <form method="POST" action="{{ route('review.destroy', ['review' => $review->id]) }}" onsubmit="return confirm('Are you sure you want to delete this review?')" class="mt-2 form-inline">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-danger">Delete Movie List</button>
+            <button type="submit" class="btn btn-danger">Delete Review</button>
         </form>
     </div>
 

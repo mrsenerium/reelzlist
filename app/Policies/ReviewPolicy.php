@@ -7,6 +7,11 @@ use App\Models\Review;
 
 class ReviewPolicy
 {
+    public function create(User $user)
+    {
+        return isset($user);
+    }
+    
     public function edit(User $user, Review $review)
     {
         return $user->isAdmin() || $user->id === $review->user_id;

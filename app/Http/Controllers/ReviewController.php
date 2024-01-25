@@ -30,7 +30,6 @@ class ReviewController extends Controller
     public function store(ReviewRequest $request)
     {
         $this->authorize('create', Review::class);
-        dd($request->validationData());
         $review = Review::create($request->validationData());
         $review->load('Movie');
         return view('pages.reviews.show', [
@@ -63,20 +62,13 @@ class ReviewController extends Controller
         ]);
     }
 
-    public function update(Request $request, string $id)
+    public function update(ReviewRequest $request, string $id)
     {
         $review = Review::where('id', $id)->with('Movie')->first();
 
         $this->authorize('edit', $review);
 
-        $review->update([
-            'user_id' => auth()->user()->id,
-            'movie_id' => $request->movie_id,
-            'name' => $request->name,
-            'rating' => $request->rating,
-            'private' => $request->private ?? 0,
-            'body' => $request->body,
-        ]);
+        $review->update($request->validationData());
 
         return view('pages.reviews.show', [
             'review' => $review,

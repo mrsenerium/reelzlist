@@ -19,7 +19,7 @@ class MovieController extends Controller
                 ->when($q, function ($movies, $q) {
                     $movies->where('title', 'like', "%{$q}%");
                 })
-                ->get(),
+                ->paginate(25),
             'q' => $q,
         ]);
     }
@@ -82,7 +82,7 @@ class MovieController extends Controller
             $otherReviewsQuery->where('user_id', '!=', auth()->user()->id);
         }
 
-        $otherReviews = $otherReviewsQuery->get();
+        $otherReviews = $otherReviewsQuery->paginate(10);
 
         return view(
             'pages.movies.show',

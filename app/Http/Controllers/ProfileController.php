@@ -13,32 +13,29 @@ class ProfileController extends Controller
 {
     public function show($id): view|redirectResponse
     {
-        if (! auth()->check()) {
-            return redirect('/');
-        }
-
         $user = User::query()->where('id', auth()->user()->id)->first();
+        $profile = Profile::query()->where('user_id', $user->id)->firstOrCreate();
+        $this->authorize('view', $profile);
 
         return view('pages.profile.show', [
             'user' => $user,
-            'profile' => Profile::firstOrCreate(['user_id' => $user->id]), 
+            'profile' => $profile,
             'movie_lists' => MovieList::where('user_id', $user->id)->get()
         ]);
     }
 
     public function edit(Request $request, $id): view|redirectResponse
     {
-        if (! auth()->check()) {
-            return redirect('/');
-        }
-        $profile = auth()->user()->profile;
+        $profile = Profile::query()->where('id', $id)->first();
+        $this->authorize('edit', $profile);
 
-        return view('pages.profile.edit', compact('profile'));
+        return view('pages.profile.edit', ['profile' => $profile]);
     }
 
     public function update(Request $request)
     {
-        $profile = Profile::query()->where('user_id', $request->user_id)->first();
+        $profile = Profile::query()->where('user_id', $request->user_id)->with('user')->first();
+        $this->authorize('edit', $profile);
 
         $profile->update([
             'given_name' => (isset($request->given_name) ?
@@ -52,6 +49,7 @@ class ProfileController extends Controller
 
         return view('pages.profile.show', [
             'profile' => $profile,
+            'user' => $profile->user,
             'movie_lists' => MovieList::where('user_id', $profile->user_id)->get(),
             'success' => 'Profile updated successfully!'
         ]);

@@ -22,10 +22,12 @@
             </div>
         </div>
         <div class="row">
-            <div class=col-3>
+            <div class=col-9>
                 @if (isset($movie_lists))
                     @foreach ($movie_lists as $list)
-                        <a href={{ route('movie-lists.show', $list->id) }}>{{ $list->name }}</a> is @if ($list->private) Personal @else Public @endif
+                        <p>
+                            <a href={{ route('movie-lists.show', $list->id) }}>{{ $list->name }}</a> is @if ($list->private) Personal @else Public @endif
+                        </p>
                     @endforeach
                 @endif
             </div>

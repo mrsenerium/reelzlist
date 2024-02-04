@@ -222,5 +222,6 @@
             </div>
         </div>
     @endforeach
+    {{ $otherReviews->links() }}
 
 @endsection

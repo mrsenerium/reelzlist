@@ -1,1 +1,5 @@
-import './bootstrap';
+//import './bootstrap';
+
+$(document).ready(function() {
+    $(".navbarResponsive").dropdown();
+});

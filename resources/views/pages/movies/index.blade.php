@@ -52,27 +52,28 @@
             <th scope="col">Release Date</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach ($movies as $key => $movie)
-            @if (is_numeric($key) && $key % 2)
-                <tr
-                    class="table-primary"
-                    onclick="window.location='{{ route('movies.show', $movie['slug']) }}';" style="cursor: pointer;"
-                >
-                    <th scope="row">{{ $movie['title'] }}</th>
-                    <td>{{ $movie['overview'] }}</td>
-                    <td class="wider-column">{{ \Carbon\Carbon::parse($movie['release_date'])->format('M d, Y') }}</td>
-                </tr>
-            @else
-                <tr class="table-secondary" onclick="window.location='{{ route('movies.show', $movie['slug']) }}';" style="cursor: pointer;">
-                    <th scope="row">{{ $movie['title'] }}</th>
-                    <td>{{ $movie['overview'] }}</td>
-                    <td class="wider-column">{{ \Carbon\Carbon::parse($movie['release_date'])->format('M d, Y') }}</td>
-                </tr>
-            @endif
-        @endforeach
-    </tbody>
-    </table>
+        <tbody>
+            @foreach ($movies as $key => $movie)
+                @if (is_numeric($key) && $key % 2)
+                    <tr
+                        class="table-primary"
+                        onclick="window.location='{{ route('movies.show', $movie['slug']) }}';" style="cursor: pointer;"
+                    >
+                        <th scope="row">{{ $movie['title'] }}</th>
+                        <td>{{ $movie['overview'] }}</td>
+                        <td class="wider-column">{{ \Carbon\Carbon::parse($movie['release_date'])->format('M d, Y') }}</td>
+                    </tr>
+                @else
+                    <tr class="table-secondary" onclick="window.location='{{ route('movies.show', $movie['slug']) }}';" style="cursor: pointer;">
+                        <th scope="row">{{ $movie['title'] }}</th>
+                        <td>{{ $movie['overview'] }}</td>
+                        <td class="wider-column">{{ \Carbon\Carbon::parse($movie['release_date'])->format('M d, Y') }}</td>
+                    </tr>
+                @endif
+            @endforeach
+        </tbody>
+    </table> 
+    {{ $movies->links() }}
 @endif
 
 @endsection

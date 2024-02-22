@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Http\Requests\ProfileRequest;
 
 class ProfileController extends Controller
 {
@@ -32,20 +33,12 @@ class ProfileController extends Controller
         return view('pages.profile.edit', ['profile' => $profile]);
     }
 
-    public function update(Request $request)
+    public function update(ProfileRequest $request)
     {
         $profile = Profile::query()->where('user_id', $request->user_id)->with('user')->first();
         $this->authorize('edit', $profile);
 
-        $profile->update([
-            'given_name' => (isset($request->given_name) ?
-                preg_replace('/\s+/', '', $request->given_name)
-                : $profile->user->name),
-            'family_name' => (isset($request->family_name) ?
-                preg_replace('/\s+/', '', $request->family_name)
-                : $profile->family_name),
-            'birthdate' => $request->birthdate
-        ]);
+        $profile->update($request->validated());
 
         return view('pages.profile.show', [
             'profile' => $profile,

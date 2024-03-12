@@ -15,7 +15,7 @@ class UserController extends Controller
     {
         $this->authorize('view', User::query()->where('id', auth()->user()->id)->first());
         return view('pages.users.index', [
-            'users' => User::query()->get()
+            'users' => User::query()->with('profile')->get()
         ]);
     }
 

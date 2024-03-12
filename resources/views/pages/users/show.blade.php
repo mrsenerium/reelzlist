@@ -68,8 +68,15 @@
             <div class="col-4">
                 <strong>Role: </strong>{{ $user->role }}
             </div>
-            <p>Need the lists from user</p>
-            <p>Need the reviews</p>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                User Created on {{ $user->created_at->format('m-d-Y') }} <br>
+                Last Updated on {{ $user->updated_at->format('m-d-Y') }} <br>
+                <div class="btn btn-info">
+                    <a href="{{ route('profile.edit', ['profile' => $user->profile->id]) }}">Edit Profile</a>
+                </div>
+            </div>
         </div>
         <div class="row">
             @if(isset($movieLists))

@@ -12,6 +12,26 @@ use App\Http\Requests\ProfileRequest;
 
 class ProfileController extends Controller
 {
+    public function store(Request $request): view
+    {
+        $user = User::query()->where('id', $request['user_id'])->first();
+        Profile::create([
+            'user_id' => $user->id,
+            'given_name' => str_contains($user->name, ' ')
+                ? explode(' ', $user->name)[0]
+                : $user->name,
+            'family_name' => str_contains($user->name, ' ')
+                ? explode(' ', $user->name)[1]
+                : $user->name,
+        ]);
+
+        return view('pages.profile.show', [
+            'user' => $user,
+            'profile' => Profile::where('user_id', $user->id)->first(),
+            'movie_lists' => MovieList::where('user_id', $user->id)->get()
+        ]);
+    }
+
     public function show($id): view|redirectResponse
     {
         $user = User::query()->where('id', auth()->user()->id)->first();

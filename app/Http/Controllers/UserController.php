@@ -52,6 +52,16 @@ class UserController extends Controller
         ]);
     }
 
+    public function destroy($id)
+    {
+        $this->authorize('delete', User::query()->where('id', auth()->user()->id)->first());
+        User::query()->where('id', $id)->delete();
+
+        return view('pages.users.index', [
+            'users' => User::query()->get()
+        ]);
+    }
+
     public function login(Request $request): view | RedirectResponse
     {
         if ($request->isMethod('post')) {
@@ -112,6 +122,6 @@ class UserController extends Controller
 
         $user = User::create(request(['name', 'email', 'password']));
 
-        return redirect('/login')>with('success', 'Registration completed');
+        return redirect('/login')->with('success', 'Registration completed');
     }
 }

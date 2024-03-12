@@ -32,7 +32,7 @@
                 @endif
             </div>
             <div class="col-3">
-                <a class="btn w-100 btn-info mb-2" href="{{ route('profile.edit', [$user->id]) }}">Update Profile</a>
+                <a class="btn w-100 btn-info mb-2" href="{{ route('profile.edit', [$profile->id]) }}">Update Profile</a>
                 <a class="btn w-100 btn-info mb-2" href="{{ route('movie-lists.create') }}">Create Movie List</a>
                 @can('view', $user)
                     <a class="btn w-100 btn-success mb-2" href="{{ route('users.index') }}">User Administration</a>

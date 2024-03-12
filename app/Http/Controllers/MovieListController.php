@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MovieList;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -30,13 +31,18 @@ class MovieListController extends Controller
 
     public function store(Request $request): redirectResponse
     {
+        $this->authorize('create', MovieList::class);
+        $user = User::query()
+                ->where('id', auth()->user()->id)
+                ->with('profile')
+                ->first();
         MovieList::create([
             'user_id' => auth()->user()->id,
             'name' => $request->name,
             'private' => $request->private ?? 0,
         ]);
 
-        return redirect(route('showProfile'));
+        return redirect(route('profile.show', ['profile' => $user->profile->id]));
     }
 
     public function show(string $id)
@@ -69,6 +75,10 @@ class MovieListController extends Controller
 
     public function destroy(string $id)
     {
+        $user = User::query()
+                ->where('id', auth()->user()->id)
+                ->with('profile')
+                ->first();
         $movieList = MovieList::where('id', $id)->with('movie')->first();
         $this->authorize('edit', $movieList);
 
@@ -76,7 +86,7 @@ class MovieListController extends Controller
             $movieList->Movie()->detach(['movie_id' => $movie]);
         }
         $movieList->delete();
-        return redirect(route('showProfile'));
+        return redirect(route('profile.show', ['profile' => $user->profile->id]));
     }
 
     public function addMovieToList($movieList, $movie, Request $request): redirectResponse

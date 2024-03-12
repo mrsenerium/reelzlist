@@ -16,4 +16,9 @@ class UserPolicy
     {
         return $user->isAdmin();
     }
+
+    public function delete(User $user, User $model)
+    {
+        return $user->isAdmin();
+    }
 }

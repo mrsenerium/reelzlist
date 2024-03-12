@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Profile;
 
 class User extends Authenticatable
 {
@@ -36,7 +37,7 @@ class User extends Authenticatable
         parent::boot();
 
         static::created(function ($user) {
-            UserProfile::create([
+            Profile::create([
                 'user_id' => $user->id,
                 'given_name' => str_contains($user->name, ' ')
                     ? explode(' ', $user->name)[0]

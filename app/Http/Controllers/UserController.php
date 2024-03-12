@@ -46,7 +46,7 @@ class UserController extends Controller
     {
         $this->authorize('view', User::query()->where('id', auth()->user()->id)->first());
         return view('pages.users.show', [
-            'user' => User::query()->where('id', $id)->first(),
+            'user' => User::query()->where('id', $id)->with('profile')->first(),
             'movieLists' => MovieList::query()->where('user_id', $id)->get(),
             'reviews' => Review::query()->where('user_id', $id)->get(),
         ]);

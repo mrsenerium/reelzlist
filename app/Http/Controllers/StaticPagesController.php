@@ -9,7 +9,8 @@ class StaticPagesController extends Controller
 {
     public function home()
     {
-        $movies = Movie::inRandomOrder()
+        $movies = Movie::whereNotNull('poster_url')
+            ->inRandomOrder()
             ->take(12)
             ->get();
         return view('pages.static.home', ['movies' => $movies]);

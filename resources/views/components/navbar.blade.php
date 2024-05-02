@@ -13,7 +13,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../help/">
+                        <a class="nav-link" href="{{ route('help.create') }}">
                             Help
                         </a>
                     </li>

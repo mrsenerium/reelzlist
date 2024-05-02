@@ -27,6 +27,13 @@
                 <li>Wish List to own</li>
             </ul>
         </li>
+        <li>Feedback / help
+            <ul>
+                <li>Feature Request</li>
+                <li>Bug Report</li>
+                <li>General</li>
+            </ul>
+        </li>
         <li class="alert alert-success">Users Reviews
             <ul>
                 <li>Draft</li>

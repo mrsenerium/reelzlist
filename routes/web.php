@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TmdbDataController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StaticPagesController;
+use App\Http\Controllers\HelpController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -28,6 +29,7 @@ Route::resource('tmdb', TmdbDataController::class);
 Route::resource('movie-lists', MovieListController::class);
 Route::resource('users', UserController::class);
 Route::resource('profile', ProfileController::class);
+Route::resource('help', HelpController::class);
 Route::resource('review', ReviewController::class)->except(['create']);
 Route::get('review/create/{user_id}/{movie_id}', [ReviewController::class, 'create'])->name('review.create');
 

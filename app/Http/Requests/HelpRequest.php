@@ -10,6 +10,8 @@ class HelpRequest extends FormRequest
     {
         return [
             'user_id' => ['nullable', 'exists:users,id'],
+            'want_response' => ['required', 'boolean'],
+            'status' => ['required', 'string'],
             'title' => ['required', 'string', 'max:255'],
             'message' => ['required', 'string'],
             'type' => ['required', 'string', 'in:bug-report,feature-request,general,other'],

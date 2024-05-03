@@ -34,8 +34,10 @@ class HelpController extends Controller
 
     public function show(string $id)
     {
-        //
-        dd($id);
+        $this->authorize('view', Help::class);
+        return view('pages.help.show', [
+            'help' => Help::find($id)->with('user')->first()
+        ]);
     }
 
     public function edit(string $id)

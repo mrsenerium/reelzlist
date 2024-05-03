@@ -20,6 +20,8 @@ return new class extends Migration
             $table->boolean('want_response')->default(false); // (yes, no)
             $table->boolean('read')->default(false);
             $table->longText('response')->nullable()->default(null);
+            $table->text('status'); // (open, closed, in progress, resolved, unresolved
+            $table->foreignId('responder_id')->nullable()->default(null);
             $table->boolean('resolved')->default(false);
             $table->timestamp('resolved_at')->nullable()->default(null);
             $table->timestamps();

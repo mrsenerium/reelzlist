@@ -42,8 +42,8 @@
                 <input type="checkbox" name="want_response" value="1">
             </div>
             <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-            <input type="hidden" name="status" value="open">
         @endif
+        <input type="hidden" name="status" value="open">
 
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Send</button>

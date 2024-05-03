@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('help', function (Blueprint $table) {
+        Schema::create('helps', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->default(null);
             $table->text('title');
             $table->text('message');
             $table->text('type'); // (bug, feature, question, other
+            $table->boolean('want_response')->default(false); // (yes, no)
+            $table->boolean('read')->default(false);
             $table->longText('response')->nullable()->default(null);
             $table->boolean('resolved')->default(false);
             $table->timestamp('resolved_at')->nullable()->default(null);
@@ -34,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('help');
+        Schema::dropIfExists('helps');
     }
 };

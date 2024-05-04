@@ -36,19 +36,24 @@ class HelpController extends Controller
     {
         $this->authorize('view', Help::class);
         return view('pages.help.show', [
-            'help' => Help::find($id)->with('user')->first()
+            'help' => Help::where('id', $id)->with('user')->first()
         ]);
     }
 
     public function edit(string $id)
     {
-        //
-        dd($id);
+        //dd(Help::where('id', $id)->with('user')->first());
+        $this->authorize('edit', Help::class);
+
+        return view('pages.help.edit', [
+            'help' => Help::where('id', $id)->with('user')->first()
+        ]);
     }
 
     public function update(Request $request, string $id)
     {
         //
+        dd($request->all());
     }
 
     public function destroy(string $id)

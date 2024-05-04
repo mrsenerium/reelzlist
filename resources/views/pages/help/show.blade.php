@@ -89,6 +89,32 @@
                 {!! nl2br(e($help->message)) !!}
             </div>
         </div>
+        <div class="row mb-2">
+            <div class="col-2">
+                Read:
+            </div>
+            <div class="col-9">
+                {{ $help->read ? 'Yes' : 'No' }}
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-2">
+                Actions:
+            </div>
+            <div class="col-9">
+                <a href="{{ route('help.index') }}" class="btn btn-primary">Back</a>
+                <a href="{{ route('help.edit', $help->id) }}" class="btn btn-secondary">Edit</a>
+                <form action="{{ route('help.destroy', $help->id) }}" 
+                    method="POST" 
+                    style="display: inline;"
+                    onsubmit="return confirm('Are you sure you want to delete this Ticket?')"
+                >
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
     </div>
 
 @endsection

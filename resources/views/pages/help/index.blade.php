@@ -18,6 +18,7 @@
                     <tr>
                         <th>Title</th>
                         <th>Type</th>
+                        <th>Read</th>
                         <th>Want's Contact</th>
                         <th>Created At</th>
                         <th>Actions</th>
@@ -28,6 +29,7 @@
                         <tr>
                             <td>{{ $help->title }}</td>
                             <td>{{ ucfirst($help->type) }}</td>
+                            <td>{{ $help->read ? 'Yes' : 'No' }}</td>
                             <td>{{ $help->want_response ? 'Yes' : 'No' }}</td>
                             <td><?php echo Carbon::parse($help->created_at)->format('M jS Y') ?></td>
                             <td>

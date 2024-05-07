@@ -4,7 +4,14 @@
 
 @section('content')
     <div class="container">
-        <h2>User Administration</h2>
+        <div class="row">
+            <div class="col-6">
+                <h2>User Administration</h2>
+            </div>
+            <div class="col-6">
+                <a href="{{ route('help.index') }}" class="btn btn-info float-right">Help Tickets</a>
+            </div>
+        </div>
         <div class="row">
             <table class="table">
                 <tr class="table-row">

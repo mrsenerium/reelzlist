@@ -71,10 +71,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4 overflow-auto">
                 <img src="{{ $movie['poster_url'] }}" alt="{{ $movie['title'] }} Poster" />
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 overflow-auto">
                 <p>
                     {{ $movie['overview'] }}
                 </p>

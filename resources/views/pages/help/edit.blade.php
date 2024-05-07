@@ -64,6 +64,7 @@
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
         <input type="hidden" name="read" value="1">
+        <input type="hidden" name="resolved" value={{ $help->resolved ?? 0 }}>
 
         <textarea name="response" class="form-control mt-3 mb-3" rows="5" placeholder="Response">{{ $help->response }}</textarea>
 

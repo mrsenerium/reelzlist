@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\HelpRequest;
+use App\Http\Requests\AdminHelpRequest;
 use App\Models\Help;
 
 class HelpController extends Controller
@@ -42,7 +43,6 @@ class HelpController extends Controller
 
     public function edit(string $id)
     {
-        //dd(Help::where('id', $id)->with('user')->first());
         $this->authorize('edit', Help::class);
 
         return view('pages.help.edit', [
@@ -50,10 +50,18 @@ class HelpController extends Controller
         ]);
     }
 
-    public function update(Request $request, string $id)
+    public function update(AdminHelpRequest $request, string $id)
     {
-        //
-        dd($request->all());
+        $validationData = $request->validationData();
+        
+        unset($validationData['_token'], $validationData['_method']);
+
+        Help::where('id', $id)->update($validationData);
+
+        return redirect()->route('help.index', [
+            'unresolved' => Help::where('resolved', false)->get(),
+            'resolved' => Help::where('resolved', true)->get()
+        ]); 
     }
 
     public function destroy(string $id)

@@ -46,7 +46,11 @@
                 >
                     <th scope="row">{{ $movie->title }}</th>
                     <td>{{ $movie->overview }}</td>
-                    <td class="wider-column">{{ \Carbon\Carbon::parse($movie->release_date)->format('M d, Y') }}</td>
+                    @if (!empty($movie->release_date))
+                        <td class="wider-column">{{ \Carbon\Carbon::parse($movie->release_date)->format('M d, Y') }}</td>
+                    @else
+                        <td class="wider-column">N/A</td>
+                    @endif
                 </tr>
             @else
                 <tr class="table-secondary" onclick="window.location='{{ route('tmdb.show', $movie->id) }}';" style="cursor: pointer;">

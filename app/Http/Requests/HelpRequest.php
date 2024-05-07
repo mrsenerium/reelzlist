@@ -10,7 +10,7 @@ class HelpRequest extends FormRequest
     {
         return [
             'user_id' => ['nullable', 'exists:users,id'],
-            'want_response' => ['required', 'boolean'],
+            'want_response' => ['nullable', 'boolean'],
             'status' => ['required', 'string'],
             'title' => ['required', 'string', 'max:255'],
             'message' => ['required', 'string'],

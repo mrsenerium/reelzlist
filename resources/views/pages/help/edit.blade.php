@@ -47,8 +47,10 @@
                 {{ $help->want_response ? 'checked' : '' }} 
             >
         </div>
-
-        <p>Submitted by: {{ $help->user->name }}</p>
+        
+        @if(!empty($help->user))
+            <p>Submitted by: {{ $help->user->name }}</p>
+        @endif
         
         <p>Submitted on: {{ $help->created_at->format('M jS Y') }}</p>
         

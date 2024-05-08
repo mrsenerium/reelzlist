@@ -31,6 +31,16 @@
                 {{ $help->want_response ? 'Yes' : 'No' }}
             </div>
         </div>
+        @if(!empty($help->user))
+            <div class="row mb-2">
+                <div class="col-2">
+                    Submitted By:
+                </div>
+                <div class="col-9">
+                    {{ $help->user->name }}
+                </div>
+            </div>
+        @endif
         <div class="row mb-2">
             <div class="col-2">
                 Created:

@@ -19,7 +19,8 @@ class MovieController extends Controller
                 ->when($q, function ($movies, $q) {
                     $movies->where('title', 'like', "%{$q}%");
                 })
-                ->paginate(25),
+                ->paginate(25)
+                ->appends(['q' => $q]),
             'q' => $q,
         ]);
     }

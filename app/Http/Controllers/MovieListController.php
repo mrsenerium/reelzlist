@@ -88,32 +88,4 @@ class MovieListController extends Controller
         $movieList->delete();
         return redirect(route('profile.show', ['profile' => $user->profile->id]));
     }
-
-    public function addMovieToList($movieList, $movie, Request $request): redirectResponse
-    {
-        $list = MovieList::where('id', $movieList)->with('Movie')->first();
-        $this->authorize('edit', $list);
-
-        $list->Movie()->attach(
-            [
-                'movie_id' => $movie,
-            ]
-        );
-
-        return back();
-    }
-
-    public function removeMovieFromList($movieList, $movie, Request $request): redirectResponse
-    {
-        $list = MovieList::where('id', $movieList)->with('Movie')->first();
-        $this->authorize('edit', $list);
-
-        $list->Movie()->detach(
-            [
-                'movie_id' => $movie,
-            ]
-        );
-
-        return back();
-    }
 }

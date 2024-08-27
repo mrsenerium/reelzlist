@@ -50,9 +50,11 @@
                         {{ substr($movie->overview, 0, 200) }}
                     </td>
                     <td>
-                        <a href="{{ route('movie-lists.remove', ['movieList' => $movieList->id, 'movie' => $movie->id]) }}" onclick="return confirm('Are you sure you want to remove this movie?')">
-                            Remove
-                        </a>
+                        <form action="{{ route('movie-lists.movies.destroy', ['movie_list' => $movieList->id, 'movie' => $movie->id]) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to remove this movie?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach

@@ -188,9 +188,11 @@
                                                     On List
                                                 </div>
                                             @else
-                                                <a class="add-button" href="{{ route('movie-lists.add', ['movieList' => $list, 'movie' => $movie['id']]) }}">
-                                                    Add to list
-                                                </a>
+                                                <form action="{{ route('movie-lists.movies.store', ['movie_list' => $list->id]) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    <input type="hidden" name="movie_id" value="{{ $movie['id'] }}" />
+                                                    <button type="submit" class="add-button">Add to list</button>
+                                                </form>
                                             @endif
                                         </div>
                                     </div>

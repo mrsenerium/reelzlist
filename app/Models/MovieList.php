@@ -23,4 +23,21 @@ class MovieList extends Model
     {
         return $this->belongsToMany(Movie::class);
     }
+
+    public function review()
+    {
+        return $this->hasMany(Review::class, 'movie_list_id');
+    }
+
+    public function addMovieToList($movie)
+    {
+        $movie = Movie::where('id', $movie)->firstOrFail();
+        $this->movie()->attach($movie->id);
+    }
+
+    public function removeMovieFromList($movie)
+    {
+        $movie = Movie::where('id', $movie)->firstOrFail();
+        $this->movie()->detach($movie->id);
+    }
 }

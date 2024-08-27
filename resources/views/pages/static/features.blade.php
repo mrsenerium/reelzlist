@@ -27,7 +27,7 @@
                 <li>Wish List to own</li>
             </ul>
         </li>
-        <li>Feedback / help
+        <li class="alert alert-success">Feedback / help
             <ul>
                 <li>Feature Request</li>
                 <li>Bug Report</li>
@@ -54,6 +54,22 @@
                     <ul><li>Genre Filter</li></ul>
                 <li>Movie Page</li>
                 <li>Trailers</li>
+            </ul>
+        </li>
+        <li>Notifications
+            <ul>
+                <li>Friend Request</li>
+                <li>Recommendation</li>
+                <li>Movie is on a Subscribed Platform</li>
+                <li>Notification area</li>
+                <li>Onsite only / Email</li>
+            </ul>
+        </li>
+        <li>Subscriptions
+            <ul>
+                <li>Platform</li>
+                <li>Users list of platforms</li>
+                <li>Update lists to opt in for Notifications</li>
             </ul>
         </li>
     </ul>

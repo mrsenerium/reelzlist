@@ -18,9 +18,10 @@ class ReviewController extends Controller
         ]);
     }
 
-    public function create(string $user_id, string $movie_id)
+    public function create(Request $request)
     {
         $this->authorize('create', Review::class);
+        $movie_id = $request->query('movie_id');
         return view(
             'pages.reviews.create',
             ['movie' => Movie::where('id', $movie_id)->first()]

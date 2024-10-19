@@ -42,7 +42,7 @@
                 </div>
             </form>
             <p class="my-3">
-                <a href="{{ route('register') }}">Don't have a login Register</a>
+                <a href="{{ route('registration.create') }}">Don't have a login Register</a>
             </p>
         </div>
     </div>

@@ -9,6 +9,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StaticPagesController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\MovieListMovieController;
+use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -30,9 +31,8 @@ Route::resource('users', UserController::class);
 Route::resource('profile', ProfileController::class);
 Route::resource('help', HelpController::class);
 Route::resource('review', ReviewController::class);
+Route::resource('registration', RegistrationController::class);
 Route::resource('movie-lists.movies', MovieListMovieController::class)->only(['store', 'destroy']);
 
 Route::any('login', [UserController::class, 'login'])->name('login');
 Route::any('logout', [UserController::class, 'logout'])->name('logout');
-Route::get('register', [UserController::class, 'register'])->name('register');
-Route::post('register', [UserController::class, 'storeRegistration'])->name('storeRegistration');

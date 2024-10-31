@@ -33,9 +33,9 @@ class MovieListController extends Controller
     {
         $this->authorize('create', MovieList::class);
         $user = User::query()
-                ->where('id', auth()->user()->id)
-                ->with('profile')
-                ->first();
+            ->where('id', auth()->user()->id)
+            ->with('profile')
+            ->first();
         MovieList::create([
             'user_id' => auth()->user()->id,
             'name' => $request->name,
@@ -70,15 +70,16 @@ class MovieListController extends Controller
             'name' => $request->name,
             'private' => $request->private ?? 0,
         ]);
+
         return view('pages.movieList.show', ['movieList' => $movieList, 'movies' => $movieList->movie]);
     }
 
     public function destroy(string $id)
     {
         $user = User::query()
-                ->where('id', auth()->user()->id)
-                ->with('profile')
-                ->first();
+            ->where('id', auth()->user()->id)
+            ->with('profile')
+            ->first();
         $movieList = MovieList::where('id', $id)->with('movie')->first();
         $this->authorize('edit', $movieList);
 
@@ -86,6 +87,7 @@ class MovieListController extends Controller
             $movieList->Movie()->detach(['movie_id' => $movie]);
         }
         $movieList->delete();
+
         return redirect(route('profile.show', ['profile' => $user->profile->id]));
     }
 }

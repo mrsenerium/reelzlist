@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Movie;
 
 class StaticPagesController extends Controller
@@ -13,6 +12,7 @@ class StaticPagesController extends Controller
             ->inRandomOrder()
             ->take(12)
             ->get();
+
         return view('pages.static.home', ['movies' => $movies]);
     }
 

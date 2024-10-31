@@ -1,15 +1,15 @@
 <?php
 
+use App\Http\Controllers\HelpController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\MovieListController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\MovieListMovieController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TmdbDataController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StaticPagesController;
-use App\Http\Controllers\HelpController;
-use App\Http\Controllers\MovieListMovieController;
-use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\TmdbDataController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {

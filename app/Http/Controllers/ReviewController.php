@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Review;
-use App\Models\Movie;
 use App\Http\Requests\ReviewRequest;
+use App\Models\Movie;
+use App\Models\Review;
+use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
     public function index()
     {
-        return view('pages.reviews.index', ['reviews' =>
-            Review::where('user_id', auth()->user()->id)
-                ->orderBy('updated_at', 'desc')
-                ->get()
+        return view('pages.reviews.index', ['reviews' => Review::where('user_id', auth()->user()->id)
+            ->orderBy('updated_at', 'desc')
+            ->get(),
         ]);
     }
 
@@ -22,6 +21,7 @@ class ReviewController extends Controller
     {
         $this->authorize('create', Review::class);
         $movie_id = $request->query('movie_id');
+
         return view(
             'pages.reviews.create',
             ['movie' => Movie::where('id', $movie_id)->first()]
@@ -33,9 +33,10 @@ class ReviewController extends Controller
         $this->authorize('create', Review::class);
         $review = Review::create($request->validationData());
         $review->load('Movie');
+
         return view('pages.reviews.show', [
             'review' => $review,
-            'movie' => $review->movie
+            'movie' => $review->movie,
         ]);
     }
 
@@ -43,9 +44,10 @@ class ReviewController extends Controller
     {
         $review = Review::where('id', $id)->with('Movie')->first();
         $this->authorize('view', $review);
+
         return view('pages.reviews.show', [
             'review' => $review,
-            'movie' => $review->movie
+            'movie' => $review->movie,
         ]);
     }
 
@@ -59,7 +61,7 @@ class ReviewController extends Controller
 
         return view('pages.reviews.edit', [
             'review' => $review,
-            'movie' => $review->movie
+            'movie' => $review->movie,
         ]);
     }
 
@@ -73,7 +75,7 @@ class ReviewController extends Controller
 
         return view('pages.reviews.show', [
             'review' => $review,
-            'movie' => $review->movie
+            'movie' => $review->movie,
         ]);
     }
 
@@ -83,6 +85,7 @@ class ReviewController extends Controller
         $this->authorize('edit', $review);
         $movie = $review->movie;
         $review->delete();
+
         return redirect()->route('movies.show', $movie->slug);
     }
 }

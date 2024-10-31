@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\MovieList;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -14,16 +14,18 @@ class UserController extends Controller
     public function index()
     {
         $this->authorize('view', User::query()->where('id', auth()->user()->id)->first());
+
         return view('pages.users.index', [
-            'users' => User::query()->with('profile')->get()
+            'users' => User::query()->with('profile')->get(),
         ]);
     }
 
     public function edit($id)
     {
         $this->authorize('edit', User::query()->where('id', auth()->user()->id)->first());
+
         return view('pages.users.edit', [
-            'user' => User::query()->where('id', $id)->first()
+            'user' => User::query()->where('id', $id)->first(),
         ]);
     }
 
@@ -34,17 +36,18 @@ class UserController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'role' => $request->role, 
+            'role' => $request->role,
         ]);
 
         return view('pages.users.index', [
-            'users' => User::query()->get()
+            'users' => User::query()->get(),
         ]);
     }
 
     public function show($id)
     {
         $this->authorize('view', User::query()->where('id', auth()->user()->id)->first());
+
         return view('pages.users.show', [
             'user' => User::query()->where('id', $id)->with('profile')->first(),
             'movieLists' => MovieList::query()->where('user_id', $id)->get(),
@@ -58,11 +61,11 @@ class UserController extends Controller
         User::query()->where('id', $id)->delete();
 
         return view('pages.users.index', [
-            'users' => User::query()->get()
+            'users' => User::query()->get(),
         ]);
     }
 
-    public function login(Request $request): view | RedirectResponse
+    public function login(Request $request): view|RedirectResponse
     {
         if ($request->isMethod('post')) {
             $credentials = $request->validate(

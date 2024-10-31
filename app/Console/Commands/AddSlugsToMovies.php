@@ -17,9 +17,9 @@ class AddSlugsToMovies extends Command
         $movies = Movie::where('slug', null)->get();
 
         foreach ($movies as $movie) {
-            $this->info('Adding slug to ' . $movie->title);
+            $this->info('Adding slug to '.$movie->title);
 
-            $movie->slug = Str::slug($movie->id . '-'. $movie->title);
+            $movie->slug = Str::slug($movie->id.'-'.$movie->title);
             $movie->save();
         }
 

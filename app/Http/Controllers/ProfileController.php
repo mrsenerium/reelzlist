@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileRequest;
 use App\Models\MovieList;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use App\Http\Requests\ProfileRequest;
 
 class ProfileController extends Controller
 {
@@ -28,7 +28,7 @@ class ProfileController extends Controller
         return view('pages.profile.show', [
             'user' => $user,
             'profile' => Profile::where('user_id', $user->id)->first(),
-            'movie_lists' => MovieList::where('user_id', $user->id)->get()
+            'movie_lists' => MovieList::where('user_id', $user->id)->get(),
         ]);
     }
 
@@ -41,7 +41,7 @@ class ProfileController extends Controller
         return view('pages.profile.show', [
             'user' => $user,
             'profile' => $profile,
-            'movie_lists' => MovieList::where('user_id', $user->id)->get()
+            'movie_lists' => MovieList::where('user_id', $user->id)->get(),
         ]);
     }
 
@@ -64,7 +64,7 @@ class ProfileController extends Controller
             'profile' => $profile,
             'user' => $profile->user,
             'movie_lists' => MovieList::where('user_id', $profile->user_id)->get(),
-            'success' => 'Profile updated successfully!'
+            'success' => 'Profile updated successfully!',
         ]);
     }
 }

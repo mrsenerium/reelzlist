@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\User;
 use App\Models\Review;
+use App\Models\User;
 
 class ReviewPolicy
 {
@@ -11,7 +11,7 @@ class ReviewPolicy
     {
         return isset($user);
     }
-    
+
     public function edit(User $user, Review $review)
     {
         return $user->isAdmin() || $user->id === $review->user_id;

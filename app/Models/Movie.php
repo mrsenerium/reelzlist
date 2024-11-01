@@ -26,20 +26,20 @@ class Movie extends Model
 
         static::created(function ($movie) {
             if ($movie->slug === null) {
-                $movie->slug = Str::slug($movie->id . '-' . $movie->title);
+                $movie->slug = Str::slug($movie->id.'-'.$movie->title);
                 $movie->save();
             }
         });
 
         static::retrieved(function ($movie) {
             if ($movie->slug === null) {
-                $movie->slug = Str::slug($movie->id . '-' . $movie->title);
+                $movie->slug = Str::slug($movie->id.'-'.$movie->title);
                 $movie->save();
             }
         });
         static::saved(function ($movie) {
             if ($movie->slug === null) {
-                $movie->slug = Str::slug($movie->id . '-' . $movie->title);
+                $movie->slug = Str::slug($movie->id.'-'.$movie->title);
                 $movie->save();
             }
         });
@@ -63,7 +63,7 @@ class Movie extends Model
     public function updateTMDBData($force = false): void
     {
         if ($this->updated_at <= Carbon::now()->subMonth() || $force) {
-            $tmdbData = (new TMDbConnection())->singleMovieData($this->tmdb_id);
+            $tmdbData = (new TMDbConnection)->singleMovieData($this->tmdb_id);
 
             $this->update([
                 'title' => $tmdbData->title ?? null,
@@ -80,7 +80,7 @@ class Movie extends Model
 
     public function updateOMDBData()
     {
-        $omdbData = (new OMDbConnection())->getSingleMovie($this->imdb_id);
+        $omdbData = (new OMDbConnection)->getSingleMovie($this->imdb_id);
 
         $this->update([
             'poster_url' => $omdbData->Poster ?? null,
@@ -93,14 +93,14 @@ class Movie extends Model
 
     public function getWatchProviders($tmdb_id): stdClass
     {
-        $tmdb = new TMDbConnection();
+        $tmdb = new TMDbConnection;
         $providers = $tmdb->getWatchProviders($tmdb_id);
         $return = '';
 
         if (isset($providers->results->US)) {
             $return = $providers->results;
         } else {
-            $return = new stdClass();
+            $return = new stdClass;
             $return->found = null;
         }
 

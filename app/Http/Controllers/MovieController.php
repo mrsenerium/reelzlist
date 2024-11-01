@@ -32,7 +32,7 @@ class MovieController extends Controller
 
     public function store(Request $request)
     {
-        $tmdbData = (new TMDbConnection())->singleMovieData($request->id);
+        $tmdbData = (new TMDbConnection)->singleMovieData($request->id);
 
         $movie = Movie::create([
             'title' => $tmdbData->title ?? null,
@@ -53,8 +53,6 @@ class MovieController extends Controller
     {
         $movie->updateTMDBData();
         $movie->updateOMDBData();
-
-
 
         $otherReviewsQuery = Review::query()
             ->where('movie_id', $movie->id)
@@ -78,7 +76,6 @@ class MovieController extends Controller
                 : null;
 
             $watchProviders = $watchProviders->US ?? null;
-
 
             $otherReviewsQuery->where('user_id', '!=', auth()->user()->id);
         }

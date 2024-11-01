@@ -1,14 +1,16 @@
 <?php
 
+use App\Http\Controllers\HelpController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\MovieListController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\MovieListMovieController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TmdbDataController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StaticPagesController;
-use App\Http\Controllers\HelpController;
-use App\Http\Controllers\MovieListMovieController;
+use App\Http\Controllers\SubscriptionsController;
+use App\Http\Controllers\TmdbDataController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -23,19 +25,16 @@ Route::group([], function () {
     Route::get('/', [StaticPagesController::class, 'home'])->name('home');
 });
 
-
-
 Route::resource('movies', MovieController::class);
 Route::resource('tmdb', TmdbDataController::class);
 Route::resource('movie-lists', MovieListController::class);
 Route::resource('users', UserController::class);
 Route::resource('profile', ProfileController::class);
 Route::resource('help', HelpController::class);
-Route::resource('review', ReviewController::class)->except(['create']);
+Route::resource('review', ReviewController::class);
+Route::resource('registration', RegistrationController::class);
+Route::resource('subscriptions', SubscriptionsController::class);
 Route::resource('movie-lists.movies', MovieListMovieController::class)->only(['store', 'destroy']);
-Route::get('review/create/{user_id}/{movie_id}', [ReviewController::class, 'create'])->name('review.create');
 
 Route::any('login', [UserController::class, 'login'])->name('login');
 Route::any('logout', [UserController::class, 'logout'])->name('logout');
-Route::get('register', [UserController::class, 'register'])->name('register');
-Route::post('register', [UserController::class, 'storeRegistration'])->name('storeRegistration');

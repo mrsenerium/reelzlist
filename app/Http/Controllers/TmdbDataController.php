@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Resources\TMDbConnection;
 use App\Models\Movie;
+use Illuminate\Http\Request;
 
 class TmdbDataController extends Controller
 {
@@ -15,7 +15,8 @@ class TmdbDataController extends Controller
     {
         $q = request()->input('q');
         if ($q) {
-            $tmdbSearch = (new TMDbConnection())->search($q)->results;
+            $tmdbSearch = (new TMDbConnection)->search($q)->results;
+
             return view('pages.tmdb.index', [
                 'movies' => $tmdbSearch,
                 'q' => $q,
@@ -49,8 +50,8 @@ class TmdbDataController extends Controller
     public function show(string $id)
     {
         $movie = Movie::where('tmdb_id', $id)->first();
-        if (!$movie) {
-            $tmdbData = (new TMDbConnection())->singleMovieData($id);
+        if (! $movie) {
+            $tmdbData = (new TMDbConnection)->singleMovieData($id);
             $movie = Movie::firstOrCreate([
                 'title' => $tmdbData->title ?? null,
                 'overview' => $tmdbData->overview ?? null,

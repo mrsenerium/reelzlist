@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Movie;
-
 class TMDbConnection
 {
     private $_url;
+
     private $_key;
 
     public function __construct()
@@ -20,11 +19,11 @@ class TMDbConnection
         //build search string
         $keyword = trim($keyword);
         $keyword = urlencode($keyword);
-        $searchUrl = $this->_url .
+        $searchUrl = $this->_url.
             "search/movie?query={$keyword}&include_adult={$adult}&language=en-US&page=1";
 
         //Create Connection
-        $client = new \GuzzleHttp\Client();
+        $client = new \GuzzleHttp\Client;
 
         $response = $client->request(
             'GET',
@@ -42,10 +41,10 @@ class TMDbConnection
 
     public function singleMovieData($id): \stdClass
     {
-        $movieUrl = $this->_url . "movie/{$id}?language=en-US";
+        $movieUrl = $this->_url."movie/{$id}?language=en-US";
 
         //Create Connection
-        $client = new \GuzzleHttp\Client();
+        $client = new \GuzzleHttp\Client;
         $response = $client->request(
             'GET',
             $movieUrl,
@@ -62,9 +61,28 @@ class TMDbConnection
 
     public function getWatchProviders($tmdb_id): \stdClass
     {
-        $movieUrl = $this->_url . "movie/{$tmdb_id}/watch/providers";
+        $movieUrl = $this->_url."movie/{$tmdb_id}/watch/providers";
         //Create Connection
-        $client = new \GuzzleHttp\Client();
+        $client = new \GuzzleHttp\Client;
+        $response = $client->request(
+            'GET',
+            $movieUrl,
+            [
+                'headers' => [
+                    'Authorization' => $this->_key,
+                    'accept' => 'application/json',
+                ],
+            ]
+        );
+
+        return json_decode($response->getBody());
+    }
+
+    public function getProviders(): \stdClass
+    {
+        $movieUrl = $this->_url."watch/providers/movie?language=en-US&watch_region=US";
+        //Create Connection
+        $client = new \GuzzleHttp\Client;
         $response = $client->request(
             'GET',
             $movieUrl,

@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\HelpRequest;
 use App\Http\Requests\AdminHelpRequest;
+use App\Http\Requests\HelpRequest;
 use App\Models\Help;
 
 class HelpController extends Controller
 {
     public function index()
     {
-        if(!$this->authorize('index', Help::class)) {
+        if (! $this->authorize('index', Help::class)) {
             return redirect()->route('pages.help.create');
         }
 
         return view('pages.help.index', [
-                'unresolved' => Help::where('resolved', false)->get(),
-                'resolved' => Help::where('resolved', true)->get()
+            'unresolved' => Help::where('resolved', false)->get(),
+            'resolved' => Help::where('resolved', true)->get(),
         ]);
     }
 
@@ -36,8 +35,9 @@ class HelpController extends Controller
     public function show(string $id)
     {
         $this->authorize('view', Help::class);
+
         return view('pages.help.show', [
-            'help' => Help::where('id', $id)->with('user')->first()
+            'help' => Help::where('id', $id)->with('user')->first(),
         ]);
     }
 
@@ -46,28 +46,29 @@ class HelpController extends Controller
         $this->authorize('edit', Help::class);
 
         return view('pages.help.edit', [
-            'help' => Help::where('id', $id)->with('user')->first()
+            'help' => Help::where('id', $id)->with('user')->first(),
         ]);
     }
 
     public function update(AdminHelpRequest $request, string $id)
     {
         $validationData = $request->validationData();
-        
+
         unset($validationData['_token'], $validationData['_method']);
 
         Help::where('id', $id)->update($validationData);
 
         return redirect()->route('help.index', [
             'unresolved' => Help::where('resolved', false)->get(),
-            'resolved' => Help::where('resolved', true)->get()
-        ]); 
+            'resolved' => Help::where('resolved', true)->get(),
+        ]);
     }
 
     public function destroy(string $id)
     {
         $this->authorize('delete', Help::class);
         Help::where('id', $id)->delete();
+
         return redirect()->route('help.index');
     }
 }

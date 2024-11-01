@@ -18,7 +18,7 @@ class ReviewRequest extends FormRequest
             'rating' => ['numeric', 'min:1'],
             'body' => ['required', 'string'],
             'user_id' => ['required', 'exists:users,id'],
-            'movie_id' => ['required', 'exists:movies,id'], 
+            'movie_id' => ['required', 'exists:movies,id'],
         ];
     }
 

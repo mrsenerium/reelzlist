@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\Profile;
 
 class User extends Authenticatable
 {
@@ -77,5 +76,10 @@ class User extends Authenticatable
     public function help()
     {
         return $this->hasMany(Help::class, 'user_id');
+    }
+
+    public function subscriptions()
+    {
+        return $this->belongsToMany(Subscription::class, 'user_subscription');
     }
 }

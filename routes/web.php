@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StaticPagesController;
+use App\Http\Controllers\SubscriptionsController;
 use App\Http\Controllers\TmdbDataController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,7 @@ Route::resource('profile', ProfileController::class);
 Route::resource('help', HelpController::class);
 Route::resource('review', ReviewController::class);
 Route::resource('registration', RegistrationController::class);
+Route::resource('subscriptions', SubscriptionsController::class);
 Route::resource('movie-lists.movies', MovieListMovieController::class)->only(['store', 'destroy']);
 
 Route::any('login', [UserController::class, 'login'])->name('login');

@@ -77,4 +77,23 @@ class TMDbConnection
 
         return json_decode($response->getBody());
     }
+
+    public function getProviders(): \stdClass
+    {
+        $movieUrl = $this->_url."watch/providers/movie?language=en-US&watch_region=US";
+        //Create Connection
+        $client = new \GuzzleHttp\Client;
+        $response = $client->request(
+            'GET',
+            $movieUrl,
+            [
+                'headers' => [
+                    'Authorization' => $this->_key,
+                    'accept' => 'application/json',
+                ],
+            ]
+        );
+
+        return json_decode($response->getBody());
+    }
 }

@@ -37,11 +37,49 @@
                 @can('view', $user)
                     <a class="btn w-100 btn-success mb-2" href="{{ route('users.index') }}">User Administration</a>
                 @endcan
+                <a href="{{ route('subscriptions.index') }}" class="btn btn-info w-100">Manage your subscriptions</a>
             </div>
         </div>
         <div class="row">
-            <div class="col-3">
-                <a href="{{ route('subscriptions.index') }}" class="btn btn-info w-100">Manage your subscriptions</a>
+            <div class="col-7">
+                <h3>Your Subscriptions</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Provider</th>
+                                <th scope="col">Logo</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($subscriptions as $subscription)
+                                <tr>
+                                    <td>{{ $subscription->name }}</td>
+                                    <td>
+                                        <img 
+                                            src="https://www.themoviedb.org/t/p/original{{ $subscription->url }}" 
+                                            alt="{{ $subscription->name }}"
+                                            class="provider-logo"
+                                            width="50"
+                                            height="50"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="{{ $subscription->name }}"
+                                        >
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('subscriptions.destroy', $subscription->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     @endif

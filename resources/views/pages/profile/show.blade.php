@@ -39,6 +39,11 @@
                 @endcan
             </div>
         </div>
+        <div class="row">
+            <div class="col-3">
+                <a href="{{ route('subscriptions.index') }}" class="btn btn-info w-100">Manage your subscriptions</a>
+            </div>
+        </div>
     @endif
 
 @endsection

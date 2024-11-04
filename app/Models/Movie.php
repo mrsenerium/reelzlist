@@ -7,6 +7,7 @@ use App\Http\Resources\TMDbConnection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use stdClass;
 
@@ -105,5 +106,24 @@ class Movie extends Model
         }
 
         return $return;
+    }
+
+    public function filterProviders($movieProviders, $userSubscriptions): collection
+    {
+        $providers = collect();
+
+        foreach (['free', 'ads', 'flatrate', 'buy', 'rent'] as $providerType) {
+            if (! empty($movieProviders->$providerType)) {
+                $providerCollection = collect($movieProviders->$providerType);
+
+                $matches = $providerCollection->filter(function ($provider) use ($userSubscriptions) {
+                    return $userSubscriptions->contains('name', $provider->provider_name);
+                });
+
+                $providers = $providers->merge($matches);
+            }
+        }
+
+        return $providers;
     }
 }

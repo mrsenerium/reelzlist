@@ -17,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
         MovieList::class => MovieListPolicy::class,
         User::class => UserPolicy::class,
         Help::class => HelpPolicy::class,
+        Subscription::class => SubscriptionPolicy::class,
     ];
 
     /**

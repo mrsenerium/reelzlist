@@ -80,7 +80,7 @@ class TMDbConnection
 
     public function getProviders(): \stdClass
     {
-        $movieUrl = $this->_url."watch/providers/movie?language=en-US&watch_region=US";
+        $movieUrl = $this->_url.'watch/providers/movie?language=en-US&watch_region=US';
         //Create Connection
         $client = new \GuzzleHttp\Client;
         $response = $client->request(

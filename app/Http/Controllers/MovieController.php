@@ -76,6 +76,7 @@ class MovieController extends Controller
                 : null;
 
             $watchProviders = $watchProviders->US ?? null;
+            $usersSubsctiptions = $movie->filterProviders($watchProviders, auth()->user()->subscriptions);
 
             $otherReviewsQuery->where('user_id', '!=', auth()->user()->id);
         }
@@ -87,6 +88,7 @@ class MovieController extends Controller
             [
                 'movie' => $movie->toArray(),
                 'watchProviders' => $watchProviders ?? null,
+                'usersSubsctiptions' => $usersSubsctiptions ?? null,
                 'movieLists' => $movieLists ?? null,
                 'review' => $review ?? null,
                 'otherReviews' => $otherReviews ?? null,

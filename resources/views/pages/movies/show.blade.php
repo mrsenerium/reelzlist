@@ -124,8 +124,28 @@
             <div class="row bg-dark text-white">
                 <div class="row">
                     <div class="col-md-6">
+                        @if (isset($usersSubsctiptions) && count($usersSubsctiptions) > 0)
+                        <h5 class="text-white">Providers You Are Subscribed To:</h5>
+                            <div class="d-flex">
+                                @foreach ($usersSubsctiptions as $subscription)
+                                    <div class="card-text provider-card">
+                                        <img 
+                                            src="https://www.themoviedb.org/t/p/original{{ $subscription->logo_path }}" 
+                                            alt="{{ $subscription->provider_name }}"
+                                            class="provider-logo"
+                                            width="50"
+                                            height="50"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="{{ $subscription->provider_name }}"
+                                        >
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
                         @if (isset($watchProviders))
                             <div class="">
+                                <h5 class="mt-2 text-white">All Streaming Providers</h5>
                                 @if (isset($watchProviders->flatrate))
                                     @include('partials/_streaming_providers', ['title' => 'Streaming Subscription', 'providers' => $watchProviders->flatrate])
                                 @endif

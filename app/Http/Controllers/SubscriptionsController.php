@@ -2,66 +2,46 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Resources\TMDbConnection;
 use App\Models\Subscription;
+use Illuminate\Http\Request;
 
 class SubscriptionsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $subscriptions = Subscription::all();
-        return view('pages.subscriptions.index', ['subscriptions' => $subscriptions]);
+        $q = request()->input('q');
+
+        $this->authorize('viewAny', Subscription::class);
+
+        return view('pages.subscriptions.index', [
+            'subscriptions' => Subscription::query()
+                ->when($q, function ($subscriptions, $q) {
+                    $subscriptions->where('name', 'like', "%{$q}%");
+                })
+                ->paginate(25)
+                ->appends(['q' => $q]),
+            'userSubscriptions' => auth()->user()->subscriptions,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $subscription = Subscription::find($request->subscription_id);
+        $user = auth()->user();
+        $user->subscriptions()->attach($subscription);
+
+        $q = request()->input('q');
+        //dd($request->all());
+
+        return redirect()->route('subscriptions.index', ['q' => $q]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $subscription = Subscription::find($id);
+        $user = auth()->user();
+        $user->subscriptions()->detach($subscription);
+
+        return redirect()->route('subscriptions.index');
     }
 }

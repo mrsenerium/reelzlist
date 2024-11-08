@@ -2,14 +2,13 @@
 
 namespace App\Jobs;
 
+use App\Http\Resources\TMDbConnection;
+use App\Models\Subscription;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Http\Resources\TMDbConnection;
-use App\Models\Subscription;
 
 class UpdateTmdbProvidersJob implements ShouldQueue
 {
@@ -32,8 +31,9 @@ class UpdateTmdbProvidersJob implements ShouldQueue
 
         \Log::info('updating providers from TMDb');
 
-        if(!isset($providers->results)) {
+        if (! isset($providers->results)) {
             \Log::error('unable to get providers from TMDb');
+
             return;
         }
         foreach ($providers->results as $provider) {
@@ -44,7 +44,7 @@ class UpdateTmdbProvidersJob implements ShouldQueue
                 ['tmdb_provider_id' => $provider->provider_id],
                 [
                     'name' => $provider->provider_name,
-                    'url' => 'https://image.tmdb.org/t/p/original' . $provider->logo_path,
+                    'url' => 'https://image.tmdb.org/t/p/original'.$provider->logo_path,
                 ]
             );
         }

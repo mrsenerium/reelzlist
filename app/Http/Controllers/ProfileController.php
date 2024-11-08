@@ -34,7 +34,10 @@ class ProfileController extends Controller
 
     public function show($id): view|redirectResponse
     {
-        $user = User::query()->where('id', auth()->user()->id)->first();
+        $user = User::query()
+            ->where('id', auth()->user()->id)
+            ->with('subscriptions')
+            ->first();
         $profile = Profile::query()->where('user_id', $user->id)->firstOrCreate();
         $this->authorize('view', $profile);
 
@@ -42,6 +45,7 @@ class ProfileController extends Controller
             'user' => $user,
             'profile' => $profile,
             'movie_lists' => MovieList::where('user_id', $user->id)->get(),
+            'subscriptions' => $user->subscriptions,
         ]);
     }
 

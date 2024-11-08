@@ -31,7 +31,6 @@ class SubscriptionsController extends Controller
         $user->subscriptions()->attach($subscription);
 
         $q = request()->input('q');
-        //dd($request->all());
 
         return redirect()->route('subscriptions.index', ['q' => $q]);
     }

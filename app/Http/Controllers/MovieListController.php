@@ -49,6 +49,13 @@ class MovieListController extends Controller
     {
         $movieList = MovieList::where('id', $id)->with('movie')->first();
         $this->authorize('view', $movieList);
+        $movieList->movie->map(function ($movie) {
+            $movie->watch_providers = $movie->getWatchProviders($movie->tmdb_id);
+
+            $movie->watch_providers = $movie->filterProviders($movie->watch_providers->US, auth()->user()->subscriptions);
+
+            return $movie;
+        });
 
         return view('pages.movieList.show', ['movieList' => $movieList, 'movies' => $movieList->movie]);
     }

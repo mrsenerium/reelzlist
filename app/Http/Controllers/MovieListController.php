@@ -52,7 +52,7 @@ class MovieListController extends Controller
         $movieList->movie->map(function ($movie) {
             $movie->watch_providers = $movie->getWatchProviders($movie->tmdb_id);
 
-            $movie->watch_providers = $movie->filterProviders($movie->watch_providers->US, auth()->user()->subscriptions);
+            $movie->watch_providers = $movie->filterProviders($movie->watch_providers->US ?? null, auth()->user()->subscriptions);
 
             return $movie;
         });

@@ -26,6 +26,7 @@
                 <th>Year</th>
                 <th>Synopsis</th>
                 <th>Actions</th>
+                <th>Subscriptions</th>
             </tr>
         </thead>
         <tbody>
@@ -55,6 +56,23 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Remove</button>
                         </form>
+                    </td>
+                    <td>
+                        @if ($movie->watch_providers)
+                            @foreach ($movie->watch_providers as $provider)
+                                <img 
+                                src="https://www.themoviedb.org/t/p/original{{ $provider->logo_path }}" 
+                                alt="{{ $provider->provider_name }}"
+                                class="provider-logo mt-1"
+                                width="30"
+                                height="30"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="{{ $provider->provider_name }}"
+
+                                />
+                            @endforeach
+                        @endif
                     </td>
                 </tr>
             @endforeach

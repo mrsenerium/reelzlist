@@ -8,6 +8,14 @@
 
 @section('scripts')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.movie-card');
+            cards.forEach((card, index) => {
+                if (index >= 12) card.remove();
+            });
+        });
+    </script>
     <script src="{{ asset('js/showStars.js') }}" type="text/javascript"></script>
     <style>
         /* Define a fixed height for the scrollable box */
@@ -69,10 +77,15 @@
 
     <div class="row">
         @foreach ($movies as $movie)
-            <div class="col-md-2">
+            <div class="movie-card col-md-2">
                 <a href="{{ route('movies.show', $movie['slug']) }}">
                     <div class="card mb-4 shadow-sm">
-                        <img src="{{ $movie['poster_url'] }}" class="card-img-top" alt="{{ $movie['title'] }}">
+                        <img 
+                            src="{{ $movie['poster_url'] }}" 
+                            class="card-img-top" 
+                            alt="{{ $movie['title'] }}"
+                            onerror="this.closest('.movie-card').remove();"
+                            >
                         <div class="card-body">
                             <h5 class="card-title">{{ $movie['title'] }}</h5>
                         </div>

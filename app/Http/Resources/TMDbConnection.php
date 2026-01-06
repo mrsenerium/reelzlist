@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Movie;
+
 class TMDbConnection
 {
     private $_url;
@@ -96,4 +98,23 @@ class TMDbConnection
 
         return json_decode($response->getBody());
     }
+
+    public function getPoster(Movie $movie): string | null
+    {
+        $movieUrl = $this->_url."movie/{$movie->tmdb_id}/images?language=en&include_image_language=en,null";
+        $client = new \GuzzleHttp\Client;
+        $response = $client->request(
+            'GET',
+            $movieUrl,
+            [
+                'headers' => [
+                    'Authorization' => $this->_key,
+                    'accept' => 'application/json',
+                ],
+            ]
+        );
+        $images = json_decode($response->getBody());
+        return isset($images->posters[0]) ? 'https://image.tmdb.org/t/p/original'.$images->posters[0]?->file_path : null;
+    }
+
 }

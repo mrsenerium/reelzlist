@@ -136,8 +136,14 @@ class Movie extends Model
 
     public function checkPoster()
     {
+        $client = new \GuzzleHttp\Client([
+            'connect_timeout' => 1.0,
+            'timeout' => 2.0,
+            'http_errors' => true,
+        ]);
+
         try {
-            $poster = (new \GuzzleHttp\Client())->request('GET', $this->poster_url);
+            $client->head($this->poster_url);
             return $this->poster_url;
         } catch (\Exception $e) {
             $tmdb = (new TMDbConnection)->getPoster($this);

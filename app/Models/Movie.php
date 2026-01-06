@@ -126,4 +126,24 @@ class Movie extends Model
 
         return $providers;
     }
+
+    public function scopeWithPoster($query)
+    {
+        return $query->get()->filter(function ($movie) {
+            return $movie->checkPoster();
+        });
+    }
+
+    public function checkPoster()
+    {
+        try {
+            $poster = (new \GuzzleHttp\Client())->request('GET', $this->poster_url);
+            return $this->poster_url;
+        } catch (\Exception $e) {
+            $tmdb = (new TMDbConnection)->getPoster($this);
+              $this->poster_url = $tmdb;
+              $this->save();
+              return $this->poster_url;
+        }
+    }
 }

@@ -137,8 +137,8 @@ class Movie extends Model
     public function checkPoster()
     {
         $client = new \GuzzleHttp\Client([
-            'connect_timeout' => 1.0,
-            'timeout' => 2.0,
+            'connect_timeout' => 0.4,
+            'timeout' => 0.8,
             'http_errors' => true,
         ]);
 
@@ -146,6 +146,13 @@ class Movie extends Model
             $client->head($this->poster_url);
             return $this->poster_url;
         } catch (\Exception $e) {
+            \Log::Warning([
+                'message' => 'Poster not found, fetching from TMDb',
+                'movie_id' => $this->id,
+                'tmdb_id' => $this->tmdb_id,
+                'poster_url' => $this->poster_url,
+                'message' => $e->getMessage(),
+            ]);
             $tmdb = (new TMDbConnection)->getPoster($this);
               $this->poster_url = $tmdb;
               $this->save();

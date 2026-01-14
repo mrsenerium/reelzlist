@@ -202,8 +202,21 @@
                                 @foreach($movieLists as $list)
                                     <div class="movie-list-item">
                                         <span><a href="{{ route('movie-lists.show', ['movie_list' => $list->id]) }}">{{ $list->name }}</a></span>
+                                    
                                         <div class="button-container">
                                             @if (in_array($movie['id'], $list->movie->pluck('id')->toArray()))
+                                                <div class="button-container">
+                                                    @if(!$list->movie->where('id', $movie['id'])->first()->pivot->watched)
+                                                        <form action="{{ route('watchedMovies') }}" method="POST" class="ml-2" style="display:inline;">
+                                                            @csrf
+                                                            <input type="hidden" name="movie_list_id" value="{{ $list->id }}" />
+                                                            <input type="hidden" name="movie_id" value="{{ $movie['id'] }}" />
+                                                            <button type="submit" class="btn btn-primary">Mark as Watched</button>
+                                                        </form>
+                                                    @else
+                                                        <span class="btn text-success ml-2" style="display: inline;">Watched</span>
+                                                    @endif
+                                                </div>
                                                 <div class="success-button">
                                                     On List
                                                 </div>

@@ -62,9 +62,8 @@ class MovieController extends Controller
 
         if (auth()->user()) {
             $movieLists = MovieList::query()
-                ->when(auth()->user(), function ($movieLists) {
-                    $movieLists->where('user_id', auth()->user()->id);
-                })
+                ->where('user_id', auth()->user()->id)
+                ->with('movie')
                 ->get();
 
             $review = Review::query()

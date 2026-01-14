@@ -21,7 +21,9 @@ class MovieList extends Model
 
     public function movie()
     {
-        return $this->belongsToMany(Movie::class);
+        return $this->belongsToMany(Movie::class)
+            ->withPivot('watched')
+            ->withTimestamps();
     }
 
     public function review()
@@ -32,7 +34,7 @@ class MovieList extends Model
     public function addMovieToList($movie)
     {
         $movie = Movie::where('id', $movie)->firstOrFail();
-        $this->movie()->attach($movie->id);
+        $this->movie()->attach($movie->id, ['watched' => false]);
     }
 
     public function removeMovieFromList($movie)

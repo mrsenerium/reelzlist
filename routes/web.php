@@ -11,6 +11,8 @@ use App\Http\Controllers\StaticPagesController;
 use App\Http\Controllers\SubscriptionsController;
 use App\Http\Controllers\TmdbDataController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WatchedMovie;
+use App\Http\Controllers\UnwatchMovie;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -36,6 +38,9 @@ Route::resource('review', ReviewController::class);
 Route::resource('registration', RegistrationController::class);
 Route::resource('subscriptions', SubscriptionsController::class);
 Route::resource('movie-lists.movies', MovieListMovieController::class)->only(['store', 'destroy']);
+
+Route::post('watchedMovies', [WatchedMovie::class, '__invoke'])->name('watchedMovies');
+Route::post('unwatchMovies', [UnwatchMovie::class, '__invoke'])->name('unwatchMovies');
 
 Route::any('login', [UserController::class, 'login'])->name('login');
 Route::any('logout', [UserController::class, 'logout'])->name('logout');

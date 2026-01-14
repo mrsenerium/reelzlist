@@ -17,6 +17,7 @@ class StaticPagesController extends Controller
         //     ->values();
         // todo: clean this up later
         $movies = Movie::whereNotNull('poster_url')
+            ->frontpageSafe()
             ->inRandomOrder()
             ->limit(30)
             ->get();

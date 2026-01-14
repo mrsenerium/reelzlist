@@ -245,5 +245,13 @@
         </div>
     @endforeach
     {{ $otherReviews->links() }}
+    @if (Auth::user() && Auth::user()->can('edit', App\Models\Movie::class))
+        <hr />
+        <div class="row">
+            <div>
+                <a href="{{ route('movies.edit', ['movie' => $movie['id']]) }}" class="btn btn-primary">Edit Movie</a>
+            </div>
+        </div>
+    @endif
 
 @endsection

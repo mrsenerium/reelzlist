@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Http\Resources\OMDbConnection;
 use App\Http\Resources\TMDbConnection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -14,6 +15,7 @@ use stdClass;
 class Movie extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $guarded = [
         'id',
@@ -125,6 +127,11 @@ class Movie extends Model
         }
 
         return $providers;
+    }
+
+    public function scopeFrontpageSafe($query)
+    {
+        return $query->where('frontpage_safe', true);
     }
 
     public function scopeWithPoster($query)

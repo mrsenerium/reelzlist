@@ -26,6 +26,7 @@ Route::group([], function () {
 });
 
 Route::resource('movies', MovieController::class);
+Route::post('movies/{movie}/restore', [MovieController::class, 'restore'])->name('movies.restore');
 Route::resource('tmdb', TmdbDataController::class);
 Route::resource('movie-lists', MovieListController::class);
 Route::resource('users', UserController::class);

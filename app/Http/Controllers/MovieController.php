@@ -7,6 +7,7 @@ use App\Models\Movie;
 use App\Models\MovieList;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use App\Http\Requests\MovieUpdateRequest;
 
 class MovieController extends Controller
 {
@@ -96,18 +97,54 @@ class MovieController extends Controller
         );
     }
 
-    public function edit(Movie $movie)
+    public function edit($id)
     {
-        //
+        $movie = Movie::where('id', $id)
+            ->withTrashed()
+            ->first();
+        $this->authorize('edit', $movie);
+        return view('pages.movies.edit', ['movie' => $movie]);
     }
 
-    public function update(Request $request, Movie $movie)
+    public function update(MovieUpdateRequest $request, $id)
     {
-        //
+        $this->authorize('edit', Movie::class);
+        $movie = Movie::withTrashed()->findOrFail($id);
+        $validated = $request->validated();
+        $movie->update([
+            'title' => $validated['title'],
+            'imdb_id' => $validated['imdb_id'],
+            'tmdb_id' => $validated['tmdb_id'],
+            'overview' => $validated['overview'],
+            'runtime' => $validated['runtime'],
+            'budget' => $validated['budget'],
+            'box_office' => $validated['box_office'],
+            'poster_url' => $validated['poster_url'],
+            'frontpage_safe' => $validated['frontpage_safe'] ?? false,
+        ]);
+        return redirect()->route('movies.edit', $movie->id)
+            ->with('success', 'Movie updated successfully.');
     }
 
     public function destroy(Movie $movie)
     {
-        //
+        $this->authorize('edit', $movie);
+        $movie->delete();
+
+        return redirect()->route('movies.index')
+            ->with('success', 'Movie deleted successfully.');
+    }
+
+    public function restore($id)
+    {
+        $movie = Movie::withTrashed()->findOrFail($id);
+        $this->authorize('edit', $movie);
+
+        if ($movie->trashed()) {
+            $movie->restore();
+        }
+
+        return redirect()->route('movies.edit', $movie->id)
+            ->with('success', 'Movie restored successfully.');
     }
 }

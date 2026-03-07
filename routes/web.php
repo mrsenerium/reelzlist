@@ -25,6 +25,7 @@ Route::group([], function () {
     Route::get('/about', [StaticPagesController::class, 'about'])->name('about');
     Route::get('/contact', [StaticPagesController::class, 'contact'])->name('contact');
     Route::get('/', [StaticPagesController::class, 'home'])->name('home');
+    Route::get('/openai', [StaticPagesController::class, 'openai'])->name('openai');
 });
 
 Route::resource('movies', MovieController::class);

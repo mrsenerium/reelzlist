@@ -34,4 +34,15 @@ class StaticPagesController extends Controller
     {
         return view('pages.static.features');
     }
+
+    public function openai()
+    {
+        $openAIService = new \App\Services\OpenAIService();
+        $response = $openAIService->respond('Hello, OpenAI!');
+        dd(response()->json(['response' => $response]));
+
+        // $openAIService = new \App\Services\OpenAIService();
+        // $models = $openAIService->listModels();
+        // dd($models);
+    }
 }

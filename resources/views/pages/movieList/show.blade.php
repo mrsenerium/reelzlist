@@ -43,6 +43,11 @@
                         <a href="{{ route('movies.show', $movie->slug) }}">
                             {{ $movie->title }}
                         </a>
+                        <small class="d-block">
+                            @foreach ($movie->genres as $genre)
+                                <br /><span>{{ $genre->name }}</span>
+                            @endforeach
+                        </small>
                     </th>
                     <td>
                         {{ \Carbon\Carbon::parse($movie->release_date)->format('Y') }}

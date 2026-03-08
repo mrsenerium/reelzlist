@@ -63,6 +63,11 @@ class Movie extends Model
         return $this->hasMany(Review::class, 'movie_id');
     }
 
+    public function genres()
+    {
+        return $this->belongsToMany(Genre::class, 'movie_genre');
+    }
+
     public function updateTMDBData($force = false): void
     {
         if ($this->updated_at <= Carbon::now()->subMonth() || $force) {
@@ -78,6 +83,14 @@ class Movie extends Model
                 'release_date' => $tmdbData->release_date,
                 'tmdb_id' => $tmdbData->id,
             ]);
+
+            foreach ($tmdbData->genres as $genreData) {
+                $genre = Genre::firstOrCreate(
+                    ['tmdb_id' => $genreData->id],
+                    ['name' => $genreData->name]
+                );
+                $this->addGenre($genre);
+            }
         }
     }
 
@@ -164,6 +177,13 @@ class Movie extends Model
               $this->poster_url = $tmdb;
               $this->save();
               return $this->poster_url;
+        }
+    }
+
+    public function addGenre(Genre $genre): void
+    {
+        if (! $this->genres()->where('genre_id', $genre->id)->exists()) {
+            $this->genres()->attach($genre);
         }
     }
 }

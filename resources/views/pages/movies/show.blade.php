@@ -83,6 +83,16 @@
                         {{ $movie['runtime'] }} Minutes
                     </p>
                     <p>
+                        Genres:               
+                        @if (isset($movie['genres']) && count($movie['genres']) > 0)
+                            @foreach ($movie['genres'] as $genre)
+                                {{ $genre['name'] }}{{ !$loop->last ? ',' : '' }}
+                            @endforeach
+                        @else
+                            N/A
+                        @endif
+                    </p>
+                    <p>
                         Released {{ \Carbon\Carbon::parse($movie['release_date'])->format('M d, Y') }}
                     </p>
                     <p>Rated <strong class="text-dark">{{ $movie['mpaa_rating'] }}</strong>

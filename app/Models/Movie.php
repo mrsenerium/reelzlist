@@ -5,8 +5,8 @@ namespace App\Models;
 use App\Http\Resources\OMDbConnection;
 use App\Http\Resources\TMDbConnection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -55,7 +55,10 @@ class Movie extends Model
 
     public function movieList()
     {
-        return $this->belongsToMany(MovieList::class);
+        return $this->belongsToMany(MovieList::class)
+            ->using(ListMovie::class)
+            ->withPivot('is_watched')
+            ->withTimestamps();
     }
 
     public function review()
@@ -164,6 +167,7 @@ class Movie extends Model
 
         try {
             $client->head($this->poster_url);
+
             return $this->poster_url;
         } catch (\Exception $e) {
             \Log::Warning([
@@ -174,9 +178,10 @@ class Movie extends Model
                 'message' => $e->getMessage(),
             ]);
             $tmdb = (new TMDbConnection)->getPoster($this);
-              $this->poster_url = $tmdb;
-              $this->save();
-              return $this->poster_url;
+            $this->poster_url = $tmdb;
+            $this->save();
+
+            return $this->poster_url;
         }
     }
 

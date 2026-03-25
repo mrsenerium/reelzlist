@@ -18,7 +18,15 @@
 </div>
 
 {{ $movieList->private ? 'Private' : 'Public' }} List
-    <table class="table table-hover">
+
+@can('edit', $movieList)
+    <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" id="hide-watched-toggle" checked />
+        <label class="form-check-label" for="hide-watched-toggle">Hide watched movies</label>
+    </div>
+@endcan
+
+    <table class="table table-hover" id="movie-list-table">
         <thead>
             <tr>
                 <th></th>
@@ -31,7 +39,13 @@
         </thead>
         <tbody>
             @foreach ($movies as $movie)
-                <tr>
+                <tr
+                    @can('edit', $movieList)
+                        data-list-movie-row
+                        data-is-watched="{{ $movie->pivot->is_watched ? '1' : '0' }}"
+                    @endcan
+                    @class(['table-secondary' => auth()->user()?->can('edit', $movieList) && $movie->pivot->is_watched])
+                >
                     <th scope="row">
                         @if (isset($movie->poster_url))
                             <a href="{{ route('movies.show', $movie->slug) }}">
@@ -56,11 +70,23 @@
                         {{ substr($movie->overview, 0, 200) }}
                     </td>
                     <td>
-                        <form action="{{ route('movie-lists.movies.destroy', ['movie_list' => $movieList->id, 'movie' => $movie->id]) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to remove this movie?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Remove</button>
-                        </form>
+                        @can('edit', $movieList)
+                            <div class="d-flex flex-wrap align-items-center gap-1">
+                                <form action="{{ route('movie-lists.movies.update', ['movie_list' => $movieList->id, 'movie' => $movie->slug]) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="is_watched" value="{{ $movie->pivot->is_watched ? '0' : '1' }}" />
+                                    <button type="submit" class="btn btn-sm {{ $movie->pivot->is_watched ? 'btn-outline-secondary' : 'btn-primary' }}">
+                                        {{ $movie->pivot->is_watched ? 'Unwatch' : 'Watch' }}
+                                    </button>
+                                </form>
+                                <form action="{{ route('movie-lists.movies.destroy', ['movie_list' => $movieList->id, 'movie' => $movie->slug]) }}" method="POST" onsubmit="return confirm('Are you sure you want to remove this movie?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                                </form>
+                            </div>
+                        @endcan
                     </td>
                     <td>
                         @if ($movie->watch_providers)
@@ -83,7 +109,31 @@
             @endforeach
         </tbody>
     </table>
-    <a href="{{ route('profile.show', [auth()->user()->id]) }}">Back to Profile</a>
+    @auth
+        <a href="{{ route('profile.show', [auth()->user()->id]) }}">Back to Profile</a>
+    @endauth
 </div>
 
 @endsection
+
+@can('edit', $movieList)
+    @section('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var toggle = document.getElementById('hide-watched-toggle');
+                if (!toggle) {
+                    return;
+                }
+                var apply = function () {
+                    var hide = toggle.checked;
+                    document.querySelectorAll('[data-list-movie-row]').forEach(function (row) {
+                        var watched = row.getAttribute('data-is-watched') === '1';
+                        row.style.display = hide && watched ? 'none' : '';
+                    });
+                };
+                toggle.addEventListener('change', apply);
+                apply();
+            });
+        </script>
+    @endsection
+@endcan

@@ -21,7 +21,10 @@ class MovieList extends Model
 
     public function movie()
     {
-        return $this->belongsToMany(Movie::class);
+        return $this->belongsToMany(Movie::class)
+            ->using(ListMovie::class)
+            ->withPivot('is_watched')
+            ->withTimestamps();
     }
 
     public function review()

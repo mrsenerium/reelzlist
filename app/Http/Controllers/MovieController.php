@@ -54,7 +54,7 @@ class MovieController extends Controller
     {
         $movie->updateTMDBData();
         $movie->updateOMDBData();
-        $movie->load('genres');
+        //$movie->load('genres');
 
         $otherReviewsQuery = Review::query()
             ->where('movie_id', $movie->id)

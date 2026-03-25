@@ -48,7 +48,7 @@ class MovieListController extends Controller
     public function show(string $id)
     {
         $movieList = MovieList::where('id', $id)->with(['movie'])->first();
-        $movieList->load('movie.genres');
+        //$movieList->load('movie.genres');
         $this->authorize('view', $movieList);
         $movieList->movie->map(function ($movie) {
             $movie->watch_providers = $movie->getWatchProviders($movie->tmdb_id);

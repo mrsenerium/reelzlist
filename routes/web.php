@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('home');
 // });
 
-//Create group for static pages routes no prefix staticPagesController
+// Create group for static pages routes no prefix staticPagesController
 Route::group([], function () {
     Route::get('/features', [StaticPagesController::class, 'features'])->name('features');
     Route::get('/about', [StaticPagesController::class, 'about'])->name('about');
@@ -35,7 +35,7 @@ Route::resource('help', HelpController::class);
 Route::resource('review', ReviewController::class);
 Route::resource('registration', RegistrationController::class);
 Route::resource('subscriptions', SubscriptionsController::class);
-Route::resource('movie-lists.movies', MovieListMovieController::class)->only(['store', 'destroy']);
+Route::resource('movie-lists.movies', MovieListMovieController::class)->only(['store', 'update', 'destroy']);
 
 Route::any('login', [UserController::class, 'login'])->name('login');
 Route::any('logout', [UserController::class, 'logout'])->name('logout');

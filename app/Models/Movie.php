@@ -7,6 +7,7 @@ use App\Http\Resources\TMDbConnection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -112,18 +113,24 @@ class Movie extends Model
 
     public function getWatchProviders($tmdb_id): stdClass
     {
-        $tmdb = new TMDbConnection;
-        $providers = $tmdb->getWatchProviders($tmdb_id);
-        $return = '';
+        return Cache::remember(
+            "tmdb.watch_providers.{$tmdb_id}",
+            now()->addDays(14),
+            function () use ($tmdb_id) {
 
-        if (isset($providers->results->US)) {
-            $return = $providers->results;
-        } else {
-            $return = new stdClass;
-            $return->found = null;
-        }
+                $tmdb = new TMDbConnection;
+                $providers = $tmdb->getWatchProviders($tmdb_id);
 
-        return $return;
+                if (isset($providers->results->US)) {
+                    $return = $providers->results;
+                } else {
+                    $return = new stdClass;
+                    $return->found = null;
+                }
+
+                return $return;
+            }
+        );
     }
 
     public function filterProviders($movieProviders, $userSubscriptions): collection

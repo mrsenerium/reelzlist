@@ -77,7 +77,7 @@
                                     @method('PATCH')
                                     <input type="hidden" name="is_watched" value="{{ $movie->pivot->is_watched ? '0' : '1' }}" />
                                     <button type="submit" class="btn btn-sm {{ $movie->pivot->is_watched ? 'btn-outline-secondary' : 'btn-primary' }}">
-                                        {{ $movie->pivot->is_watched ? 'Unwatch' : 'Watch' }}
+                                        {{ $movie->pivot->is_watched ? 'Unwatch' : 'Mark Watch' }}
                                     </button>
                                 </form>
                                 <form action="{{ route('movie-lists.movies.destroy', ['movie_list' => $movieList->id, 'movie' => $movie->slug]) }}" method="POST" onsubmit="return confirm('Are you sure you want to remove this movie?')">
@@ -91,8 +91,8 @@
                     <td>
                         @if ($movie->watch_providers)
                             @foreach ($movie->watch_providers as $provider)
-                                <img 
-                                src="https://www.themoviedb.org/t/p/original{{ $provider->logo_path }}" 
+                                <img
+                                src="https://www.themoviedb.org/t/p/original{{ $provider->logo_path }}"
                                 alt="{{ $provider->provider_name }}"
                                 class="provider-logo mt-1"
                                 width="30"

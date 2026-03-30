@@ -6,6 +6,7 @@ use App\Models\MovieList;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\Http\Requests\MovieListShowRequest;
 use Illuminate\View\View;
 
 class MovieListController extends Controller
@@ -45,20 +46,40 @@ class MovieListController extends Controller
         return redirect(route('profile.show', ['profile' => $user->profile->id]));
     }
 
-    public function show(string $id)
+    public function show(MovieListShowRequest $request, string $id)
     {
-        $movieList = MovieList::where('id', $id)->with(['movie'])->first();
-        //$movieList->load('movie.genres');
+        $movieList = MovieList::findOrFail($id);
         $this->authorize('view', $movieList);
-        $movieList->movie->map(function ($movie) {
+
+        $query = $movieList->movie()->with('genres');
+
+        if ($request->hideWatched()) {
+            $query->wherePivot('is_watched', false);
+        }
+
+        if ($request->search()) {
+            $query->where('title', 'like', '%' . $request->search() . '%');
+        }
+
+        $movies = $query->paginate($request->itemsPerPage())->withQueryString();
+
+        $movies->getCollection()->transform(function ($movie) {
             $movie->watch_providers = $movie->getWatchProviders($movie->tmdb_id);
 
-            $movie->watch_providers = $movie->filterProviders($movie->watch_providers->US ?? null, auth()->user()->subscriptions);
+            $movie->watch_providers = $movie->filterProviders(
+                $movie->watch_providers->US ?? null,
+                auth()->user()->subscriptions
+            );
 
             return $movie;
         });
 
-        return view('pages.movieList.show', ['movieList' => $movieList, 'movies' => $movieList->movie]);
+        return view('pages.movieList.show', [
+            'movieList' => $movieList,
+            'movies' => $movies,
+            'search' => $request->search(),
+            'hideWatched' => $request->hideWatched(),
+        ]);
     }
 
     public function edit(string $id)

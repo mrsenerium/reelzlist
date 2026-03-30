@@ -79,6 +79,7 @@ class MovieListController extends Controller
             'movies' => $movies,
             'search' => $request->search(),
             'hideWatched' => $request->hideWatched(),
+            'itemsPerPage' => $request->itemsPerPage(),
         ]);
     }
 

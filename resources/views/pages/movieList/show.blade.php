@@ -178,10 +178,14 @@
         </tbody>
     </table>
     {{ $movies->links() }}
+    <div class="mt-4">
+        Showing {{ $movies->firstItem() }} to {{ $movies->lastItem() }} of {{ $movies->total() }} results
+    </div>
     @auth
-        <a href="{{ route('profile.show', [auth()->user()->id]) }}">Back to Profile</a>
+        <div class="mt-4 mb-4">
+            <a href="{{ route('profile.show', [auth()->user()->id]) }}">Back to Profile</a>
+        </div>
     @endauth
-</div>
 
 @endsection
 

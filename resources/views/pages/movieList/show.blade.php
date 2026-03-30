@@ -19,12 +19,80 @@
 
 {{ $movieList->private ? 'Private' : 'Public' }} List
 
-@can('edit', $movieList)
-    <div class="form-check mb-3">
-        <input class="form-check-input" type="checkbox" id="hide-watched-toggle" checked />
-        <label class="form-check-label" for="hide-watched-toggle">Hide watched movies</label>
-    </div>
-@endcan
+{{--@can('edit', $movieList)--}}
+{{--    <div class="form-check mb-3">--}}
+{{--        <input class="form-check-input" type="checkbox" id="hide-watched-toggle" checked />--}}
+{{--        <label class="form-check-label" for="hide-watched-toggle">Hide watched movies</label>--}}
+{{--    </div>--}}
+{{--@endcan--}}
+<div>
+{{--    @if($hideWatched)--}}
+{{--        <a href="{{ route('movie-lists.show', ['movie_list' => $id, 'hide_watched' => false]) }}">Show Watched Movies</a>--}}
+{{--    @else--}}
+{{--        <a href="{{ route('movie-lists.show', ['movie_list' => $id, 'hide_watched' => true]) }}">Hide Watched Movies</a>--}}
+{{--    @endif--}}
+    <form method="GET" action="{{ route('movie-lists.show', $movieList->id) }}" class="mt-2 mb-4">
+        <div>
+            <div class="card-body">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-5">
+                        <label for="search" class="form-label">Search</label>
+                        <input
+                            type="text"
+                            name="search"
+                            id="search"
+                            class="form-control"
+                            placeholder="Search movies..."
+                            value="{{ request('search') }}"
+                        >
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="itemsPerPage" class="form-label">Items Per Page</label>
+                        <select name="itemsPerPage" id="itemsPerPage" class="form-select">
+                            <option value="10" @selected(request('itemsPerPage') == 10)>10</option>
+                            <option value="25" @selected(request('itemsPerPage', 25) == 25)>25</option>
+                            <option value="50" @selected(request('itemsPerPage') == 50)>50</option>
+                            <option value="100" @selected(request('itemsPerPage') == 100)>100</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <input type="hidden" name="hideWatched" value="0">
+
+                        <div class="form-check mb-2">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="hideWatched"
+                                id="hideWatched"
+                                value="1"
+                                @checked(request()->boolean('hideWatched', true))
+                            >
+                            <label class="form-check-label" for="hideWatched">
+                                Hide Watched
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            Apply Filters
+                        </button>
+                    </div>
+                </div>
+
+                @if(request()->hasAny(['search', 'itemsPerPage', 'hideWatched']))
+                    <div class="mt-3">
+                        <a href="{{ route('movie-lists.show', $movieList->id) }}" class="btn btn-outline-secondary btn-sm">
+                            Reset Filters
+                        </a>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </form>
+</div>
 
     <table class="table table-hover" id="movie-list-table">
         <thead>
@@ -75,7 +143,7 @@
                                 <form action="{{ route('movie-lists.movies.update', ['movie_list' => $movieList->id, 'movie' => $movie->slug]) }}" method="POST">
                                     @csrf
                                     @method('PATCH')
-                                    <input type="hidden" name="is_watched" value="{{ $movie->pivot->is_watched ? '0' : '1' }}" />
+                                    <input type="hidden" name="isWatched" value="{{ $movie->pivot->is_watched ? '0' : '1' }}" />
                                     <button type="submit" class="btn btn-sm {{ $movie->pivot->is_watched ? 'btn-outline-secondary' : 'btn-primary' }}">
                                         {{ $movie->pivot->is_watched ? 'Unwatch' : 'Mark Watch' }}
                                     </button>
@@ -109,6 +177,7 @@
             @endforeach
         </tbody>
     </table>
+    {{ $movies->links() }}
     @auth
         <a href="{{ route('profile.show', [auth()->user()->id]) }}">Back to Profile</a>
     @endauth
@@ -116,24 +185,4 @@
 
 @endsection
 
-@can('edit', $movieList)
-    @section('scripts')
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var toggle = document.getElementById('hide-watched-toggle');
-                if (!toggle) {
-                    return;
-                }
-                var apply = function () {
-                    var hide = toggle.checked;
-                    document.querySelectorAll('[data-list-movie-row]').forEach(function (row) {
-                        var watched = row.getAttribute('data-is-watched') === '1';
-                        row.style.display = hide && watched ? 'none' : '';
-                    });
-                };
-                toggle.addEventListener('change', apply);
-                apply();
-            });
-        </script>
-    @endsection
-@endcan
+

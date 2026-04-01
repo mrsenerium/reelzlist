@@ -19,18 +19,7 @@
 
 {{ $movieList->private ? 'Private' : 'Public' }} List
 
-{{--@can('edit', $movieList)--}}
-{{--    <div class="form-check mb-3">--}}
-{{--        <input class="form-check-input" type="checkbox" id="hide-watched-toggle" checked />--}}
-{{--        <label class="form-check-label" for="hide-watched-toggle">Hide watched movies</label>--}}
-{{--    </div>--}}
-{{--@endcan--}}
 <div>
-{{--    @if($hideWatched)--}}
-{{--        <a href="{{ route('movie-lists.show', ['movie_list' => $id, 'hide_watched' => false]) }}">Show Watched Movies</a>--}}
-{{--    @else--}}
-{{--        <a href="{{ route('movie-lists.show', ['movie_list' => $id, 'hide_watched' => true]) }}">Hide Watched Movies</a>--}}
-{{--    @endif--}}
     <form method="GET" action="{{ route('movie-lists.show', $movieList->id) }}" class="mt-2 mb-4">
         <div>
             <div class="card-body">
@@ -117,7 +106,7 @@
                     <th scope="row">
                         @if (isset($movie->poster_url))
                             <a href="{{ route('movies.show', $movie->slug) }}">
-                                <img src="{{ $movie->poster_url }}" style="max-height:75px" />
+                                <img src="{{ $movie->poster_url }}" style="max-height:75px" alt="{{ $movie->title }} Poster" />
                             </a>
                         @endif
                     </th>
@@ -140,10 +129,13 @@
                     <td>
                         @can('edit', $movieList)
                             <div class="d-flex flex-wrap align-items-center gap-1">
-                                <form action="{{ route('movie-lists.movies.update', ['movie_list' => $movieList->id, 'movie' => $movie->slug]) }}" method="POST">
+                                <form action="{{ route('movie-lists.movies.update',
+                                                    ['movie_list' => $movieList->id,
+                                                    'movie' => $movie->slug]) }}
+                                                    " method="POST">
                                     @csrf
                                     @method('PATCH')
-                                    <input type="hidden" name="isWatched" value="{{ $movie->pivot->is_watched ? '0' : '1' }}" />
+                                    <input type="hidden" name="is_watched" value="{{ $movie->pivot->is_watched ? '0' : '1' }}" />
                                     <button type="submit" class="btn btn-sm {{ $movie->pivot->is_watched ? 'btn-outline-secondary' : 'btn-primary' }}">
                                         {{ $movie->pivot->is_watched ? 'Unwatch' : 'Mark Watch' }}
                                     </button>

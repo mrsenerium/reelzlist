@@ -5,6 +5,7 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\MovieListController;
 use App\Http\Controllers\MovieListMovieController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StaticPagesController;
@@ -36,6 +37,7 @@ Route::resource('review', ReviewController::class);
 Route::resource('registration', RegistrationController::class);
 Route::resource('subscriptions', SubscriptionsController::class);
 Route::resource('movie-lists.movies', MovieListMovieController::class)->only(['store', 'update', 'destroy']);
+Route::resource('public-profiles', PublicProfileController::class);
 
 Route::any('login', [UserController::class, 'login'])->name('login');
 Route::any('logout', [UserController::class, 'logout'])->name('logout');

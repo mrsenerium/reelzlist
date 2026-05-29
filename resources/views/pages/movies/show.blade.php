@@ -83,7 +83,7 @@
                         {{ $movie['runtime'] }} Minutes
                     </p>
                     <p>
-                        Genres:               
+                        Genres:
                         @if (isset($movie['genres']) && count($movie['genres']) > 0)
                             @foreach ($movie['genres'] as $genre)
                                 {{ $genre['name'] }}{{ !$loop->last ? ',' : '' }}
@@ -134,13 +134,13 @@
             <div class="row bg-dark text-white">
                 <div class="row">
                     <div class="col-md-6">
-                        @if (isset($usersSubsctiptions) && count($usersSubsctiptions) > 0)
+                        @if (isset($usersSubscriptions) && count($usersSubscriptions) > 0)
                         <h5 class="text-white">Providers You Are Subscribed To:</h5>
                             <div class="d-flex">
-                                @foreach ($usersSubsctiptions as $subscription)
+                                @foreach ($usersSubscriptions as $subscription)
                                     <div class="card-text provider-card">
-                                        <img 
-                                            src="https://www.themoviedb.org/t/p/original{{ $subscription->logo_path }}" 
+                                        <img
+                                            src="https://www.themoviedb.org/t/p/original{{ $subscription->logo_path }}"
                                             alt="{{ $subscription->provider_name }}"
                                             class="provider-logo"
                                             width="50"

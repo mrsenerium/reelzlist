@@ -54,7 +54,7 @@ class MovieController extends Controller
     {
         $movie->updateTMDBData();
         $movie->updateOMDBData();
-        //$movie->load('genres');
+        $movie->load('genres');
 
         $otherReviewsQuery = Review::query()
             ->where('movie_id', $movie->id)
@@ -78,7 +78,7 @@ class MovieController extends Controller
                 : null;
 
             $watchProviders = $watchProviders->US ?? null;
-            $usersSubsctiptions = $movie->filterProviders($watchProviders, auth()->user()->subscriptions);
+            $usersSubscriptions = $movie->filterProviders($watchProviders, auth()->user()->subscriptions);
 
             $otherReviewsQuery->where('user_id', '!=', auth()->user()->id);
         }
@@ -90,7 +90,7 @@ class MovieController extends Controller
             [
                 'movie' => $movie->toArray(),
                 'watchProviders' => $watchProviders ?? null,
-                'usersSubsctiptions' => $usersSubsctiptions ?? null,
+                'usersSubscriptions' => $usersSubscriptions ?? null,
                 'movieLists' => $movieLists ?? null,
                 'review' => $review ?? null,
                 'otherReviews' => $otherReviews ?? null,

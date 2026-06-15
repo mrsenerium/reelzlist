@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
         \App\Models\User::factory()->create([
             'name' => 'Joe Burgess',
             'email' => 'joeburgess@tds.net',
+            'username' => 'joeburgess',
             'password' => 'password',
             'role' => 'super-admin',
         ]);

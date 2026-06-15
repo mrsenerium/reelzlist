@@ -29,6 +29,13 @@
                             Blog
                         </a>
                     </li>
+                    @if (Auth::check())
+                        <li>
+                            <a class="nav-link" href="{{ route('public-profiles.index') }}">
+                                Others
+                            </a>
+                        </li>
+                    @endif
                 </ul>
                 <form class="navbar-nav ms-md-auto" method="get" action="{{ route('movies.index') }}">
                     @csrf

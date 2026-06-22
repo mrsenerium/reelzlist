@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\MovieListShowRequest;
+use App\Models\Genre;
 use Illuminate\View\View;
 
 class MovieListController extends Controller
@@ -59,6 +60,15 @@ class MovieListController extends Controller
 
         if ($request->search()) {
             $query->where('title', 'like', '%' . $request->search() . '%');
+        }
+        if ($request->genre()) {
+            $query->whereHas('genres', function ($query) use ($request) {
+                $query->where('genres.name', $request->genre());
+            });
+        }
+        if ($request->year()) {
+            // $query->where('year', $query->year());
+            $query->where('release_date', 'like', $request->year() . '%');
         }
 
         $movies = $query->paginate($request->itemsPerPage())->withQueryString();

@@ -67,7 +67,6 @@ class MovieListController extends Controller
             });
         }
         if ($request->year()) {
-            // $query->where('year', $query->year());
             $query->where('release_date', 'like', $request->year() . '%');
         }
 

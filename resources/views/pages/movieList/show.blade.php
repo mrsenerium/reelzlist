@@ -24,7 +24,7 @@
         <div>
             <div class="card-body">
                 <div class="row g-3 align-items-end">
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <label for="search" class="form-label">Search</label>
                         <input
                             type="text"
@@ -35,7 +35,30 @@
                             value="{{ request('search') }}"
                         >
                     </div>
+                    <div class="col-md-4">
+                        <label for="genre" class="form-label">Genre</label>
+                        <input
+                            type="text"
+                            name="genre"
+                            id="genre"
+                            class="form-control"
+                            placeholder="Search genre..."
+                            value="{{ request('genre') }}"
+                        >
+                    </div>
+                    <div class="col-md-2">
+                        <label for="year" class="form-label">Year</label>
+                        <input
+                            type="text"
+                            name="year"
+                            id="year"
+                            class="form-control"
+                            value="{{ request('year') }}"
+                        >
+                    </div>
+                </div>
 
+                <div class="row g-3 align-items-end mt-3">
                     <div class="col-md-3">
                         <label for="itemsPerPage" class="form-label">Items Per Page</label>
                         <select name="itemsPerPage" id="itemsPerPage" class="form-select">
@@ -45,7 +68,6 @@
                             <option value="100" @selected(request('itemsPerPage') == 100)>100</option>
                         </select>
                     </div>
-
                     <div class="col-md-2">
                         <input type="hidden" name="hideWatched" value="0">
 

@@ -18,6 +18,8 @@ class MovieListShowRequest extends FormRequest
             'search' => ['nullable', 'string', 'max:255'],
             'itemsPerPage' => ['nullable', 'integer', 'in:10,25,50,100'],
             'page' => ['nullable', 'integer', 'min:1'],
+            'genre' => ['nullable', 'string', 'max:255'],
+            'year' => ['nullable', 'integer', 'min:1910', 'max:2100'],
             'hideWatched' => ['nullable', 'boolean'],
         ];
     }
@@ -28,6 +30,8 @@ class MovieListShowRequest extends FormRequest
             'search' => $this->query('search'),
             'itemsPerPage' => $this->query('itemsPerPage', 25),
             'page' => $this->query('page', 1),
+            'genre' => $this->query('genre'),
+            'year' => $this->query('year'),
             'hideWatched' => $this->boolean('hideWatched', true),
         ]);
     }
@@ -45,5 +49,15 @@ class MovieListShowRequest extends FormRequest
     public function search(): ?string
     {
         return $this->input('search');
+    }
+
+    public function genre(): ?string
+    {
+        return $this->input('genre');
+    }
+
+    public function year(): ?int
+    {
+        return $this->input('year');
     }
 }

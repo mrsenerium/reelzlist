@@ -33,6 +33,7 @@
     <thead>
         <tr>
             <th scope="col">Title</th>
+            <th>Genre</th>
             <th scope="col">Synopsis</th>
             <th scope="col">Release Date</th>
         </tr>
@@ -45,6 +46,15 @@
                     onclick="window.location='{{ route('tmdb.show', $movie->id) }}';" style="cursor: pointer;"
                 >
                     <th scope="row">{{ $movie->title }}</th>
+                    <th>
+                        @if(isset($movie->genres))
+                            @foreach($movie->genres as $genre)
+                                {{ $genre->name }}<br/>
+                            @endforeach
+                        @else
+                            <p></p>
+                        @endif
+                    </th>
                     <td>{{ $movie->overview }}</td>
                     @if (!empty($movie->release_date))
                         <td class="wider-column">{{ \Carbon\Carbon::parse($movie->release_date)->format('M d, Y') }}</td>
@@ -55,6 +65,15 @@
             @else
                 <tr class="table-secondary" onclick="window.location='{{ route('tmdb.show', $movie->id) }}';" style="cursor: pointer;">
                     <th scope="row">{{ $movie->title }}</th>
+                    <th>
+                        @if(isset($movie->genres))
+                            @foreach($movie->genres as $genre)
+                                {{ $genre->name }}<br/>
+                            @endforeach
+                        @else
+                            <p></p>
+                        @endif
+                    </th>
                     <td>{{ $movie->overview }}</td>
                     <td class="wider-column">{{ \Carbon\Carbon::parse($movie->release_date)->format('M d, Y') }}</td>
                 </tr>

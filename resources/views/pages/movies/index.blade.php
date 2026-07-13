@@ -48,6 +48,7 @@
     <thead>
         <tr>
             <th scope="col">Title</th>
+            <th scope="col">Genre</th>
             <th scope="col">Synopsis</th>
             <th scope="col">Release Date</th>
         </tr>
@@ -59,24 +60,16 @@
                         class="table-primary"
                         onclick="window.location='{{ route('movies.show', $movie['slug']) }}';" style="cursor: pointer;"
                     >
-                        <th scope="row">{{ $movie['title'] }}</th>
-                        <td>{{ $movie['overview'] }}</td>
-                        @if(!empty($movie['release_date']))
-                            <td class="wider-column">{{ \Carbon\Carbon::parse($movie['release_date'])->format('M d, Y') }}</td>
-                        @else
-                            <td class="wider-column">N/A</td>
-                        @endif
+                        @include('partials._movie_search', $movie)
                     </tr>
                 @else
                     <tr class="table-secondary" onclick="window.location='{{ route('movies.show', $movie['slug']) }}';" style="cursor: pointer;">
-                        <th scope="row">{{ $movie['title'] }}</th>
-                        <td>{{ $movie['overview'] }}</td>
-                        <td class="wider-column">{{ \Carbon\Carbon::parse($movie['release_date'])->format('M d, Y') }}</td>
+                        @include('partials._movie_search', $movie)
                     </tr>
                 @endif
             @endforeach
         </tbody>
-    </table> 
+    </table>
     {{ $movies->links() }}
 @endif
 

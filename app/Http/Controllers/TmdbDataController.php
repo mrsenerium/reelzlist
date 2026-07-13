@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\TMDbConnection;
+use App\Models\Genre;
 use App\Models\Movie;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,11 @@ class TmdbDataController extends Controller
         $q = request()->input('q');
         if ($q) {
             $tmdbSearch = (new TMDbConnection)->search($q)->results;
+            $tmdbSearch = collect($tmdbSearch)->map(function ($movie) {
+                $genres = Genre::whereIn('tmdb_id', $movie->genre_ids)->get();
+                $movie->genres = $genres;
+                return $movie;
+            });
 
             return view('pages.tmdb.index', [
                 'movies' => $tmdbSearch,
@@ -62,6 +68,13 @@ class TmdbDataController extends Controller
                 'release_date' => $tmdbData->release_date,
                 'tmdb_id' => $tmdbData->id,
             ]);
+            foreach ($tmdbData->genres as $genre) {
+                $genre = Genre::firstOrCreate([
+                    'tmdb_id' => $genre->id,
+                    'name' => $genre->name,
+                ]);
+                $movie->addGenre($genre);
+            }
             $movie->updateOMDBData();
         }
 

@@ -14,15 +14,18 @@ class MovieController extends Controller
     public function index()
     {
         $q = request()->input('q');
+        $genre = request()->input('genre');
 
         return view('pages.movies.index', [
             'movies' => Movie::query()
                 ->when($q, function ($movies, $q) {
                     $movies->where('title', 'like', "%{$q}%");
                 })
+                ->with('genres')
                 ->paginate(25)
                 ->appends(['q' => $q]),
             'q' => $q,
+            'genre' => $genre ?? null,
         ]);
     }
 

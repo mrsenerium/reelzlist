@@ -51,6 +51,7 @@ class MovieListController extends Controller
     {
         $movieList = MovieList::findOrFail($id);
         $this->authorize('view', $movieList);
+        $genreList = Genre::all();
 
         $query = $movieList->movie()->with('genres');
 
@@ -87,6 +88,7 @@ class MovieListController extends Controller
             'movieList' => $movieList,
             'movies' => $movies,
             'search' => $request->search(),
+            'genreList' => $genreList,
             'hideWatched' => $request->hideWatched(),
             'itemsPerPage' => $request->itemsPerPage(),
         ]);

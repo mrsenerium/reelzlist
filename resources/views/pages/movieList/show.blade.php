@@ -37,14 +37,19 @@
                     </div>
                     <div class="col-md-4">
                         <label for="genre" class="form-label">Genre</label>
-                        <input
-                            type="text"
-                            name="genre"
-                            id="genre"
-                            class="form-control"
-                            placeholder="Search genre..."
-                            value="{{ request('genre') }}"
-                        >
+                        <select name="genre" id="genre" class="form-select">
+                            <option value="">All Genres</option>
+                            @foreach ($genreList as $genre)
+                                <option
+                                    value="{{ $genre->name }}"
+                                    @if ($genre->name === request('genre'))
+                                        selected="selected"
+                                    @endif
+                                >
+                                    {{ $genre->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="col-md-2">
                         <label for="year" class="form-label">Year</label>

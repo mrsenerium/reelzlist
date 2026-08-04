@@ -101,7 +101,7 @@ class MovieListController extends Controller
             'private' => $request->private ?? 0,
         ]);
 
-        return view('pages.movieList.show', ['movieList' => $movieList, 'movies' => $movieList->movie]);
+        return redirect(route('movie-lists.show', [$movieList->id]))->with('success', 'List updated.');
     }
 
     public function destroy(string $id)

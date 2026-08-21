@@ -18,8 +18,9 @@ class TmdbDataController extends Controller
         if ($q) {
             $tmdbSearch = (new TMDbConnection)->search($q)->results;
             $tmdbSearch = collect($tmdbSearch)->map(function ($movie) {
-                $genres = Genre::whereIn('tmdb_id', $movie->genre_ids)->get();
+                $genres = Genre::whereIn('tmdb_id', $movie->genre_ids ?? [])->get();
                 $movie->genres = $genres;
+
                 return $movie;
             });
 

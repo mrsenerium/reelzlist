@@ -16,9 +16,7 @@
     @if (isset($profile))
         <div class="row justify-content-center">
             <div class="col text-center">
-                <p>
                     <h2>{{ $profile->given_name . " " . $profile->family_name }}</h2>
-                </p>
             </div>
         </div>
         <div class="row">
@@ -37,7 +35,8 @@
                 @can('view', $user)
                     <a class="btn w-100 btn-success mb-2" href="{{ route('users.index') }}">User Administration</a>
                 @endcan
-                <a href="{{ route('subscriptions.index') }}" class="btn btn-info w-100">Manage your subscriptions</a>
+                <a href="{{ route('subscriptions.index') }}" class="btn btn-info w-100 mb-2">Manage your subscriptions</a>
+                <a href="{{ route('review.index') }}" class="btn btn-info w-100 mb-2">Manage your reviews</a>
             </div>
         </div>
         <div class="row">
@@ -57,8 +56,8 @@
                                 <tr>
                                     <td>{{ $subscription->name }}</td>
                                     <td>
-                                        <img 
-                                            src="https://www.themoviedb.org/t/p/original{{ $subscription->url }}" 
+                                        <img
+                                            src="https://www.themoviedb.org/t/p/original{{ $subscription->url }}"
                                             alt="{{ $subscription->name }}"
                                             class="provider-logo"
                                             width="50"

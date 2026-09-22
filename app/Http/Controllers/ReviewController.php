@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReviewIndexRequest;
 use App\Http\Requests\ReviewRequest;
 use App\Models\Movie;
 use App\Models\Review;
@@ -9,11 +10,27 @@ use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
-    public function index()
+    public function index(ReviewIndexRequest $request)
     {
-        return view('pages.reviews.index', ['reviews' => Review::where('user_id', auth()->user()->id)
-            ->orderBy('updated_at', 'desc')
-            ->get(),
+        if (! auth()->check()) {
+            return redirect('/');
+        }
+
+        $this->authorize('viewAny', Review::class);
+
+        return view('pages.reviews.index', [
+            'reviews' => Review::query()
+                ->with('movie')
+                ->forUser(auth()->user()->id)
+                ->movieTitleLike($request->movie())
+                ->reviewTitleLike($request->title())
+                ->rating($request->rating())
+                ->orderBy('updated_at', 'desc')
+                ->paginate(25)
+                ->withQueryString(),
+            'movie' => $request->movie(),
+            'title' => $request->title(),
+            'rating' => $request->rating(),
         ]);
     }
 

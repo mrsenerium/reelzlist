@@ -2,7 +2,16 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Models\Help;
+use App\Models\MovieList;
+use App\Models\Review;
+use App\Models\Subscription;
+use App\Models\User;
+use App\Policies\HelpPolicy;
+use App\Policies\MovieListPolicy;
+use App\Policies\ReviewPolicy;
+use App\Policies\SubscriptionPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider

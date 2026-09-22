@@ -7,6 +7,11 @@ use App\Models\User;
 
 class ReviewPolicy
 {
+    public function viewAny(User $user)
+    {
+        return isset($user);
+    }
+
     public function create(User $user)
     {
         return isset($user);

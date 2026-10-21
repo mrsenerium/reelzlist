@@ -12,6 +12,7 @@ use App\Http\Controllers\StaticPagesController;
 use App\Http\Controllers\SubscriptionsController;
 use App\Http\Controllers\TmdbDataController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WhatToWatchController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -30,6 +31,9 @@ Route::resource('movies', MovieController::class);
 Route::post('movies/{movie}/restore', [MovieController::class, 'restore'])->name('movies.restore');
 Route::resource('tmdb', TmdbDataController::class);
 Route::resource('movie-lists', MovieListController::class);
+Route::get('what-to-watch', [WhatToWatchController::class, 'index'])
+    ->middleware('auth')
+    ->name('what-to-watch');
 Route::resource('users', UserController::class);
 Route::resource('profile', ProfileController::class);
 Route::resource('help', HelpController::class);

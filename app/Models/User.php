@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -66,6 +67,51 @@ class User extends Authenticatable
     public function movie_list() // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     {
         return $this->hasMany(MovieList::class, 'user_id');
+    }
+
+    public function suggestMovies(?string $genre, ?int $year, bool $hideWatched, int $limit = 3): Collection
+    {
+        $query = Movie::query()
+            ->whereHas('movieList', function ($query) use ($hideWatched) {
+                $query->where('movie_lists.user_id', $this->id);
+
+                if ($hideWatched) {
+                    $query->where('movie_movie_list.is_watched', false);
+                }
+            });
+
+        if ($genre) {
+            $query->whereHas('genres', function ($query) use ($genre) {
+                $query->where('genres.name', $genre);
+            });
+        }
+
+        if ($year) {
+            $query->where('release_date', 'like', $year.'%');
+        }
+
+        return $query
+            ->with([
+                'genres',
+                'movieList' => function ($query) {
+                    $query->where('movie_lists.user_id', $this->id);
+                },
+            ])
+            ->inRandomOrder()
+            ->limit($limit)
+            ->get();
+    }
+
+    public function listedGenres(): Collection
+    {
+        return Genre::query()
+            ->whereHas('movies', function ($query) {
+                $query->whereHas('movieList', function ($query) {
+                    $query->where('movie_lists.user_id', $this->id);
+                });
+            })
+            ->orderBy('name')
+            ->get();
     }
 
     public function review()

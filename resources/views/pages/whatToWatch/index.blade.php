@@ -92,6 +92,21 @@
                        {{ $movie->title }}
                    </p>
                </a>
+               @if ($movie->watch_providers)
+                   @foreach ($movie->watch_providers as $provider)
+                       <img
+                           src="https://www.themoviedb.org/t/p/original{{ $provider->logo_path }}"
+                           alt="{{ $provider->provider_name }}"
+                           class="provider-logo mt-1"
+                           width="30"
+                           height="30"
+                           data-toggle="tooltip"
+                           data-placement="top"
+                           title="{{ $provider->provider_name }}"
+
+                       />
+                   @endforeach
+               @endif
            </div>
        @endforeach
    </div>

@@ -11,14 +11,25 @@ class WhatToWatchController extends Controller
     {
         $user = $request->user();
 
-        return view('pages.whatToWatch.index', [
-            'movies' => $user->suggestMovies(
+        $movies = $user->suggestMovies(
                 $request->genre(),
                 $request->year(),
                 $request->hideWatched(),
-            ),
-            'genreList' => $user->listedGenres(),
-            'hasLists' => $user->movie_list()->exists(),
-        ]);
+            );
+
+        $movies->collect()->transform(function ($movie) {
+            $movie->watch_providers = $movie->getWatchProviders($movie->tmdb_id);
+
+            $movie->watch_providers = $movie->filterProviders(
+                $movie->watch_providers->US ?? null,
+                auth()->user()->subscriptions
+            );
+        });
+
+            return view('pages.whatToWatch.index', [
+                'movies' => $movies,
+                'genreList' => $user->listedGenres(),
+                'hasLists' => $user->movie_list()->exists(),
+            ]);
     }
 }
